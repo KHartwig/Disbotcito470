@@ -1,0 +1,133 @@
+<div class="row-sm-3">
+  <div class="col-sm-12">
+    <img src="https://www.merriam-webster.com/assets/mw/images/article/art-wap-article-main/alt-593ecb243e2ba-3814-e492ca847df75f5ea213877f3410d8fa@1x.jpg" alt="placeholder 960" class="rounded float-right" />
+  </div>
+</div>
+<h1>Hi {{currentUser.firstName}}!</h1>
+<p>Welcome to <em>ShopListcito</em>!!</p>
+<div class="container">
+    <div class="row">
+        <div class="col-m-8 offset-m-2">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-7">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-header">Shopping List</h5>
+<div class="row">
+
+    <div class="items" *ngIf="itemsList">
+        <table class="table">
+            <thead class="h">
+              <tr class="h">
+                <th class="h">Name</th>
+                <th class="h">Category</th>
+                <th class="h">Quantity</th>
+                <th class="h">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="item"  *ngFor="let item of itemsList" >
+<!-- *ngIf="currentUser._id==item.ownerId"  -->
+
+                <ng-container  *ngIf="!editItems.includes(item); else editTD">
+                  <td *ngIf="currentUser._id==item.ownerId">{{item.itemname}}</td>
+                  <td *ngIf="currentUser._id==item.ownerId">{{item.category}}</td>
+                  <td *ngIf="currentUser._id==item.ownerId">{{item.quantity}}</td>
+<!--                   <td>{{item.quantity}}</td>
+                  <td>{{item.createdDate | date}}</td> -->
+                  <td *ngIf="currentUser._id==item.ownerId">{{item.status}}</td>
+                </ng-container>
+                <ng-template #editTD >
+                    <td ><input type="text" name="itemname" id="itemname" (keypress)="submitItem($event, item)" [(ngModel)]="item.itemname" placeholder="Name" class="form-control"></td>
+                    <td><input type="text" name="category" id="category" (keypress)="submitItem($event, item)" [(ngModel)]="item.category" placeholder="Category" class="form-control"></td>
+                    <td><input type="text" name="quantity" id="quantity" (keypress)="submitItem($event, item)" [(ngModel)]="item.quantity" placeholder="Quantity" class="form-control"></td>
+                    <td>{{item.date | date}}</td>
+                    <td><input type="text" name="status" id="status" (keypress)="submitItem($event, item)" [(ngModel)]="item.status" placeholder="Status" class="form-control"></td>
+
+                </ng-template>
+
+
+                <td class="o" *ngIf="currentUser._id==item.ownerId">
+                  <button class="btn btn-success" (click)="doneItem(item)">
+                    Done
+                  </button>
+                  <button class="btn btn-primary" (click)="editItem(item)">
+                    Edit
+                  </button>
+                  <button class="btn btn-danger" (click)="deleteItem(item.id)">
+                    Delete
+                  </button>
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+    </div>
+
+  </div>
+  <div class="col-md-2">
+
+  </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-5">
+                  <featured-list (addedEvent)="onFItemAdded($event)">
+                  </featured-list>
+                </div>
+
+              </div>
+            </div>
+
+
+
+              <!-- User input receieve section here -->
+              <div class="container">
+                <div class="row">
+                  <div class="col">
+                    <div class="card">
+                      <div class="card-body">
+                        <h5 class="card-header">Add Items to your order</h5>
+                        <form [formGroup]="itemForm" (ngSubmit)="createItem()">
+                          <div class="row">
+                            <div class="col">
+                              <!-- <label for="itemname">itemname</label> -->
+
+                              <input type="text" formControlName="itemname" class="form-control" placeholder="Item" [ngClass]="{ 'is-invalid': submitted && f.itemname.errors }" />
+                              <!-- <input type="text" class="form-control" placeholder="Item" > -->
+                            </div> <!-- item div end -->
+                              <div class="col">
+                                <article>
+                                  <!-- <input type="text" formControlName="category" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.category.errors }" /> -->
+                                  <select formControlName="category" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.category.errors }"  (change)="selectChangeHandler($event)">
+                                      <option value=""></option>
+                                      <option value="Meats">Meats</option>
+                                      <option value="Fruits">Fruits</option>
+                                      <option value="Produces">Produces</option>
+                                      <option value="Personal Cares">Personal Cares</option>
+                                      <option value="Beverages">Beverages</option>
+                                      <option value="Cleaners">Cleaners</option>
+                                  </select>
+                                </article>
+                            </div><!-- Category div end -->
+                            <div class="col">
+                              <!-- <input type="number" class="form-control" placeholder="Quantity" min ="0" step ="1" formControlName="Quantity"> -->
+                               <input type="number" formControlName="quantity" class="form-control" placeholder="Quantity" min="0" step="1" [ngClass]="{ 'is-invalid': submitted && f.quantity.errors }" />
+                            </div><!-- Quantity div end -->
+                            <div class="col">
+                              <input class="btn btn-primary" type="submit" value="Add order">
+                            </div><!-- Add button div end -->
+                          </div>
+                          <p><span>Categories that you selected: </span><b>{{selectedCat}}</b></p>
+                        </form>
+                      </div> <!-- card-body div end -->
+                    </div> <!-- card div end -->
+                  </div><!-- col div end -->
+                </div><!-- row div end -->
+              </div>
+
+        </div>
+    </div>
+</div>
