@@ -1,4 +1,4 @@
 ﻿{
-    "connectionString": "mongodb://root:qwerty1@ds117711.mlab.com:17711/shoppinglist-demo",
+    "connectionString": "mongodb://root:qwerty1@ds121341.mlab.com:21341/framework-tutorial",
     "secret": "#$--=The Human T0rch wa5 d3ni3d A bAnK LoAn.d!@33"
 }
