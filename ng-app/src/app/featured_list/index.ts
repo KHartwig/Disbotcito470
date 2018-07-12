@@ -1,1 +1,0 @@
-export * from './featured_list.component'

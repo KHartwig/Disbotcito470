@@ -13,12 +13,15 @@ import { routing }        from './app.routing';
 import { AlertComponent } from './_directives';
 import { AuthGuard } from './_guards';
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
-import { AlertService, AuthenticationService, DataService, UserService, FeaturedListService, ItemService } from './_services';
+import { AlertService, AuthenticationService, DataService, UserService, ContactService } from './_services';
 import { HomeComponent } from './home';
 import { NavComponent } from './nav';
 import { LoginComponent } from './login';
 import { RegisterComponent } from './register';
-import { FeaturedListComponent } from './featured_list'
+import { ContactsComponent } from './contacts/contacts.component';
+import { ContactsAddComponent } from './contacts-add/contacts-add.component';
+import { ContactsEditComponent } from './contacts-edit/contacts-edit.component';
+import { ContactsDetailsComponent } from './contacts-details/contacts-details.component';
 
 @NgModule({
     imports: [
@@ -35,7 +38,10 @@ import { FeaturedListComponent } from './featured_list'
         NavComponent,
         LoginComponent,
         RegisterComponent,
-        FeaturedListComponent
+        ContactsComponent,
+        ContactsAddComponent,
+        ContactsEditComponent,
+        ContactsDetailsComponent
     ],
     providers: [
         AuthGuard,
@@ -43,7 +49,7 @@ import { FeaturedListComponent } from './featured_list'
         AuthenticationService,
         DataService,
         UserService,
-        FeaturedListService, ItemService,
+        ContactService,
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 

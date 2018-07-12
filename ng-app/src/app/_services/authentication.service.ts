@@ -9,7 +9,7 @@ export class AuthenticationService {
     constructor(private http: HttpClient, private data: DataService) { }
 
     // work around for now until we can figure how to get a global config obj
-    apiUrl = 'http://localhost:4000';
+    apiUrl = 'http://localhost:4000/api-pub';
 
     login(username: string, password: string) {
         return this.http.post<any>(`${this.apiUrl}/users/authenticate`, { username: username, password: password })

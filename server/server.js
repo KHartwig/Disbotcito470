@@ -13,9 +13,9 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // use JWT auth to secure the api
-app.use(jwt());
+app.use('/api', jwt());
 // Route needs token
-app.use('/api/users', require('./users/users.controller'));
+app.use('/api-pub/users', require('./users/users.controller'));
 // Routes without token
 app.use('/api-pub/contacts', require('./contacts/contacts.controller'));
 
