@@ -38,11 +38,11 @@ server {
 	#
 	# include snippets/snakeoil.conf;
 
-	root /home/vagrant/project/build/ng-app;
+	#root /home/vagrant/project/build/ng-app;
 
 	# Add index.php to the list if you are using PHP
 	index index.html index.htm index.nginx-debian.html;
-	error_page 404 =200 /index.html;
+	# error_page 404 =200 /index.html;
 
 	server_name _;
 

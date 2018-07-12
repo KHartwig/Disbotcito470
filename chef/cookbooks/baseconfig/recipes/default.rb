@@ -9,19 +9,12 @@ end
 # Base configuration recipe in Chef.
 package "wget"
 package "ntp"
-package "nginx"
 
 cookbook_file "ntp.conf" do
   path "/etc/ntp.conf"
 end
-cookbook_file "nginx-default" do
-  path "/etc/nginx/sites-available/default"
-end
 execute 'ntp_restart' do
   command 'service ntp restart'
-end
-execute 'nginx_restart' do
-  command 'service nginx restart'
 end
 
 
