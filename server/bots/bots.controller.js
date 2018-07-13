@@ -13,7 +13,7 @@ module.exports = router;
 
 function add(req, res, next) {
     botService.create(req.body, req.user.sub)
-        .then(() => res.json({}))
+        .then((bot) => res.json(bot))
         .catch(err => next(err));
 }
 
@@ -36,13 +36,13 @@ function getAll(req, res, next) {
 }
 
 function update(req, res, next) {
-    botService.update(req.params.id, req.body)
-        .then(() => res.json({}))
+    botService.update(req.params.id, req.body, req.user.sub)
+        .then((bot) => res.json(bot))
         .catch(err => next(err));
 }
 
 function _delete(req, res, next) {
-    botService.delete(req.params.id)
+    botService.delete(req.params.id, req.user.sub)
         .then(() => res.json({}))
         .catch(err => next(err));
 }
