@@ -1,5 +1,5 @@
-# node-mongo-registration-login-api
+# Backend Node Express SQL server
 
-NodeJS + MongoDB API for User Management, Authentication and Registration
+API for login functionality.
 
-For documentation and instructions check out http://jasonwatmore.com/post/2018/06/14/nodejs-mongodb-simple-api-for-authentication-registration-and-user-management
+Built from: http://jasonwatmore.com/post/2018/06/14/nodejs-mongodb-simple-api-for-authentication-registration-and-user-management

@@ -1,4 +1,11 @@
 ﻿{
-    "connectionString": "mongodb://root:qwerty1@ds121341.mlab.com:21341/framework-tutorial",
-    "secret": "#$--=The Human T0rch wa5 d3ni3d mult1pl3 bAnK LoAn.d!@33"
+    "secret": "#$--=The Human T0rch wa5 d3ni3d mult1pl3 bAnK LoAn.d!@33",
+    "development": {
+        "port": 4000,
+        "portServe": 8080
+    },
+    "production": {
+        "port": 4000,
+        "portServe": 8080
+    }
 }

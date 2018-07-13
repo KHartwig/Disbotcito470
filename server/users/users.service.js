@@ -1,7 +1,7 @@
 ﻿const config = require('config.json');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const db = require('_helpers/db');
+const db = require('_infra/db/models/index');
 const User = db.User;
 
 module.exports = {
@@ -14,9 +14,9 @@ module.exports = {
 };
 
 async function authenticate({ username, password }) {
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ where: { username: username } });
     if (user && bcrypt.compareSync(password, user.hash)) {
-        const { hash, ...userWithoutHash } = user.toObject();
+        const { hash, ...userWithoutHash } = user.get({plain: true});
         const token = jwt.sign({ sub: user.id }, config.secret);
         return {
             ...userWithoutHash,
@@ -26,20 +26,27 @@ async function authenticate({ username, password }) {
 }
 
 async function getAll() {
-    return await User.find().select('-hash');
+    return await User.findAll({
+        attributes: ['id', 'username', 'email']
+    });
 }
 
 async function getById(id) {
-    return await User.findById(id).select('-hash');
+    return await User.findById(id, {
+        attributes: ['id', 'username', 'email']
+    });
 }
 
 async function create(userParam) {
     // validate
-    if (await User.findOne({ username: userParam.username })) {
+    if (await User.findOne({ where: {username: userParam.username} })) {
         throw 'Username "' + userParam.username + '" is already taken';
     }
+    if (await User.findOne({ where: {email: userParam.email} })) {
+        throw 'Email "' + userParam.email + '" is already taken';
+    }
 
-    const user = new User(userParam);
+    const user = User.build(userParam);
 
     // hash password
     if (userParam.password) {
@@ -55,8 +62,11 @@ async function update(id, userParam) {
 
     // validate
     if (!user) throw 'User not found';
-    if (user.username !== userParam.username && await User.findOne({ username: userParam.username })) {
+    if (user.username !== userParam.username && await User.findOne({ where: {username: userParam.username} })) {
         throw 'Username "' + userParam.username + '" is already taken';
+    }
+    if (user.email !== userParam.email && await User.findOne({ where: {email: userParam.email} })) {
+        throw 'Email "' + userParam.username + '" is already taken';
     }
 
     // hash password if it was entered
@@ -71,5 +81,5 @@ async function update(id, userParam) {
 }
 
 async function _delete(id) {
-    await User.findByIdAndRemove(id);
+    await User.destroy({where: {id: id}});
 }

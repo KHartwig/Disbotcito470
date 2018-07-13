@@ -1,10 +1,10 @@
 ﻿const express = require('express');
 const router = express.Router();
-const contactService = require('./contacts.service');
+const botService = require('./bots.service');
 
 // routes
 router.post('/add', add);
-router.get('/', getAll);
+router.get('/', getAllByUser);
 router.get('/:id', getById);
 router.put('/:id', update);
 router.delete('/:id', _delete);
@@ -12,31 +12,37 @@ router.delete('/:id', _delete);
 module.exports = router;
 
 function add(req, res, next) {
-    contactService.create(req.body)
+    botService.create(req.body, req.user.sub)
         .then(() => res.json({}))
         .catch(err => next(err));
 }
 
 function getById(req, res, next) {
-    contactService.getById(req.params.id)
-        .then(user => user ? res.json(user) : res.sendStatus(404))
+    botService.getById(req.params.id, req.user.sub)
+        .then(bot => bot ? res.json(bot) : res.sendStatus(404))
+        .catch(err => next(err));
+}
+
+function getAllByUser(req, res, next){
+    botService.getAllByUser(req.user.sub)
+        .then(bots => res.json(bots))
         .catch(err => next(err));
 }
 
 function getAll(req, res, next) {
-    contactService.getAll()
-        .then(users => res.json(users))
+    botService.getAll()
+        .then(bots => res.json(bots))
         .catch(err => next(err));
 }
 
 function update(req, res, next) {
-    contactService.update(req.params.id, req.body)
+    botService.update(req.params.id, req.body)
         .then(() => res.json({}))
         .catch(err => next(err));
 }
 
 function _delete(req, res, next) {
-    contactService.delete(req.params.id)
+    botService.delete(req.params.id)
         .then(() => res.json({}))
         .catch(err => next(err));
 }
