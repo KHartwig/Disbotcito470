@@ -11,7 +11,8 @@
         "start": "nodemon ./server.js",
         "start:prod": "forever start server.js",
         "stop:prod": "forever stop server.js",
-        "seed": "cd _infra/db/ && ../../node_modules/.bin/sequelize db:seed:undo:all && ../../node_modules/.bin/sequelize db:seed:all"
+        "seed": "cd _infra/db/ && ../../node_modules/.bin/sequelize db:seed:undo:all && ../../node_modules/.bin/sequelize db:seed:all",
+        "start:seed": "npm run seed && npm start"
     },
     "dependencies": {
         "bcryptjs": "^2.4.3",
