@@ -1,0 +1,9 @@
+<h2 class="text-center">Bots</h2>
+<!-- *ngIf bots, else you have no bots -->
+<div class="container">
+    <h5 class="text-center" *ngIf="!botList || botList.length === 0">You have no bots right now</h5>
+    <div class="list-group" *ngFor="let bot of botList">
+      <a [routerLink]="['bots', bot.id]" class="list-group-item list-group-item-action text-center">{{ bot.firstName }} {{ bot.lastName }}</a>
+    </div>
+</div>
+<a [routerLink]="['/add']" class="btn btn-link">Add Bot</a>

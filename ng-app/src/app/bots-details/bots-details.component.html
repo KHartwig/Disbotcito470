@@ -1,12 +1,12 @@
-<div class="container" *ngIf="contact">
-  <h3>{{contact.lastName}}, {{contact.firstName}}</h3>
+<div class="container" *ngIf="bot">
+  <h3>{{bot.lastName}}, {{bot.firstName}}</h3>
   <div class="container">
     <div class="row">
       <div class="col-sm">
         <strong>Email:</strong>
       </div>
       <div class="col-sm">
-        {{contact.email}}
+        {{bot.email}}
       </div>
     </div>
     <div class="row">
@@ -14,7 +14,7 @@
         <strong>Phone:</strong>
       </div>
       <div class="col-sm">
-        {{contact.phone}}
+        {{bot.phone}}
       </div>
     </div>
     <div class="row">
@@ -24,14 +24,14 @@
       <div class="col-sm"></div>
     </div>
     <div class="row">
-      <div class="col-sm" *ngIf="contact.notes && contact.notes != ''">
-          <p>{{contact.notes}}</p>
+      <div class="col-sm" *ngIf="bot.notes && bot.notes != ''">
+          <p>{{bot.notes}}</p>
       </div>
-      <div class="col-sm text-center" *ngIf="!(contact.notes && contact.notes != '')">
+      <div class="col-sm text-center" *ngIf="!(bot.notes && bot.notes != '')">
         <em>None</em>
       </div>
     </div>
   </div>
   <a [routerLink]="['/']" class="btn btn-link">Back</a>
-  <a [routerLink]="['/contacts/edit', contact.id ]" class="btn btn-link">Edit</a>
+  <a [routerLink]="['/bots/edit', bot.id ]" class="btn btn-link">Edit</a>
 </div>

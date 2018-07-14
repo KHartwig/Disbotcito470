@@ -1,9 +1,0 @@
-<h2 class="text-center">Contacts</h2>
-<!-- *ngIf contacts, else you have no contacts -->
-<div class="container">
-    <h5 class="text-center" *ngIf="!contactList || contactList.length === 0">You have no contacts right now</h5>
-    <div class="list-group" *ngFor="let contact of contactList">
-      <a [routerLink]="['contacts', contact.id]" class="list-group-item list-group-item-action text-center">{{ contact.firstName }} {{ contact.lastName }}</a>
-    </div>
-</div>
-<a [routerLink]="['/add']" class="btn btn-link">Add Contact</a>

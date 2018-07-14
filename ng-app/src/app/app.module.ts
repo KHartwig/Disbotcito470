@@ -13,15 +13,15 @@ import { routing }        from './app.routing';
 import { AlertComponent } from './_directives';
 import { AuthGuard } from './_guards';
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
-import { AlertService, AuthenticationService, DataService, UserService, ContactService } from './_services';
+import { AlertService, AuthenticationService, DataService, UserService, BotService } from './_services';
 import { HomeComponent } from './home';
 import { NavComponent } from './nav';
 import { LoginComponent } from './login';
 import { RegisterComponent } from './register';
-import { ContactsComponent } from './contacts/contacts.component';
-import { ContactsAddComponent } from './contacts-add/contacts-add.component';
-import { ContactsEditComponent } from './contacts-edit/contacts-edit.component';
-import { ContactsDetailsComponent } from './contacts-details/contacts-details.component';
+import { BotsComponent } from './bots/bots.component';
+import { BotsAddComponent } from './bots-add/bots-add.component';
+import { BotsEditComponent } from './bots-edit/bots-edit.component';
+import { BotsDetailsComponent } from './bots-details/bots-details.component';
 
 @NgModule({
     imports: [
@@ -38,10 +38,10 @@ import { ContactsDetailsComponent } from './contacts-details/contacts-details.co
         NavComponent,
         LoginComponent,
         RegisterComponent,
-        ContactsComponent,
-        ContactsAddComponent,
-        ContactsEditComponent,
-        ContactsDetailsComponent
+        BotsComponent,
+        BotsAddComponent,
+        BotsEditComponent,
+        BotsDetailsComponent
     ],
     providers: [
         AuthGuard,
@@ -49,7 +49,7 @@ import { ContactsDetailsComponent } from './contacts-details/contacts-details.co
         AuthenticationService,
         DataService,
         UserService,
-        ContactService,
+        BotService,
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 
