@@ -1,36 +1,15 @@
 <div class="container" *ngIf="bot">
-  <h3>{{bot.lastName}}, {{bot.firstName}}</h3>
+  <h3>{{bot.name}}</h3>
   <div class="container">
     <div class="row">
       <div class="col-sm">
-        <strong>Email:</strong>
+        <strong>CommandPrefix:</strong>
       </div>
       <div class="col-sm">
-        {{bot.email}}
+        {{bot.commandPrefix}}
       </div>
     </div>
-    <div class="row">
-      <div class="col-sm">
-        <strong>Phone:</strong>
-      </div>
-      <div class="col-sm">
-        {{bot.phone}}
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm">
-        <strong>Notes:</strong>
-      </div>
-      <div class="col-sm"></div>
-    </div>
-    <div class="row">
-      <div class="col-sm" *ngIf="bot.notes && bot.notes != ''">
-          <p>{{bot.notes}}</p>
-      </div>
-      <div class="col-sm text-center" *ngIf="!(bot.notes && bot.notes != '')">
-        <em>None</em>
-      </div>
-    </div>
+
   </div>
   <a [routerLink]="['/']" class="btn btn-link">Back</a>
   <a [routerLink]="['/bots/edit', bot.id ]" class="btn btn-link">Edit</a>

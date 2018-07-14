@@ -2,40 +2,20 @@
 <div *ngIf="bot">
   <form [formGroup]="editBotForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
-      <label for="firstName">First Name</label>
-      <input type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
-      <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
-        <div *ngIf="f.firstName.errors.required">First Name is required</div>
+      <label for="name">Name</label>
+      <input type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+      <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+        <div *ngIf="f.name.errors.required">Name is required</div>
       </div>
     </div>
     <div class="form-group">
-      <label for="lastName">Last Name</label>
-      <input type="text" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
-      <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
-        <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+      <label for="commandPrefix">CommandPrefix</label>
+      <input type="text" formControlName="commandPrefix" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.commandPrefix.errors }" />
+      <div *ngIf="submitted && f.commandPrefix.errors" class="invalid-feedback">
+        <div *ngIf="f.commandPrefix.errors.required">CommandPrefix is required</div>
       </div>
     </div>
-    <div class="form-group">
-      <label for="username">Email</label>
-      <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
-      <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-        <div *ngIf="f.email.errors.email">Incorrect email format</div>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="phone">Phone Number</label>
-      <input type="text" formControlName="phone" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }" />
-      <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
-        <div *ngIf="f.phone.errors.pattern">Phone Number should be in form '###-###-####'</div>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="notes">Notes</label>
-      <textarea formControlName="notes" class="form-control" rows="4" [ngClass]="{ 'is-invalid': submitted && f.notes.errors }"></textarea>
-      <div *ngIf="submitted && f.notes.errors" class="invalid-feedback">
-        <div *ngIf="f.notes.errors.required">Notes are required</div>
-      </div>
-    </div>
+
     <div class="form-group">
       <button [disabled]="loading" class="btn btn-primary">Update</button>
       <button [disabled]="loading" class="btn btn-danger" type="button" (click)="onDelete()">Delete</button>
