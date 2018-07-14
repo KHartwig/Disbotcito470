@@ -439,97 +439,6 @@ var JwtInterceptor = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/_models/featured_item.ts":
-/*!******************************************!*\
-  !*** ./src/app/_models/featured_item.ts ***!
-  \******************************************/
-/*! exports provided: FeaturedItem */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FeaturedItem", function() { return FeaturedItem; });
-var FeaturedItem = /** @class */ (function () {
-    function FeaturedItem() {
-    }
-    return FeaturedItem;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/_models/index.ts":
-/*!**********************************!*\
-  !*** ./src/app/_models/index.ts ***!
-  \**********************************/
-/*! exports provided: User, FeaturedItem, Item */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./user */ "./src/app/_models/user.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "User", function() { return _user__WEBPACK_IMPORTED_MODULE_0__["User"]; });
-
-/* harmony import */ var _featured_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./featured_item */ "./src/app/_models/featured_item.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FeaturedItem", function() { return _featured_item__WEBPACK_IMPORTED_MODULE_1__["FeaturedItem"]; });
-
-/* harmony import */ var _item__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./item */ "./src/app/_models/item.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Item", function() { return _item__WEBPACK_IMPORTED_MODULE_2__["Item"]; });
-
-
-
-
-
-
-/***/ }),
-
-/***/ "./src/app/_models/item.ts":
-/*!*********************************!*\
-  !*** ./src/app/_models/item.ts ***!
-  \*********************************/
-/*! exports provided: Item */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Item", function() { return Item; });
-var Item = /** @class */ (function () {
-    function Item() {
-        this.itemname = "";
-        this.category = "";
-        this.quantity = 1;
-        this.ownerId = 0;
-        this.createdDate = new Date();
-        this.status = "Non Done";
-    }
-    return Item;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/_models/user.ts":
-/*!*********************************!*\
-  !*** ./src/app/_models/user.ts ***!
-  \*********************************/
-/*! exports provided: User */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "User", function() { return User; });
-var User = /** @class */ (function () {
-    function User() {
-    }
-    return User;
-}());
-
-
-
-/***/ }),
-
 /***/ "./src/app/_services/alert.service.ts":
 /*!********************************************!*\
   !*** ./src/app/_services/alert.service.ts ***!
@@ -631,7 +540,7 @@ var AuthenticationService = /** @class */ (function () {
         this.http = http;
         this.data = data;
         // work around for now until we can figure how to get a global config obj
-        this.apiUrl = 'http://localhost:4000';
+        this.apiUrl = 'http://localhost:4000/api';
     }
     AuthenticationService.prototype.login = function (username, password) {
         var _this = this;
@@ -654,6 +563,61 @@ var AuthenticationService = /** @class */ (function () {
         __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"], _services__WEBPACK_IMPORTED_MODULE_3__["DataService"]])
     ], AuthenticationService);
     return AuthenticationService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/_services/contact.service.ts":
+/*!**********************************************!*\
+  !*** ./src/app/_services/contact.service.ts ***!
+  \**********************************************/
+/*! exports provided: ContactService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ContactService", function() { return ContactService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var ContactService = /** @class */ (function () {
+    function ContactService(http) {
+        this.http = http;
+        this.apiUrl = 'http://localhost:4000/api';
+        this.contactUrl = this.apiUrl + '/contacts';
+    }
+    ContactService.prototype.getAll = function () {
+        return this.http.get("" + this.contactUrl);
+    };
+    ContactService.prototype.getById = function (id) {
+        return this.http.get(this.contactUrl + "/" + id);
+    };
+    ContactService.prototype.add = function (contact) {
+        return this.http.post(this.contactUrl + "/add", contact);
+    };
+    ContactService.prototype.update = function (contact, id) {
+        return this.http.put(this.contactUrl + "/" + id, contact);
+    };
+    ContactService.prototype.delete = function (id) {
+        return this.http.delete(this.contactUrl + "/" + id);
+    };
+    ContactService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+    ], ContactService);
+    return ContactService;
 }());
 
 
@@ -708,60 +672,11 @@ var DataService = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/_services/featured_list.service.ts":
-/*!****************************************************!*\
-  !*** ./src/app/_services/featured_list.service.ts ***!
-  \****************************************************/
-/*! exports provided: FeaturedListService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FeaturedListService", function() { return FeaturedListService; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (undefined && undefined.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-var FeaturedListService = /** @class */ (function () {
-    function FeaturedListService(http) {
-        this.http = http;
-        // work around for now until we can figure how to get a global config obj
-        this.apiUrl = 'http://localhost:4000';
-    }
-    FeaturedListService.prototype.getAll = function () {
-        return this.http.get(this.apiUrl + "/featured_items");
-    };
-    FeaturedListService.prototype.getById = function (id) {
-        return this.http.get(this.apiUrl + "/featured_items/" + id);
-    };
-    FeaturedListService.prototype.create = function (item) {
-        return this.http.post(this.apiUrl + "/featured_items/create", item);
-    };
-    FeaturedListService = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
-        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
-    ], FeaturedListService);
-    return FeaturedListService;
-}());
-
-
-
-/***/ }),
-
 /***/ "./src/app/_services/index.ts":
 /*!************************************!*\
   !*** ./src/app/_services/index.ts ***!
   \************************************/
-/*! exports provided: AlertService, DataService, AuthenticationService, UserService, FeaturedListService, ItemService */
+/*! exports provided: AlertService, DataService, AuthenticationService, UserService, ContactService */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -778,109 +693,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _user_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./user.service */ "./src/app/_services/user.service.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UserService", function() { return _user_service__WEBPACK_IMPORTED_MODULE_3__["UserService"]; });
 
-/* harmony import */ var _featured_list_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./featured_list.service */ "./src/app/_services/featured_list.service.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FeaturedListService", function() { return _featured_list_service__WEBPACK_IMPORTED_MODULE_4__["FeaturedListService"]; });
-
-/* harmony import */ var _item_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./item.service */ "./src/app/_services/item.service.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ItemService", function() { return _item_service__WEBPACK_IMPORTED_MODULE_5__["ItemService"]; });
+/* harmony import */ var _contact_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./contact.service */ "./src/app/_services/contact.service.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ContactService", function() { return _contact_service__WEBPACK_IMPORTED_MODULE_4__["ContactService"]; });
 
 
 
 
 
-
-
-
-
-/***/ }),
-
-/***/ "./src/app/_services/item.service.ts":
-/*!*******************************************!*\
-  !*** ./src/app/_services/item.service.ts ***!
-  \*******************************************/
-/*! exports provided: ItemService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ItemService", function() { return ItemService; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _models__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_models */ "./src/app/_models/index.ts");
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_services */ "./src/app/_services/index.ts");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (undefined && undefined.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-// import { HttpClient } from '@angular/common/http';
-
-
-
-
-var ItemService = /** @class */ (function () {
-    function ItemService(http, featuredListService) {
-        this.http = http;
-        this.featuredListService = featuredListService;
-        this.api_url = 'http://localhost:4000';
-        this.itemUrl = this.api_url + "/items";
-    }
-    ItemService.prototype.getAll = function () {
-        return this.http.get(this.api_url + "/items");
-    };
-    ItemService.prototype.create = function (item, id) {
-        // console.log(id);
-        item['date'] = new Date();
-        item['ownerId'] = id;
-        item['status'] = "Not Done";
-        // console.log(item);
-        return this.http.post(this.api_url + "/items/create", item);
-    };
-    ItemService.prototype.createF = function (fitem, id) {
-        this.item = new _models__WEBPACK_IMPORTED_MODULE_3__["Item"]();
-        // console.log(id);
-        this.item['date'] = new Date();
-        this.item['itemname'] = fitem['name'];
-        this.item['category'] = fitem['category'];
-        this.item.quantity = 1;
-        this.item['ownerId'] = id;
-        this.item['status'] = "Not Done";
-        // console.log(this.item);
-        return this.http.post(this.api_url + "/items/create", this.item);
-    };
-    //Update item, takes a Item Object as parameter
-    ItemService.prototype.update = function (item) {
-        return this.http.put(this.api_url + "/items/" + item.id, item);
-    };
-    ItemService.prototype.deleteItem = function (id) {
-        //Delete the object by the id
-        var deleteUrl = this.itemUrl + "/" + id;
-        return this.http.delete(deleteUrl)
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])(function (res) {
-            return res;
-        }));
-    };
-    ItemService.prototype.delete = function (id) {
-        return this.http.delete(this.api_url + "/items/" + id);
-    };
-    //Default Error handling method.
-    ItemService.prototype.handleError = function (error) {
-        console.error('An error occurred', error); // for demo purposes only
-        return Promise.reject(error.message || error);
-    };
-    ItemService = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
-        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"],
-            _services__WEBPACK_IMPORTED_MODULE_4__["FeaturedListService"]])
-    ], ItemService);
-    return ItemService;
-}());
 
 
 
@@ -913,7 +732,7 @@ var UserService = /** @class */ (function () {
     function UserService(http) {
         this.http = http;
         // work around for now until we can figure how to get a global config obj
-        this.apiUrl = 'http://localhost:4000';
+        this.apiUrl = 'http://localhost:4000/api';
     }
     UserService.prototype.getAll = function () {
         return this.http.get(this.apiUrl + "/users");
@@ -1010,7 +829,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _nav__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./nav */ "./src/app/nav/index.ts");
 /* harmony import */ var _login__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./login */ "./src/app/login/index.ts");
 /* harmony import */ var _register__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./register */ "./src/app/register/index.ts");
-/* harmony import */ var _featured_list__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./featured_list */ "./src/app/featured_list/index.ts");
+/* harmony import */ var _contacts_contacts_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./contacts/contacts.component */ "./src/app/contacts/contacts.component.ts");
+/* harmony import */ var _contacts_add_contacts_add_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./contacts-add/contacts-add.component */ "./src/app/contacts-add/contacts-add.component.ts");
+/* harmony import */ var _contacts_edit_contacts_edit_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./contacts-edit/contacts-edit.component */ "./src/app/contacts-edit/contacts-edit.component.ts");
+/* harmony import */ var _contacts_details_contacts_details_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./contacts-details/contacts-details.component */ "./src/app/contacts-details/contacts-details.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1024,6 +846,9 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 // used to create fake backend
 // import { fakeBackendProvider } from './_helpers';
+
+
+
 
 
 
@@ -1054,7 +879,10 @@ var AppModule = /** @class */ (function () {
                 _nav__WEBPACK_IMPORTED_MODULE_11__["NavComponent"],
                 _login__WEBPACK_IMPORTED_MODULE_12__["LoginComponent"],
                 _register__WEBPACK_IMPORTED_MODULE_13__["RegisterComponent"],
-                _featured_list__WEBPACK_IMPORTED_MODULE_14__["FeaturedListComponent"]
+                _contacts_contacts_component__WEBPACK_IMPORTED_MODULE_14__["ContactsComponent"],
+                _contacts_add_contacts_add_component__WEBPACK_IMPORTED_MODULE_15__["ContactsAddComponent"],
+                _contacts_edit_contacts_edit_component__WEBPACK_IMPORTED_MODULE_16__["ContactsEditComponent"],
+                _contacts_details_contacts_details_component__WEBPACK_IMPORTED_MODULE_17__["ContactsDetailsComponent"]
             ],
             providers: [
                 _guards__WEBPACK_IMPORTED_MODULE_7__["AuthGuard"],
@@ -1062,7 +890,7 @@ var AppModule = /** @class */ (function () {
                 _services__WEBPACK_IMPORTED_MODULE_9__["AuthenticationService"],
                 _services__WEBPACK_IMPORTED_MODULE_9__["DataService"],
                 _services__WEBPACK_IMPORTED_MODULE_9__["UserService"],
-                _services__WEBPACK_IMPORTED_MODULE_9__["FeaturedListService"], _services__WEBPACK_IMPORTED_MODULE_9__["ItemService"],
+                _services__WEBPACK_IMPORTED_MODULE_9__["ContactService"],
                 { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HTTP_INTERCEPTORS"], useClass: _helpers__WEBPACK_IMPORTED_MODULE_8__["JwtInterceptor"], multi: true },
                 { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HTTP_INTERCEPTORS"], useClass: _helpers__WEBPACK_IMPORTED_MODULE_8__["ErrorInterceptor"], multi: true },
             ],
@@ -1087,19 +915,28 @@ var AppModule = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "routing", function() { return routing; });
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _home__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./home */ "./src/app/home/index.ts");
-/* harmony import */ var _login__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./login */ "./src/app/login/index.ts");
-/* harmony import */ var _register__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./register */ "./src/app/register/index.ts");
-/* harmony import */ var _guards__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./_guards */ "./src/app/_guards/index.ts");
+/* harmony import */ var _login__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./login */ "./src/app/login/index.ts");
+/* harmony import */ var _register__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./register */ "./src/app/register/index.ts");
+/* harmony import */ var _guards__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./_guards */ "./src/app/_guards/index.ts");
+/* harmony import */ var _contacts_contacts_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./contacts/contacts.component */ "./src/app/contacts/contacts.component.ts");
+/* harmony import */ var _contacts_add_contacts_add_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./contacts-add/contacts-add.component */ "./src/app/contacts-add/contacts-add.component.ts");
+/* harmony import */ var _contacts_details_contacts_details_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./contacts-details/contacts-details.component */ "./src/app/contacts-details/contacts-details.component.ts");
+/* harmony import */ var _contacts_edit_contacts_edit_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./contacts-edit/contacts-edit.component */ "./src/app/contacts-edit/contacts-edit.component.ts");
+
+
+
 
 
 
 
 
 var appRoutes = [
-    { path: '', component: _home__WEBPACK_IMPORTED_MODULE_1__["HomeComponent"], canActivate: [_guards__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]] },
-    { path: 'login', component: _login__WEBPACK_IMPORTED_MODULE_2__["LoginComponent"] },
-    { path: 'register', component: _register__WEBPACK_IMPORTED_MODULE_3__["RegisterComponent"] },
+    { path: '', component: _contacts_contacts_component__WEBPACK_IMPORTED_MODULE_4__["ContactsComponent"], canActivate: [_guards__WEBPACK_IMPORTED_MODULE_3__["AuthGuard"]] },
+    { path: 'login', component: _login__WEBPACK_IMPORTED_MODULE_1__["LoginComponent"] },
+    { path: 'register', component: _register__WEBPACK_IMPORTED_MODULE_2__["RegisterComponent"] },
+    { path: 'add', component: _contacts_add_contacts_add_component__WEBPACK_IMPORTED_MODULE_5__["ContactsAddComponent"] },
+    { path: 'contacts/:id', component: _contacts_details_contacts_details_component__WEBPACK_IMPORTED_MODULE_6__["ContactsDetailsComponent"] },
+    { path: 'contacts/edit/:id', component: _contacts_edit_contacts_edit_component__WEBPACK_IMPORTED_MODULE_7__["ContactsEditComponent"] },
     // otherwise redirect to home
     { path: '**', redirectTo: '' }
 ];
@@ -1108,30 +945,43 @@ var routing = _angular_router__WEBPACK_IMPORTED_MODULE_0__["RouterModule"].forRo
 
 /***/ }),
 
-/***/ "./src/app/featured_list/featured_list.component.html":
-/*!************************************************************!*\
-  !*** ./src/app/featured_list/featured_list.component.html ***!
-  \************************************************************/
+/***/ "./src/app/contacts-add/contacts-add.component.css":
+/*!*********************************************************!*\
+  !*** ./src/app/contacts-add/contacts-add.component.css ***!
+  \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"card\">\n    <div class=\"card-body\">\n        <h5 class=\"card-header\">Featured Items</h5>\n        <ul>\n            <li *ngFor=\"let fitem of featuredItems\">\n                <p class=\"card-text\"><b>{{fitem.name}}</b> - {{fitem.category}}\n                    <a (click)=\"addItem(fitem)\" class=\"text-danger\">+Add</a>\n                </p>\n            </li>\n        </ul>\n    </div>\n</div>\n"
+module.exports = ""
 
 /***/ }),
 
-/***/ "./src/app/featured_list/featured_list.component.ts":
+/***/ "./src/app/contacts-add/contacts-add.component.html":
 /*!**********************************************************!*\
-  !*** ./src/app/featured_list/featured_list.component.ts ***!
+  !*** ./src/app/contacts-add/contacts-add.component.html ***!
   \**********************************************************/
-/*! exports provided: FeaturedListComponent */
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<h2>Add Contact</h2>\n<form [formGroup]=\"addContactForm\" (ngSubmit)=\"onSubmit()\">\n    <div class=\"form-group\">\n        <label for=\"firstName\">First Name</label>\n        <input type=\"text\" formControlName=\"firstName\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.firstName.errors }\" />\n        <div *ngIf=\"submitted && f.firstName.errors\" class=\"invalid-feedback\">\n            <div *ngIf=\"f.firstName.errors.required\">First Name is required</div>\n        </div>\n    </div>\n    <div class=\"form-group\">\n        <label for=\"lastName\">Last Name</label>\n        <input type=\"text\" formControlName=\"lastName\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.lastName.errors }\" />\n        <div *ngIf=\"submitted && f.lastName.errors\" class=\"invalid-feedback\">\n            <div *ngIf=\"f.lastName.errors.required\">Last Name is required</div>\n        </div>\n    </div>\n    <div class=\"form-group\">\n        <label for=\"username\">Email</label>\n        <input type=\"text\" formControlName=\"email\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.email.errors }\" />\n        <div *ngIf=\"submitted && f.email.errors\" class=\"invalid-feedback\">\n            <div *ngIf=\"f.email.errors.email\">Incorrect email format</div>\n        </div>\n    </div>\n    <div class=\"form-group\">\n        <label for=\"phone\">Phone Number</label>\n        <input type=\"text\" formControlName=\"phone\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.phone.errors }\" />\n        <div *ngIf=\"submitted && f.phone.errors\" class=\"invalid-feedback\">\n            <div *ngIf=\"f.phone.errors.pattern\">Phone Number should be in form '###-###-####'</div>\n        </div>\n    </div>\n    <div class=\"form-group\">\n        <label for=\"notes\">Notes</label>\n        <textarea formControlName=\"notes\" class=\"form-control\" rows=\"4\" [ngClass]=\"{ 'is-invalid': submitted && f.notes.errors }\"></textarea>\n        <div *ngIf=\"submitted && f.notes.errors\" class=\"invalid-feedback\">\n          <div *ngIf=\"f.notes.errors.required\">Notes are required</div>\n        </div>\n    </div>\n    <div class=\"form-group\">\n        <button [disabled]=\"loading\" class=\"btn btn-primary\">Add</button>\n        <img *ngIf=\"loading\" src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />\n        <a [routerLink]=\"['/']\" class=\"btn btn-link\">Cancel</a>\n    </div>\n</form>\n"
+
+/***/ }),
+
+/***/ "./src/app/contacts-add/contacts-add.component.ts":
+/*!********************************************************!*\
+  !*** ./src/app/contacts-add/contacts-add.component.ts ***!
+  \********************************************************/
+/*! exports provided: ContactsAddComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FeaturedListComponent", function() { return FeaturedListComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ContactsAddComponent", function() { return ContactsAddComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_services */ "./src/app/_services/index.ts");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_services */ "./src/app/_services/index.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1146,76 +996,358 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
-
-var FeaturedListComponent = /** @class */ (function () {
-    function FeaturedListComponent(featuredListService, data, itemService, alertService) {
-        var _this = this;
-        this.featuredListService = featuredListService;
-        this.data = data;
-        this.itemService = itemService;
+var ContactsAddComponent = /** @class */ (function () {
+    function ContactsAddComponent(formBuilder, router, contactService, alertService) {
+        this.formBuilder = formBuilder;
+        this.router = router;
+        this.contactService = contactService;
         this.alertService = alertService;
-        this.featuredItems = [];
-        this.addedEvent = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
-        this.data.currentUser.subscribe(function (user) { return _this.currentUser = user; });
+        this.loading = false;
+        this.submitted = false;
     }
-    FeaturedListComponent.prototype.ngOnInit = function () {
-        this.loadAllFeaturedItems();
-    };
-    FeaturedListComponent.prototype.loadAllFeaturedItems = function () {
-        var _this = this;
-        this.featuredListService.getAll().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["first"])()).subscribe(function (items) {
-            _this.featuredItems = items;
+    ContactsAddComponent.prototype.ngOnInit = function () {
+        this.addContactForm = this.formBuilder.group({
+            firstName: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required],
+            lastName: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required],
+            email: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].email],
+            phone: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].pattern('^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}$')],
+            notes: ['']
         });
     };
-    FeaturedListComponent.prototype.addItem = function (fitem) {
-        console.log(fitem);
-        console.log(this.currentUser['_id']);
-        // this.itemService.createF(fitem, this.currentUser['_id']).pipe(first())
-        //     .subscribe(
-        //         data => {
-        //             this.alertService.success('Item create successful', true);
-        //         },
-        //         error => {
-        //             this.alertService.error(error);
-        //         });
-        this.notifyAdded(fitem);
+    Object.defineProperty(ContactsAddComponent.prototype, "f", {
+        // convenience getter for easy access to form fields
+        get: function () { return this.addContactForm.controls; },
+        enumerable: true,
+        configurable: true
+    });
+    ContactsAddComponent.prototype.onSubmit = function () {
+        var _this = this;
+        this.submitted = true;
+        // stop here if form is invalid
+        if (this.addContactForm.invalid) {
+            return;
+        }
+        this.loading = true;
+        this.contactService.add(this.addContactForm.value)
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["first"])())
+            .subscribe(function (data) {
+            _this.alertService.success('Contact added successfully', true);
+            _this.router.navigate(['/']);
+        }, function (error) {
+            _this.alertService.error(error);
+            _this.loading = false;
+        });
     };
-    FeaturedListComponent.prototype.notifyAdded = function (fitem) {
-        this.addedEvent.emit(fitem);
-    };
-    __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
-        __metadata("design:type", Object)
-    ], FeaturedListComponent.prototype, "addedEvent", void 0);
-    FeaturedListComponent = __decorate([
+    ContactsAddComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
-            selector: 'featured-list',
-            template: __webpack_require__(/*! ./featured_list.component.html */ "./src/app/featured_list/featured_list.component.html")
+            selector: 'app-contacts-add',
+            template: __webpack_require__(/*! ./contacts-add.component.html */ "./src/app/contacts-add/contacts-add.component.html"),
+            styles: [__webpack_require__(/*! ./contacts-add.component.css */ "./src/app/contacts-add/contacts-add.component.css")]
         }),
-        __metadata("design:paramtypes", [_services__WEBPACK_IMPORTED_MODULE_2__["FeaturedListService"],
-            _services__WEBPACK_IMPORTED_MODULE_2__["DataService"],
-            _services__WEBPACK_IMPORTED_MODULE_2__["ItemService"],
-            _services__WEBPACK_IMPORTED_MODULE_2__["AlertService"]])
-    ], FeaturedListComponent);
-    return FeaturedListComponent;
+        __metadata("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormBuilder"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
+            _services__WEBPACK_IMPORTED_MODULE_1__["ContactService"],
+            _services__WEBPACK_IMPORTED_MODULE_1__["AlertService"]])
+    ], ContactsAddComponent);
+    return ContactsAddComponent;
 }());
 
 
 
 /***/ }),
 
-/***/ "./src/app/featured_list/index.ts":
-/*!****************************************!*\
-  !*** ./src/app/featured_list/index.ts ***!
-  \****************************************/
-/*! exports provided: FeaturedListComponent */
+/***/ "./src/app/contacts-details/contacts-details.component.css":
+/*!*****************************************************************!*\
+  !*** ./src/app/contacts-details/contacts-details.component.css ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/contacts-details/contacts-details.component.html":
+/*!******************************************************************!*\
+  !*** ./src/app/contacts-details/contacts-details.component.html ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container\" *ngIf=\"contact\">\n  <h3>{{contact.lastName}}, {{contact.firstName}}</h3>\n  <div class=\"container\">\n    <div class=\"row\">\n      <div class=\"col-sm\">\n        <strong>Email:</strong>\n      </div>\n      <div class=\"col-sm\">\n        {{contact.email}}\n      </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-sm\">\n        <strong>Phone:</strong>\n      </div>\n      <div class=\"col-sm\">\n        {{contact.phone}}\n      </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-sm\">\n        <strong>Notes:</strong>\n      </div>\n      <div class=\"col-sm\"></div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-sm\" *ngIf=\"contact.notes && contact.notes != ''\">\n          <p>{{contact.notes}}</p>\n      </div>\n      <div class=\"col-sm text-center\" *ngIf=\"!(contact.notes && contact.notes != '')\">\n        <em>None</em>\n      </div>\n    </div>\n  </div>\n  <a [routerLink]=\"['/']\" class=\"btn btn-link\">Back</a>\n  <a [routerLink]=\"['/contacts/edit', contact.id ]\" class=\"btn btn-link\">Edit</a>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/contacts-details/contacts-details.component.ts":
+/*!****************************************************************!*\
+  !*** ./src/app/contacts-details/contacts-details.component.ts ***!
+  \****************************************************************/
+/*! exports provided: ContactsDetailsComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _featured_list_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./featured_list.component */ "./src/app/featured_list/featured_list.component.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FeaturedListComponent", function() { return _featured_list_component__WEBPACK_IMPORTED_MODULE_0__["FeaturedListComponent"]; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ContactsDetailsComponent", function() { return ContactsDetailsComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_services */ "./src/app/_services/index.ts");
+/* harmony import */ var rxjs_internal_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/internal/operators */ "./node_modules/rxjs/internal/operators/index.js");
+/* harmony import */ var rxjs_internal_operators__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(rxjs_internal_operators__WEBPACK_IMPORTED_MODULE_3__);
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 
+
+
+
+var ContactsDetailsComponent = /** @class */ (function () {
+    function ContactsDetailsComponent(activatedRouter, contactService) {
+        this.activatedRouter = activatedRouter;
+        this.contactService = contactService;
+    }
+    ContactsDetailsComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.sub = this.activatedRouter.params.subscribe(function (params) {
+            _this.id = params['id']; // (+) converts string 'id' to a number
+            // In a real app: dispatch action to load the details here.
+            _this.contactService.getById(_this.id).pipe(Object(rxjs_internal_operators__WEBPACK_IMPORTED_MODULE_3__["first"])()).subscribe(function (rcvdContact) {
+                _this.contact = rcvdContact;
+            });
+        });
+    };
+    ContactsDetailsComponent.prototype.ngOnDestroy = function () {
+        this.sub.unsubscribe();
+    };
+    ContactsDetailsComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-contacts-details',
+            template: __webpack_require__(/*! ./contacts-details.component.html */ "./src/app/contacts-details/contacts-details.component.html"),
+            styles: [__webpack_require__(/*! ./contacts-details.component.css */ "./src/app/contacts-details/contacts-details.component.css")]
+        }),
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"],
+            _services__WEBPACK_IMPORTED_MODULE_2__["ContactService"]])
+    ], ContactsDetailsComponent);
+    return ContactsDetailsComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/contacts-edit/contacts-edit.component.css":
+/*!***********************************************************!*\
+  !*** ./src/app/contacts-edit/contacts-edit.component.css ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/contacts-edit/contacts-edit.component.html":
+/*!************************************************************!*\
+  !*** ./src/app/contacts-edit/contacts-edit.component.html ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<h2>Edit Contact</h2>\n<div *ngIf=\"contact\">\n  <form [formGroup]=\"editContactForm\" (ngSubmit)=\"onSubmit()\">\n    <div class=\"form-group\">\n      <label for=\"firstName\">First Name</label>\n      <input type=\"text\" formControlName=\"firstName\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.firstName.errors }\" />\n      <div *ngIf=\"submitted && f.firstName.errors\" class=\"invalid-feedback\">\n        <div *ngIf=\"f.firstName.errors.required\">First Name is required</div>\n      </div>\n    </div>\n    <div class=\"form-group\">\n      <label for=\"lastName\">Last Name</label>\n      <input type=\"text\" formControlName=\"lastName\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.lastName.errors }\" />\n      <div *ngIf=\"submitted && f.lastName.errors\" class=\"invalid-feedback\">\n        <div *ngIf=\"f.lastName.errors.required\">Last Name is required</div>\n      </div>\n    </div>\n    <div class=\"form-group\">\n      <label for=\"username\">Email</label>\n      <input type=\"text\" formControlName=\"email\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.email.errors }\" />\n      <div *ngIf=\"submitted && f.email.errors\" class=\"invalid-feedback\">\n        <div *ngIf=\"f.email.errors.email\">Incorrect email format</div>\n      </div>\n    </div>\n    <div class=\"form-group\">\n      <label for=\"phone\">Phone Number</label>\n      <input type=\"text\" formControlName=\"phone\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.phone.errors }\" />\n      <div *ngIf=\"submitted && f.phone.errors\" class=\"invalid-feedback\">\n        <div *ngIf=\"f.phone.errors.pattern\">Phone Number should be in form '###-###-####'</div>\n      </div>\n    </div>\n    <div class=\"form-group\">\n      <label for=\"notes\">Notes</label>\n      <textarea formControlName=\"notes\" class=\"form-control\" rows=\"4\" [ngClass]=\"{ 'is-invalid': submitted && f.notes.errors }\"></textarea>\n      <div *ngIf=\"submitted && f.notes.errors\" class=\"invalid-feedback\">\n        <div *ngIf=\"f.notes.errors.required\">Notes are required</div>\n      </div>\n    </div>\n    <div class=\"form-group\">\n      <button [disabled]=\"loading\" class=\"btn btn-primary\">Update</button>\n      <button [disabled]=\"loading\" class=\"btn btn-danger\" type=\"button\" (click)=\"onDelete()\">Delete</button>\n      <img *ngIf=\"loading\" src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />\n      <a [routerLink]=\"['/contacts/', contact.id]\" class=\"btn btn-link\">Cancel</a>\n    </div>\n  </form>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/contacts-edit/contacts-edit.component.ts":
+/*!**********************************************************!*\
+  !*** ./src/app/contacts-edit/contacts-edit.component.ts ***!
+  \**********************************************************/
+/*! exports provided: ContactsEditComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ContactsEditComponent", function() { return ContactsEditComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_services */ "./src/app/_services/index.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var ContactsEditComponent = /** @class */ (function () {
+    function ContactsEditComponent(formBuilder, router, activatedRouter, contactService, alertService) {
+        this.formBuilder = formBuilder;
+        this.router = router;
+        this.activatedRouter = activatedRouter;
+        this.contactService = contactService;
+        this.alertService = alertService;
+        this.loading = false;
+        this.submitted = false;
+    }
+    ContactsEditComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.sub = this.activatedRouter.params.subscribe(function (params) {
+            _this.id = params['id']; // (+) converts string 'id' to a number
+            // In a real app: dispatch action to load the details here.
+            _this.contactService.getById(_this.id).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["first"])()).subscribe(function (rcvdContact) {
+                _this.contact = rcvdContact;
+                _this.editContactForm = _this.formBuilder.group({
+                    firstName: ["" + _this.contact.firstName, _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required],
+                    lastName: ["" + _this.contact.lastName, _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required],
+                    email: [_this.contact.email ? "" + _this.contact.email : '',
+                        _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].email],
+                    phone: [_this.contact.phone ? "" + _this.contact.phone : '',
+                        _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].pattern('^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}$')],
+                    notes: [_this.contact.notes ? "" + _this.contact.notes : '']
+                });
+            });
+        });
+    };
+    Object.defineProperty(ContactsEditComponent.prototype, "f", {
+        // convenience getter for easy access to form fields
+        get: function () { return this.editContactForm.controls; },
+        enumerable: true,
+        configurable: true
+    });
+    ContactsEditComponent.prototype.onSubmit = function () {
+        var _this = this;
+        this.submitted = true;
+        // stop here if form is invalid
+        if (this.editContactForm.invalid) {
+            return;
+        }
+        this.loading = true;
+        this.contactService.update(this.editContactForm.value, this.contact.id)
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["first"])())
+            .subscribe(function (data) {
+            _this.alertService.success('Contact edited successfully', true);
+            _this.router.navigate(['/contacts/', _this.contact.id]);
+        }, function (error) {
+            _this.alertService.error(error);
+            _this.loading = false;
+        });
+    };
+    ContactsEditComponent.prototype.onDelete = function () {
+        var _this = this;
+        this.loading = true;
+        console.log('Are you sure you want to delete?');
+        this.contactService.delete(this.contact.id)
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["first"])())
+            .subscribe(function (data) {
+            _this.alertService.success('Contact Deleted', true);
+            _this.router.navigate(['/']);
+        }, function (error) {
+            _this.alertService.error(error);
+            _this.loading = false;
+        });
+    };
+    ContactsEditComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-contacts-edit',
+            template: __webpack_require__(/*! ./contacts-edit.component.html */ "./src/app/contacts-edit/contacts-edit.component.html"),
+            styles: [__webpack_require__(/*! ./contacts-edit.component.css */ "./src/app/contacts-edit/contacts-edit.component.css")]
+        }),
+        __metadata("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormBuilder"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"],
+            _services__WEBPACK_IMPORTED_MODULE_1__["ContactService"],
+            _services__WEBPACK_IMPORTED_MODULE_1__["AlertService"]])
+    ], ContactsEditComponent);
+    return ContactsEditComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/contacts/contacts.component.css":
+/*!*************************************************!*\
+  !*** ./src/app/contacts/contacts.component.css ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/contacts/contacts.component.html":
+/*!**************************************************!*\
+  !*** ./src/app/contacts/contacts.component.html ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<h2 class=\"text-center\">Contacts</h2>\n<!-- *ngIf contacts, else you have no contacts -->\n<div class=\"container\">\n    <h5 class=\"text-center\" *ngIf=\"!contactList || contactList.length === 0\">You have no contacts right now</h5>\n    <div class=\"list-group\" *ngFor=\"let contact of contactList\">\n      <a [routerLink]=\"['contacts', contact.id]\" class=\"list-group-item list-group-item-action text-center\">{{ contact.firstName }} {{ contact.lastName }}</a>\n    </div>\n</div>\n<a [routerLink]=\"['/add']\" class=\"btn btn-link\">Add Contact</a>\n"
+
+/***/ }),
+
+/***/ "./src/app/contacts/contacts.component.ts":
+/*!************************************************!*\
+  !*** ./src/app/contacts/contacts.component.ts ***!
+  \************************************************/
+/*! exports provided: ContactsComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ContactsComponent", function() { return ContactsComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_services */ "./src/app/_services/index.ts");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var ContactsComponent = /** @class */ (function () {
+    function ContactsComponent(contactService) {
+        this.contactService = contactService;
+        this.contactList = [];
+    }
+    ContactsComponent.prototype.ngOnInit = function () {
+        this.loadContacts();
+    };
+    ContactsComponent.prototype.loadContacts = function () {
+        var _this = this;
+        this.contactService.getAll().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["first"])()).subscribe(function (contacts) {
+            _this.contactList = contacts;
+        });
+    };
+    ContactsComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-contacts',
+            template: __webpack_require__(/*! ./contacts.component.html */ "./src/app/contacts/contacts.component.html"),
+            styles: [__webpack_require__(/*! ./contacts.component.css */ "./src/app/contacts/contacts.component.css")]
+        }),
+        __metadata("design:paramtypes", [_services__WEBPACK_IMPORTED_MODULE_1__["ContactService"]])
+    ], ContactsComponent);
+    return ContactsComponent;
+}());
 
 
 
@@ -1228,7 +1360,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row-sm-3\">\n  <div class=\"col-sm-12\">\n    <img src=\"https://www.merriam-webster.com/assets/mw/images/article/art-wap-article-main/alt-593ecb243e2ba-3814-e492ca847df75f5ea213877f3410d8fa@1x.jpg\" alt=\"placeholder 960\" class=\"rounded float-right\" />\n  </div>\n</div>\n<h1>Hi {{currentUser.firstName}}!</h1>\n<p>Welcome to <em>ShopListcito</em>!!</p>\n<div class=\"container\">\n    <div class=\"row\">\n        <div class=\"col-m-8 offset-m-2\">\n            <div class=\"container\">\n              <div class=\"row\">\n                <div class=\"col-md-7\">\n                  <div class=\"card\">\n                    <div class=\"card-body\">\n                      <h5 class=\"card-header\">Shopping List</h5>\n<div class=\"row\">\n\n    <div class=\"items\" *ngIf=\"itemsList\">\n        <table class=\"table\">\n            <thead class=\"h\">\n              <tr class=\"h\">\n                <th class=\"h\">Name</th>\n                <th class=\"h\">Category</th>\n                <th class=\"h\">Quantity</th>\n                <th class=\"h\">Status</th>\n              </tr>\n            </thead>\n            <tbody>\n              <tr class=\"item\"  *ngFor=\"let item of itemsList\" >\n<!-- *ngIf=\"currentUser._id==item.ownerId\"  -->\n\n                <ng-container  *ngIf=\"!editItems.includes(item); else editTD\">\n                  <td *ngIf=\"currentUser._id==item.ownerId\">{{item.itemname}}</td>\n                  <td *ngIf=\"currentUser._id==item.ownerId\">{{item.category}}</td>\n                  <td *ngIf=\"currentUser._id==item.ownerId\">{{item.quantity}}</td>\n<!--                   <td>{{item.quantity}}</td>\n                  <td>{{item.createdDate | date}}</td> -->\n                  <td *ngIf=\"currentUser._id==item.ownerId\">{{item.status}}</td>\n                </ng-container>\n                <ng-template #editTD >\n                    <td ><input type=\"text\" name=\"itemname\" id=\"itemname\" (keypress)=\"submitItem($event, item)\" [(ngModel)]=\"item.itemname\" placeholder=\"Name\" class=\"form-control\"></td>\n                    <td><input type=\"text\" name=\"category\" id=\"category\" (keypress)=\"submitItem($event, item)\" [(ngModel)]=\"item.category\" placeholder=\"Category\" class=\"form-control\"></td>\n                    <td><input type=\"text\" name=\"quantity\" id=\"quantity\" (keypress)=\"submitItem($event, item)\" [(ngModel)]=\"item.quantity\" placeholder=\"Quantity\" class=\"form-control\"></td>\n                    <td>{{item.date | date}}</td>\n                    <td><input type=\"text\" name=\"status\" id=\"status\" (keypress)=\"submitItem($event, item)\" [(ngModel)]=\"item.status\" placeholder=\"Status\" class=\"form-control\"></td>\n\n                </ng-template>\n\n\n                <td class=\"o\" *ngIf=\"currentUser._id==item.ownerId\">\n                  <button class=\"btn btn-success\" (click)=\"doneItem(item)\">\n                    Done\n                  </button>\n                  <button class=\"btn btn-primary\" (click)=\"editItem(item)\">\n                    Edit\n                  </button>\n                  <button class=\"btn btn-danger\" (click)=\"deleteItem(item.id)\">\n                    Delete\n                  </button>\n                </td>\n\n              </tr>\n            </tbody>\n          </table>\n    </div>\n\n  </div>\n  <div class=\"col-md-2\">\n\n  </div>\n                    </div>\n                  </div>\n                </div>\n\n                <div class=\"col-md-5\">\n                  <featured-list (addedEvent)=\"onFItemAdded($event)\">\n                  </featured-list>\n                </div>\n\n              </div>\n            </div>\n\n\n\n              <!-- User input receieve section here -->\n              <div class=\"container\">\n                <div class=\"row\">\n                  <div class=\"col\">\n                    <div class=\"card\">\n                      <div class=\"card-body\">\n                        <h5 class=\"card-header\">Add Items to your order</h5>\n                        <form [formGroup]=\"itemForm\" (ngSubmit)=\"createItem()\">\n                          <div class=\"row\">\n                            <div class=\"col\">\n                              <!-- <label for=\"itemname\">itemname</label> -->\n\n                              <input type=\"text\" formControlName=\"itemname\" class=\"form-control\" placeholder=\"Item\" [ngClass]=\"{ 'is-invalid': submitted && f.itemname.errors }\" />\n                              <!-- <input type=\"text\" class=\"form-control\" placeholder=\"Item\" > -->\n                            </div> <!-- item div end -->\n                              <div class=\"col\">\n                                <article>\n                                  <!-- <input type=\"text\" formControlName=\"category\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.category.errors }\" /> -->\n                                  <select formControlName=\"category\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.category.errors }\"  (change)=\"selectChangeHandler($event)\">\n                                      <option value=\"\"></option>\n                                      <option value=\"Meats\">Meats</option>\n                                      <option value=\"Fruits\">Fruits</option>\n                                      <option value=\"Produces\">Produces</option>\n                                      <option value=\"Personal Cares\">Personal Cares</option>\n                                      <option value=\"Beverages\">Beverages</option>\n                                      <option value=\"Cleaners\">Cleaners</option>\n                                  </select>\n                                </article>\n                            </div><!-- Category div end -->\n                            <div class=\"col\">\n                              <!-- <input type=\"number\" class=\"form-control\" placeholder=\"Quantity\" min =\"0\" step =\"1\" formControlName=\"Quantity\"> -->\n                               <input type=\"number\" formControlName=\"quantity\" class=\"form-control\" placeholder=\"Quantity\" min=\"0\" step=\"1\" [ngClass]=\"{ 'is-invalid': submitted && f.quantity.errors }\" />\n                            </div><!-- Quantity div end -->\n                            <div class=\"col\">\n                              <input class=\"btn btn-primary\" type=\"submit\" value=\"Add order\">\n                            </div><!-- Add button div end -->\n                          </div>\n                          <p><span>Categories that you selected: </span><b>{{selectedCat}}</b></p>\n                        </form>\n                      </div> <!-- card-body div end -->\n                    </div> <!-- card div end -->\n                  </div><!-- col div end -->\n                </div><!-- row div end -->\n              </div>\n\n        </div>\n    </div>\n</div>\n"
+module.exports = ""
 
 /***/ }),
 
@@ -1244,8 +1376,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HomeComponent", function() { return HomeComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_services */ "./src/app/_services/index.ts");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_services */ "./src/app/_services/index.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1260,131 +1391,40 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
-
-
 var HomeComponent = /** @class */ (function () {
-    function HomeComponent(userService, data, itemService, formBuilder, alertService) {
+    function HomeComponent(userService, data, formBuilder, alertService) {
         var _this = this;
         this.userService = userService;
         this.data = data;
-        this.itemService = itemService;
         this.formBuilder = formBuilder;
         this.alertService = alertService;
         this.users = [];
         this.selectedCat = '';
-        this.editItems = [];
         // this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
         this.data.currentUser.subscribe(function (user) { return _this.currentUser = user; });
     }
     HomeComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.itemForm = this.formBuilder.group({
-            itemname: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required],
-            category: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required],
-            ownerId: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required],
-            quantity: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required]
-        });
-        this.itemService.getAll()
-            .subscribe(function (items) {
-            //assign the itemlist property to the proper http response
-            _this.itemsList = items;
-        });
-        this.loadAllUsers();
-        this.loadAllItems();
-    };
-    HomeComponent.prototype.createItem = function () {
-        var _this = this;
-        // console.log(this.itemForm.value);
-        // console.log(this.currentUser['_id']);
-        this.itemService.create(this.itemForm.value, this.currentUser['_id'])
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["first"])())
-            .subscribe(function (data) {
-            _this.alertService.success('Item create successful', true);
-        }, function (error) {
-            _this.alertService.error(error);
-        });
-        this.loadAllItems();
-    };
-    HomeComponent.prototype.editItem = function (item) {
-        var _this = this;
-        // console.log(item);
-        if (this.itemsList.includes(item)) {
-            if (!this.editItems.includes(item)) {
-                this.editItems.push(item);
-            }
-            else {
-                this.editItems.splice(this.editItems.indexOf(item), 1);
-                this.itemService.update(item).subscribe(function (res) {
-                    console.log('Update Succesful');
-                }, function (err) {
-                    _this.itemService.update(item);
-                    console.error('Update Unsuccesful');
-                });
-            }
-        }
-    };
-    HomeComponent.prototype.doneItem = function (item) {
-        var _this = this;
-        item.status = 'Done';
-        this.itemService.update(item).subscribe(function (res) {
-            console.log('Update Succesful');
-        }, function (err) {
-            _this.itemService.update(item);
-            console.error('Update Unsuccesful');
-        });
-    };
-    HomeComponent.prototype.submitItem = function (event, item) {
-        if (event.keyCode == 13) {
-            this.itemService.update(item);
-        }
-    };
-    HomeComponent.prototype.deleteUser = function (id) {
-        var _this = this;
-        this.userService.delete(id).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["first"])()).subscribe(function () {
-            _this.loadAllUsers();
-        });
-    };
-    HomeComponent.prototype.deleteItem = function (id) {
-        var _this = this;
-        this.itemService.delete(id).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["first"])()).subscribe(function () {
-            _this.loadAllItems();
-        });
-    };
-    HomeComponent.prototype.loadAllUsers = function () {
-        var _this = this;
-        this.userService.getAll().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["first"])()).subscribe(function (users) {
-            _this.users = users;
-        });
-    };
-    HomeComponent.prototype.loadAllItems = function () {
-        var _this = this;
-        this.itemService.getAll().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["first"])()).subscribe(function (items) {
-            _this.itemsList = items;
-            console.log(_this.itemsList);
-        });
-    };
-    HomeComponent.prototype.onFItemAdded = function ($event) {
-        var _this = this;
-        console.log("Featured item added");
-        this.itemService.createF($event, this.currentUser['_id']).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["first"])())
-            .subscribe(function (data) {
-            _this.alertService.success('Item create successful', true);
-            _this.loadAllItems();
-        }, function (error) {
-            _this.alertService.error(error);
-        });
-    };
-    //event handler for the select element's change event in Category
-    HomeComponent.prototype.selectChangeHandler = function (event) {
-        this.selectedCat = event.target.value;
+        // this.itemForm = this.formBuilder.group({
+        //     itemname: ['', Validators.required],
+        //     category: ['', Validators.required],
+        //     ownerId: ['', Validators.required],
+        //     quantity: ['', Validators.required]
+        // });
+        // this.itemService.getAll()
+        //   .subscribe(items => {
+        //     //assign the itemlist property to the proper http response
+        //     this.itemsList = items
+        //     })
+        //
+        // this.loadAllUsers();
+        // this.loadAllItems();
     };
     HomeComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({ template: __webpack_require__(/*! ./home.component.html */ "./src/app/home/home.component.html") }),
-        __metadata("design:paramtypes", [_services__WEBPACK_IMPORTED_MODULE_3__["UserService"],
-            _services__WEBPACK_IMPORTED_MODULE_3__["DataService"],
-            _services__WEBPACK_IMPORTED_MODULE_3__["ItemService"],
+        __metadata("design:paramtypes", [_services__WEBPACK_IMPORTED_MODULE_2__["UserService"],
+            _services__WEBPACK_IMPORTED_MODULE_2__["DataService"],
             _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"],
-            _services__WEBPACK_IMPORTED_MODULE_3__["AlertService"]])
+            _services__WEBPACK_IMPORTED_MODULE_2__["AlertService"]])
     ], HomeComponent);
     return HomeComponent;
 }());
@@ -1549,7 +1589,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- Example taken from bootstrap -->\n<div class=\"d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow\">\n  <h5 class=\"my-0 mr-md-auto font-weight-normal\">ShopListcito</h5>\n  <nav class=\"my-2 my-md-0 mr-md-3\" *ngIf=\"currentUser\">\n    <a class=\"p-2 text-dark\" [routerLink]=\"['/login']\">Logout</a>\n  </nav>\n</div>\n"
+module.exports = "<!-- Example taken from bootstrap -->\n<div class=\"d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow\">\n  <h5 class=\"my-0 mr-md-auto font-weight-normal\">DisBotCito</h5>\n  <nav class=\"my-2 my-md-0 mr-md-3\" *ngIf=\"currentUser\">\n    <a class=\"p-2 text-dark\" [routerLink]=\"['/login']\">Logout</a>\n  </nav>\n</div>\n"
 
 /***/ }),
 
@@ -1770,7 +1810,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\Documents\School\CMPT 470\angular-demo\ng-app\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! D:\Documents\School\CMPT 470\disbotcito\ng-app\src\main.ts */"./src/main.ts");
 
 
 /***/ })

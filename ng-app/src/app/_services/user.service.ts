@@ -8,7 +8,7 @@ export class UserService {
     constructor(private http: HttpClient) { }
 
     // work around for now until we can figure how to get a global config obj
-    apiUrl = 'http://localhost:4000/api-pub';
+    apiUrl = 'http://localhost:4000/api';
 
     getAll() {
         return this.http.get<User[]>(`${this.apiUrl}/users`);
