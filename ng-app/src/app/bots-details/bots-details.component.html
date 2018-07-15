@@ -3,13 +3,28 @@
   <div class="container">
     <div class="row">
       <div class="col-sm">
-        <strong>CommandPrefix:</strong>
+        <strong>Discord Token:</strong>
+      </div>
+      <div class="col-sm">
+        {{bot.discordToken}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm">
+        <strong>Status:</strong>
+      </div>
+      <div class="col-sm">
+        {{bot.status}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm">
+        <strong>Command Prefix:</strong>
       </div>
       <div class="col-sm">
         {{bot.commandPrefix}}
       </div>
     </div>
-
   </div>
   <a [routerLink]="['/']" class="btn btn-link">Back</a>
   <a [routerLink]="['/bots/edit', bot.id ]" class="btn btn-link">Edit</a>

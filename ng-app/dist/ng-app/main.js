@@ -767,7 +767,7 @@ var UserService = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- main app container -->\r\n<nav-bar></nav-bar>\r\n<div class=\"jumbotron\">\r\n    <alert></alert>\r\n    <router-outlet></router-outlet>\r\n</div>\r\n"
+module.exports = "<!-- main app container -->\n<nav-bar></nav-bar>\n<div class=\"jumbotron\">\n    <alert></alert>\n    <router-outlet></router-outlet>\n</div>\n"
 
 /***/ }),
 
@@ -919,10 +919,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _register__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./register */ "./src/app/register/index.ts");
 /* harmony import */ var _guards__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./_guards */ "./src/app/_guards/index.ts");
 /* harmony import */ var _bots_bots_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./bots/bots.component */ "./src/app/bots/bots.component.ts");
-/* harmony import */ var _bots_add_bots_add_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./bots-add/bots-add.component */ "./src/app/bots-add/bots-add.component.ts");
-/* harmony import */ var _bots_details_bots_details_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./bots-details/bots-details.component */ "./src/app/bots-details/bots-details.component.ts");
-/* harmony import */ var _bots_edit_bots_edit_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./bots-edit/bots-edit.component */ "./src/app/bots-edit/bots-edit.component.ts");
-
+/* harmony import */ var _bots_details_bots_details_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./bots-details/bots-details.component */ "./src/app/bots-details/bots-details.component.ts");
+/* harmony import */ var _bots_edit_bots_edit_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./bots-edit/bots-edit.component */ "./src/app/bots-edit/bots-edit.component.ts");
 
 
 
@@ -934,9 +932,9 @@ var appRoutes = [
     { path: '', component: _bots_bots_component__WEBPACK_IMPORTED_MODULE_4__["BotsComponent"], canActivate: [_guards__WEBPACK_IMPORTED_MODULE_3__["AuthGuard"]] },
     { path: 'login', component: _login__WEBPACK_IMPORTED_MODULE_1__["LoginComponent"] },
     { path: 'register', component: _register__WEBPACK_IMPORTED_MODULE_2__["RegisterComponent"] },
-    { path: 'add', component: _bots_add_bots_add_component__WEBPACK_IMPORTED_MODULE_5__["BotsAddComponent"] },
-    { path: 'bots/:id', component: _bots_details_bots_details_component__WEBPACK_IMPORTED_MODULE_6__["BotsDetailsComponent"] },
-    { path: 'bots/edit/:id', component: _bots_edit_bots_edit_component__WEBPACK_IMPORTED_MODULE_7__["BotsEditComponent"] },
+    { path: 'bots/add', component: _bots_edit_bots_edit_component__WEBPACK_IMPORTED_MODULE_6__["BotsEditComponent"] },
+    { path: 'bots/:id', component: _bots_details_bots_details_component__WEBPACK_IMPORTED_MODULE_5__["BotsDetailsComponent"] },
+    { path: 'bots/edit/:id', component: _bots_edit_bots_edit_component__WEBPACK_IMPORTED_MODULE_6__["BotsEditComponent"] },
     // otherwise redirect to home
     { path: '**', redirectTo: '' }
 ];
@@ -963,7 +961,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2>Add Bot</h2>\r\n<form [formGroup]=\"addBotForm\" (ngSubmit)=\"onSubmit()\">\r\n    <div class=\"form-group\">\r\n        <label for=\"name\">Name</label>\r\n        <input type=\"text\" formControlName=\"name\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.name.errors }\" />\r\n        <div *ngIf=\"submitted && f.name.errors\" class=\"invalid-feedback\">\r\n            <div *ngIf=\"f.name.errors.required\">Name is required</div>\r\n        </div>\r\n    </div>\r\n    <div class=\"form-group\">\r\n        <label for=\"commandPrefix\">CommandPrefix</label>\r\n        <input type=\"text\" formControlName=\"commandPrefix\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.commandPrefix.errors }\" />\r\n        <div *ngIf=\"submitted && f.commandPrefix.errors\" class=\"invalid-feedback\">\r\n            <div *ngIf=\"f.commandPrefix.errors.required\">commandPrefix is required</div>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"form-group\">\r\n        <button [disabled]=\"loading\" class=\"btn btn-primary\">Add</button>\r\n        <img *ngIf=\"loading\" src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />\r\n        <a [routerLink]=\"['/']\" class=\"btn btn-link\">Cancel</a>\r\n    </div>\r\n</form>\r\n"
+module.exports = "<h2>Add Bot</h2>\n<form [formGroup]=\"addBotForm\" (ngSubmit)=\"onSubmit()\">\n    <div class=\"form-group\">\n        <label for=\"name\">Name</label>\n        <input type=\"text\" formControlName=\"name\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.name.errors }\" />\n        <div *ngIf=\"submitted && f.name.errors\" class=\"invalid-feedback\">\n            <div *ngIf=\"f.name.errors.required\">Name is required</div>\n        </div>\n    </div>\n    <div class=\"form-group\">\n        <label for=\"commandPrefix\">CommandPrefix</label>\n        <input type=\"text\" formControlName=\"commandPrefix\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.commandPrefix.errors }\" />\n        <div *ngIf=\"submitted && f.commandPrefix.errors\" class=\"invalid-feedback\">\n            <div *ngIf=\"f.commandPrefix.errors.required\">commandPrefix is required</div>\n        </div>\n    </div>\n\n    <div class=\"form-group\">\n        <button [disabled]=\"loading\" class=\"btn btn-primary\">Add</button>\n        <img *ngIf=\"loading\" src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />\n        <a [routerLink]=\"['/']\" class=\"btn btn-link\">Cancel</a>\n    </div>\n</form>\n"
 
 /***/ }),
 
@@ -1075,7 +1073,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\" *ngIf=\"bot\">\r\n  <h3>{{bot.name}}</h3>\r\n  <div class=\"container\">\r\n    <div class=\"row\">\r\n      <div class=\"col-sm\">\r\n        <strong>CommandPrefix:</strong>\r\n      </div>\r\n      <div class=\"col-sm\">\r\n        {{bot.commandPrefix}}\r\n      </div>\r\n    </div>\r\n\r\n  </div>\r\n  <a [routerLink]=\"['/']\" class=\"btn btn-link\">Back</a>\r\n  <a [routerLink]=\"['/bots/edit', bot.id ]\" class=\"btn btn-link\">Edit</a>\r\n</div>\r\n"
+module.exports = "<div class=\"container\" *ngIf=\"bot\">\n  <h3>{{bot.name}}</h3>\n  <div class=\"container\">\n    <div class=\"row\">\n      <div class=\"col-sm\">\n        <strong>Discord Token:</strong>\n      </div>\n      <div class=\"col-sm\">\n        {{bot.discordToken}}\n      </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-sm\">\n        <strong>Status:</strong>\n      </div>\n      <div class=\"col-sm\">\n        {{bot.status}}\n      </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-sm\">\n        <strong>Command Prefix:</strong>\n      </div>\n      <div class=\"col-sm\">\n        {{bot.commandPrefix}}\n      </div>\n    </div>\n  </div>\n  <a [routerLink]=\"['/']\" class=\"btn btn-link\">Back</a>\n  <a [routerLink]=\"['/bots/edit', bot.id ]\" class=\"btn btn-link\">Edit</a>\n</div>\n"
 
 /***/ }),
 
@@ -1159,7 +1157,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2>Edit Bot</h2>\r\n<div *ngIf=\"bot\">\r\n  <form [formGroup]=\"editBotForm\" (ngSubmit)=\"onSubmit()\">\r\n    <div class=\"form-group\">\r\n      <label for=\"name\">Name</label>\r\n      <input type=\"text\" formControlName=\"name\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.name.errors }\" />\r\n      <div *ngIf=\"submitted && f.name.errors\" class=\"invalid-feedback\">\r\n        <div *ngIf=\"f.name.errors.required\">Name is required</div>\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group\">\r\n      <label for=\"commandPrefix\">CommandPrefix</label>\r\n      <input type=\"text\" formControlName=\"commandPrefix\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.commandPrefix.errors }\" />\r\n      <div *ngIf=\"submitted && f.commandPrefix.errors\" class=\"invalid-feedback\">\r\n        <div *ngIf=\"f.commandPrefix.errors.required\">CommandPrefix is required</div>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"form-group\">\r\n      <button [disabled]=\"loading\" class=\"btn btn-primary\">Update</button>\r\n      <button [disabled]=\"loading\" class=\"btn btn-danger\" type=\"button\" (click)=\"onDelete()\">Delete</button>\r\n      <img *ngIf=\"loading\" src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />\r\n      <a [routerLink]=\"['/bots/', bot.id]\" class=\"btn btn-link\">Cancel</a>\r\n    </div>\r\n  </form>\r\n</div>\r\n"
+module.exports = "<div *ngIf=\"pageAction == PAGE_ACTIONS.Add\"><h2>Add Bot</h2></div>\n<div *ngIf=\"pageAction == PAGE_ACTIONS.Edit\"><h2>Edit Bot</h2></div>\n<div *ngIf=\"pageAction == PAGE_ACTIONS.Add || bot\">\n  <form [formGroup]=\"editBotForm\" (ngSubmit)=\"onSubmit()\">\n    <div class=\"form-group\">\n      <label for=\"name\">Name</label>\n      <input type=\"text\" formControlName=\"name\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.name.errors }\" />\n      <div *ngIf=\"submitted && f.name.errors\" class=\"invalid-feedback\">\n        <div *ngIf=\"f.name.errors.required\">Name is required</div>\n      </div>\n    </div>\n    <div class=\"form-group\">\n      <label for=\"discordToken\">Discord Token</label>\n      <input type=\"text\" formControlName=\"discordToken\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.discordToken.errors }\" />\n      <div *ngIf=\"submitted && f.discordToken.errors\" class=\"invalid-feedback\">\n        <div *ngIf=\"f.discordToken.errors.required\">Discord token is required</div>\n      </div>\n    </div>\n    <div class=\"form-group\">\n      <label for=\"commandPrefix\">Command Prefix</label>\n      <input type=\"text\" formControlName=\"commandPrefix\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.commandPrefix.errors }\" />\n      <div *ngIf=\"submitted && f.commandPrefix.errors\" class=\"invalid-feedback\">\n        <div *ngIf=\"f.commandPrefix.errors.required\">Command prefix is required</div>\n      </div>\n    </div>\n    <div class=\"form-group\">\n      <button [disabled]=\"loading\" class=\"btn btn-primary\">\n        <div *ngIf=\"pageAction == PAGE_ACTIONS.Add\">Add</div>\n        <div *ngIf=\"pageAction == PAGE_ACTIONS.Edit\">Save</div>\n      </button>\n      <button *ngIf=\"pageAction == PAGE_ACTIONS.Edit\" [disabled]=\"loading\" class=\"btn btn-danger\" type=\"button\" (click)=\"onDelete()\">Delete</button>\n      <img *ngIf=\"loading\" src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />\n      <a *ngIf=\"pageAction == PAGE_ACTIONS.Add\" [routerLink]=\"['/bots/']\" class=\"btn btn-link\">Cancel</a>\n      <a *ngIf=\"pageAction == PAGE_ACTIONS.Edit\" [routerLink]=\"['/bots', bot.id]\" class=\"btn btn-link\">Cancel</a>\n    </div>\n  </form>\n</div>\n"
 
 /***/ }),
 
@@ -1192,6 +1190,11 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+var PageAction;
+(function (PageAction) {
+    PageAction[PageAction["Add"] = 0] = "Add";
+    PageAction[PageAction["Edit"] = 1] = "Edit";
+})(PageAction || (PageAction = {}));
 var BotsEditComponent = /** @class */ (function () {
     function BotsEditComponent(formBuilder, router, activatedRouter, botService, alertService) {
         this.formBuilder = formBuilder;
@@ -1201,25 +1204,32 @@ var BotsEditComponent = /** @class */ (function () {
         this.alertService = alertService;
         this.loading = false;
         this.submitted = false;
+        this.PAGE_ACTIONS = PageAction;
+        this.pageAction = PageAction.Add;
     }
     BotsEditComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.sub = this.activatedRouter.params.subscribe(function (params) {
-            _this.id = params['id']; // (+) converts string 'id' to a number
-            // In a real app: dispatch action to load the details here.
-            _this.botService.getById(_this.id).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["first"])()).subscribe(function (rcvdBot) {
-                _this.bot = rcvdBot;
-                _this.editBotForm = _this.formBuilder.group({
-                    name: ["" + _this.bot.name, _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required],
-                    commandPrefix: ["" + _this.bot.commandPrefix, _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required]
-                    // ,
-                    // email: [ this.bot.email ? `${this.bot.email}` : '',
-                    //           Validators.email],
-                    // phone: [ this.bot.phone ? `${this.bot.phone}` : '',
-                    //           Validators.pattern('^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}$')],
-                    // notes: [ this.bot.notes ? `${this.bot.notes}` : '']
+            if (params['id']) {
+                _this.pageAction = PageAction.Edit;
+                _this.id = params['id']; // (+) converts string 'id' to a number
+                // In a real app: dispatch action to load the details here.
+                _this.botService.getById(_this.id).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["first"])()).subscribe(function (rcvdBot) {
+                    _this.bot = rcvdBot;
+                    _this.editBotForm = _this.formBuilder.group({
+                        name: ["" + _this.bot.name, _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required],
+                        discordToken: ["" + _this.bot.discordToken, _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required],
+                        commandPrefix: ["" + _this.bot.commandPrefix, _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required]
+                    });
                 });
-            });
+            }
+            else {
+                _this.editBotForm = _this.formBuilder.group({
+                    name: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required],
+                    discordToken: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required],
+                    commandPrefix: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required]
+                });
+            }
         });
     };
     Object.defineProperty(BotsEditComponent.prototype, "f", {
@@ -1236,20 +1246,32 @@ var BotsEditComponent = /** @class */ (function () {
             return;
         }
         this.loading = true;
-        this.botService.update(this.editBotForm.value, this.bot.id)
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["first"])())
-            .subscribe(function (data) {
-            _this.alertService.success('Bot edited successfully', true);
-            _this.router.navigate(['/bots/', _this.bot.id]);
-        }, function (error) {
-            _this.alertService.error(error);
-            _this.loading = false;
-        });
+        if (this.pageAction == PageAction.Add) {
+            this.botService.add(this.editBotForm.value)
+                .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["first"])())
+                .subscribe(function (data) {
+                _this.alertService.success('Bot added successfully', true);
+                _this.router.navigate(['/']);
+            }, function (error) {
+                _this.alertService.error(error);
+                _this.loading = false;
+            });
+        }
+        else {
+            this.botService.update(this.editBotForm.value, this.bot.id)
+                .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["first"])())
+                .subscribe(function (data) {
+                _this.alertService.success('Bot edited successfully', true);
+                _this.router.navigate(['/bots/', _this.bot.id]);
+            }, function (error) {
+                _this.alertService.error(error);
+                _this.loading = false;
+            });
+        }
     };
     BotsEditComponent.prototype.onDelete = function () {
         var _this = this;
         this.loading = true;
-        console.log('Are you sure you want to delete?');
         this.botService.delete(this.bot.id)
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["first"])())
             .subscribe(function (data) {
@@ -1297,7 +1319,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2 class=\"text-center\">Bots</h2>\r\n<!-- *ngIf bots, else you have no bots -->\r\n<div class=\"container\">\r\n    <h5 class=\"text-center\" *ngIf=\"!botList || botList.length === 0\">You have no bots right now</h5>\r\n    <div class=\"list-group\" *ngFor=\"let bot of botList\">\r\n      <a [routerLink]=\"['bots', bot.id]\" class=\"list-group-item list-group-item-action text-center\">{{ bot.name }}</a>\r\n    </div>\r\n</div>\r\n<a [routerLink]=\"['/add']\" class=\"btn btn-link\">Add Bot</a>\r\n"
+module.exports = "<h2 class=\"text-center\">Bots</h2>\n<!-- *ngIf bots, else you have no bots -->\n<div class=\"container\">\n    <h5 class=\"text-center\" *ngIf=\"!botList || botList.length === 0\">You have no bots right now</h5>\n    <div class=\"list-group\" *ngFor=\"let bot of botList\">\n      <a [routerLink]=\"['/bots', bot.id]\" class=\"list-group-item list-group-item-action text-center\">{{ bot.name }}</a>\n    </div>\n</div>\n<a [routerLink]=\"['/bots/add']\" class=\"btn btn-link\">Add Bot</a>\n"
 
 /***/ }),
 
@@ -1476,7 +1498,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\r\n    <div class=\"row\">\r\n        <div class=\"col-sm-6 offset-sm-3\">\r\n            ﻿<h2 class=\"text-center\">Login</h2>\r\n            <form [formGroup]=\"loginForm\" (ngSubmit)=\"onSubmit()\">\r\n                <div class=\"form-group\">\r\n                    <label for=\"username\">Username</label>\r\n                    <input type=\"text\" formControlName=\"username\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.username.errors }\" />\r\n                    <div *ngIf=\"submitted && f.username.errors\" class=\"invalid-feedback\">\r\n                        <div *ngIf=\"f.username.errors.required\">Username is required</div>\r\n                    </div>\r\n                </div>\r\n                <div class=\"form-group\">\r\n                    <label for=\"password\">Password</label>\r\n                    <input type=\"password\" formControlName=\"password\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.password.errors }\" />\r\n                    <div *ngIf=\"submitted && f.password.errors\" class=\"invalid-feedback\">\r\n                        <div *ngIf=\"f.password.errors.required\">Password is required</div>\r\n                    </div>\r\n                </div>\r\n                <div class=\"form-group\">\r\n                    <button [disabled]=\"loading\" class=\"btn btn-primary\">Login</button>\r\n                    <img *ngIf=\"loading\" src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />\r\n                    <a [routerLink]=\"['/register']\" class=\"btn btn-link\">Register</a>\r\n                </div>\r\n            </form>\r\n        </div>\r\n    </div>\r\n</div>\r\n"
+module.exports = "<div class=\"container\">\n    <div class=\"row\">\n        <div class=\"col-sm-6 offset-sm-3\">\n            ﻿<h2 class=\"text-center\">Login</h2>\n            <form [formGroup]=\"loginForm\" (ngSubmit)=\"onSubmit()\">\n                <div class=\"form-group\">\n                    <label for=\"username\">Username</label>\n                    <input type=\"text\" formControlName=\"username\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.username.errors }\" />\n                    <div *ngIf=\"submitted && f.username.errors\" class=\"invalid-feedback\">\n                        <div *ngIf=\"f.username.errors.required\">Username is required</div>\n                    </div>\n                </div>\n                <div class=\"form-group\">\n                    <label for=\"password\">Password</label>\n                    <input type=\"password\" formControlName=\"password\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.password.errors }\" />\n                    <div *ngIf=\"submitted && f.password.errors\" class=\"invalid-feedback\">\n                        <div *ngIf=\"f.password.errors.required\">Password is required</div>\n                    </div>\n                </div>\n                <div class=\"form-group\">\n                    <button [disabled]=\"loading\" class=\"btn btn-primary\">Login</button>\n                    <img *ngIf=\"loading\" src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />\n                    <a [routerLink]=\"['/register']\" class=\"btn btn-link\">Register</a>\n                </div>\n            </form>\n        </div>\n    </div>\n</div>\n"
 
 /***/ }),
 
@@ -1591,7 +1613,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- Example taken from bootstrap -->\r\n<div class=\"d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow\">\r\n  <h5 class=\"my-0 mr-md-auto font-weight-normal\">DisBotCito</h5>\r\n  <nav class=\"my-2 my-md-0 mr-md-3\" *ngIf=\"currentUser\">\r\n    <a class=\"p-2 text-dark\" [routerLink]=\"['/login']\">Logout</a>\r\n  </nav>\r\n</div>\r\n"
+module.exports = "<!-- Example taken from bootstrap -->\n<div class=\"d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow\">\n  <h5 class=\"my-0 mr-md-auto font-weight-normal\">DisBotCito</h5>\n  <nav class=\"my-2 my-md-0 mr-md-3\" *ngIf=\"currentUser\">\n    <a class=\"p-2 text-dark\" [routerLink]=\"['/login']\">Logout</a>\n  </nav>\n</div>\n"
 
 /***/ }),
 
@@ -1664,7 +1686,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\r\n    <div class=\"row\">\r\n        <div class=\"col-sm-6 offset-sm-3\">\r\n            ﻿<h2>Register</h2>\r\n            <form [formGroup]=\"registerForm\" (ngSubmit)=\"onSubmit()\">\r\n                <div class=\"form-group\">\r\n                    <label for=\"firstName\">First Name</label>\r\n                    <input type=\"text\" formControlName=\"firstName\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.firstName.errors }\" />\r\n                    <div *ngIf=\"submitted && f.firstName.errors\" class=\"invalid-feedback\">\r\n                        <div *ngIf=\"f.firstName.errors.required\">First Name is required</div>\r\n                    </div>\r\n                </div>\r\n                <div class=\"form-group\">\r\n                    <label for=\"lastName\">Last Name</label>\r\n                    <input type=\"text\" formControlName=\"lastName\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.lastName.errors }\" />\r\n                    <div *ngIf=\"submitted && f.lastName.errors\" class=\"invalid-feedback\">\r\n                        <div *ngIf=\"f.lastName.errors.required\">Last Name is required</div>\r\n                    </div>\r\n                </div>\r\n                <div class=\"form-group\">\r\n                    <label for=\"username\">Username</label>\r\n                    <input type=\"text\" formControlName=\"username\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.username.errors }\" />\r\n                    <div *ngIf=\"submitted && f.username.errors\" class=\"invalid-feedback\">\r\n                        <div *ngIf=\"f.username.errors.required\">Username is required</div>\r\n                    </div>\r\n                </div>\r\n                <div class=\"form-group\">\r\n                    <label for=\"password\">Password</label>\r\n                    <input type=\"password\" formControlName=\"password\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.password.errors }\" />\r\n                    <div *ngIf=\"submitted && f.password.errors\" class=\"invalid-feedback\">\r\n                        <div *ngIf=\"f.password.errors.required\">Password is required</div>\r\n                        <div *ngIf=\"f.password.errors.minlength\">Password must be at least 6 characters</div>\r\n                    </div>\r\n                </div>\r\n                <div class=\"form-group\">\r\n                    <button [disabled]=\"loading\" class=\"btn btn-primary\">Register</button>\r\n                    <img *ngIf=\"loading\" src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />\r\n                    <a [routerLink]=\"['/login']\" class=\"btn btn-link\">Cancel</a>\r\n                </div>\r\n            </form>\r\n        </div>\r\n    </div>\r\n</div>\r\n"
+module.exports = "<div class=\"container\">\n    <div class=\"row\">\n        <div class=\"col-sm-6 offset-sm-3\">\n            ﻿<h2>Register</h2>\n            <form [formGroup]=\"registerForm\" (ngSubmit)=\"onSubmit()\">\n                <div class=\"form-group\">\n                    <label for=\"firstName\">First Name</label>\n                    <input type=\"text\" formControlName=\"firstName\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.firstName.errors }\" />\n                    <div *ngIf=\"submitted && f.firstName.errors\" class=\"invalid-feedback\">\n                        <div *ngIf=\"f.firstName.errors.required\">First Name is required</div>\n                    </div>\n                </div>\n                <div class=\"form-group\">\n                    <label for=\"lastName\">Last Name</label>\n                    <input type=\"text\" formControlName=\"lastName\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.lastName.errors }\" />\n                    <div *ngIf=\"submitted && f.lastName.errors\" class=\"invalid-feedback\">\n                        <div *ngIf=\"f.lastName.errors.required\">Last Name is required</div>\n                    </div>\n                </div>\n                <div class=\"form-group\">\n                    <label for=\"username\">Username</label>\n                    <input type=\"text\" formControlName=\"username\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.username.errors }\" />\n                    <div *ngIf=\"submitted && f.username.errors\" class=\"invalid-feedback\">\n                        <div *ngIf=\"f.username.errors.required\">Username is required</div>\n                    </div>\n                </div>\n                <div class=\"form-group\">\n                    <label for=\"password\">Password</label>\n                    <input type=\"password\" formControlName=\"password\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.password.errors }\" />\n                    <div *ngIf=\"submitted && f.password.errors\" class=\"invalid-feedback\">\n                        <div *ngIf=\"f.password.errors.required\">Password is required</div>\n                        <div *ngIf=\"f.password.errors.minlength\">Password must be at least 6 characters</div>\n                    </div>\n                </div>\n                <div class=\"form-group\">\n                    <button [disabled]=\"loading\" class=\"btn btn-primary\">Register</button>\n                    <img *ngIf=\"loading\" src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />\n                    <a [routerLink]=\"['/login']\" class=\"btn btn-link\">Cancel</a>\n                </div>\n            </form>\n        </div>\n    </div>\n</div>\n"
 
 /***/ }),
 
@@ -1812,7 +1834,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\hi_asdha\vinnnnnnc\cmpt470\final\test\disbotcito\ng-app\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! D:\Documents\School\CMPT 470\disbotcito\ng-app\src\main.ts */"./src/main.ts");
 
 
 /***/ })

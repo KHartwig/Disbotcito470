@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Bot } from "../_models";
@@ -10,8 +10,8 @@ import {first} from "rxjs/internal/operators";
   templateUrl: './bots-details.component.html',
   styleUrls: ['./bots-details.component.css']
 })
-export class BotsDetailsComponent implements OnInit {
-  id: string;
+export class BotsDetailsComponent implements OnInit, OnDestroy {
+  id: number;
   sub: any;
   bot: Bot;
 

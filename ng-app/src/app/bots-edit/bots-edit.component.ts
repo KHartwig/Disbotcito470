@@ -5,16 +5,23 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { Bot } from "../_models";
 
+enum PageAction {
+  Add,
+  Edit
+}
+
 @Component({
   selector: 'app-bots-edit',
   templateUrl: './bots-edit.component.html',
   styleUrls: ['./bots-edit.component.css']
 })
 export class BotsEditComponent implements OnInit {
+
   editBotForm: FormGroup;
   loading = false;
   submitted = false;
-  shouldAdd = true;
+  PAGE_ACTIONS: typeof PageAction = PageAction;
+  pageAction = PageAction.Add;
 
   id: number;
   sub: any;
@@ -30,7 +37,7 @@ export class BotsEditComponent implements OnInit {
   ngOnInit() {
     this.sub = this.activatedRouter.params.subscribe(params => {
       if (params['id']) { //has id, so edit
-        this.shouldAdd = false;
+        this.pageAction = PageAction.Edit;
         this.id = params['id']; // (+) converts string 'id' to a number
         // In a real app: dispatch action to load the details here.
         this.botService.getById(this.id).pipe(first()).subscribe(rcvdBot => {
@@ -38,7 +45,6 @@ export class BotsEditComponent implements OnInit {
           this.editBotForm = this.formBuilder.group({
             name: [`${this.bot.name}`, Validators.required],
             discordToken: [`${this.bot.discordToken}`, Validators.required],
-            status: [this.bot.status ? `${this.bot.status}` : 'Offline'],
             commandPrefix: [`${this.bot.commandPrefix}`, Validators.required]
           });
         });
@@ -46,7 +52,7 @@ export class BotsEditComponent implements OnInit {
         this.editBotForm = this.formBuilder.group({
           name: ['', Validators.required],
           discordToken: ['', Validators.required],
-          status: ['Offline']
+          commandPrefix: ['', Validators.required]
         });
       }
     });
@@ -64,7 +70,7 @@ export class BotsEditComponent implements OnInit {
     }
 
     this.loading = true;
-    if (this.shouldAdd) {
+    if (this.pageAction == PageAction.Add) {
       this.botService.add(this.editBotForm.value)
         .pipe(first())
         .subscribe(
@@ -93,7 +99,6 @@ export class BotsEditComponent implements OnInit {
 
   onDelete() {
     this.loading = true;
-    console.log('Are you sure you want to delete?');
     this.botService.delete(this.bot.id)
       .pipe(first())
       .subscribe(

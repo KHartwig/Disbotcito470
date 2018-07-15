@@ -3,7 +3,7 @@
 <div class="container">
     <h5 class="text-center" *ngIf="!botList || botList.length === 0">You have no bots right now</h5>
     <div class="list-group" *ngFor="let bot of botList">
-      <a [routerLink]="['bots', bot.id]" class="list-group-item list-group-item-action text-center">{{ bot.name }}</a>
+      <a [routerLink]="['/bots', bot.id]" class="list-group-item list-group-item-action text-center">{{ bot.name }}</a>
     </div>
 </div>
 <a [routerLink]="['/bots/add']" class="btn btn-link">Add Bot</a>
