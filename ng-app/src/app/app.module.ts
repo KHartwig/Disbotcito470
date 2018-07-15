@@ -19,7 +19,6 @@ import { NavComponent } from './nav';
 import { LoginComponent } from './login';
 import { RegisterComponent } from './register';
 import { BotsComponent } from './bots/bots.component';
-import { BotsAddComponent } from './bots-add/bots-add.component';
 import { BotsEditComponent } from './bots-edit/bots-edit.component';
 import { BotsDetailsComponent } from './bots-details/bots-details.component';
 
@@ -39,7 +38,6 @@ import { BotsDetailsComponent } from './bots-details/bots-details.component';
         LoginComponent,
         RegisterComponent,
         BotsComponent,
-        BotsAddComponent,
         BotsEditComponent,
         BotsDetailsComponent
     ],

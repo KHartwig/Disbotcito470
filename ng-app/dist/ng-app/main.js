@@ -830,9 +830,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _login__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./login */ "./src/app/login/index.ts");
 /* harmony import */ var _register__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./register */ "./src/app/register/index.ts");
 /* harmony import */ var _bots_bots_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./bots/bots.component */ "./src/app/bots/bots.component.ts");
-/* harmony import */ var _bots_add_bots_add_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./bots-add/bots-add.component */ "./src/app/bots-add/bots-add.component.ts");
-/* harmony import */ var _bots_edit_bots_edit_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./bots-edit/bots-edit.component */ "./src/app/bots-edit/bots-edit.component.ts");
-/* harmony import */ var _bots_details_bots_details_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./bots-details/bots-details.component */ "./src/app/bots-details/bots-details.component.ts");
+/* harmony import */ var _bots_edit_bots_edit_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./bots-edit/bots-edit.component */ "./src/app/bots-edit/bots-edit.component.ts");
+/* harmony import */ var _bots_details_bots_details_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./bots-details/bots-details.component */ "./src/app/bots-details/bots-details.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -846,7 +845,6 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 // used to create fake backend
 // import { fakeBackendProvider } from './_helpers';
-
 
 
 
@@ -880,9 +878,8 @@ var AppModule = /** @class */ (function () {
                 _login__WEBPACK_IMPORTED_MODULE_12__["LoginComponent"],
                 _register__WEBPACK_IMPORTED_MODULE_13__["RegisterComponent"],
                 _bots_bots_component__WEBPACK_IMPORTED_MODULE_14__["BotsComponent"],
-                _bots_add_bots_add_component__WEBPACK_IMPORTED_MODULE_15__["BotsAddComponent"],
-                _bots_edit_bots_edit_component__WEBPACK_IMPORTED_MODULE_16__["BotsEditComponent"],
-                _bots_details_bots_details_component__WEBPACK_IMPORTED_MODULE_17__["BotsDetailsComponent"]
+                _bots_edit_bots_edit_component__WEBPACK_IMPORTED_MODULE_15__["BotsEditComponent"],
+                _bots_details_bots_details_component__WEBPACK_IMPORTED_MODULE_16__["BotsDetailsComponent"]
             ],
             providers: [
                 _guards__WEBPACK_IMPORTED_MODULE_7__["AuthGuard"],
@@ -915,10 +912,10 @@ var AppModule = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "routing", function() { return routing; });
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _login__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./login */ "./src/app/login/index.ts");
-/* harmony import */ var _register__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./register */ "./src/app/register/index.ts");
-/* harmony import */ var _guards__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./_guards */ "./src/app/_guards/index.ts");
-/* harmony import */ var _bots_bots_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./bots/bots.component */ "./src/app/bots/bots.component.ts");
+/* harmony import */ var _home__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./home */ "./src/app/home/index.ts");
+/* harmony import */ var _login__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./login */ "./src/app/login/index.ts");
+/* harmony import */ var _register__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./register */ "./src/app/register/index.ts");
+/* harmony import */ var _guards__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./_guards */ "./src/app/_guards/index.ts");
 /* harmony import */ var _bots_details_bots_details_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./bots-details/bots-details.component */ "./src/app/bots-details/bots-details.component.ts");
 /* harmony import */ var _bots_edit_bots_edit_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./bots-edit/bots-edit.component */ "./src/app/bots-edit/bots-edit.component.ts");
 
@@ -929,9 +926,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var appRoutes = [
-    { path: '', component: _bots_bots_component__WEBPACK_IMPORTED_MODULE_4__["BotsComponent"], canActivate: [_guards__WEBPACK_IMPORTED_MODULE_3__["AuthGuard"]] },
-    { path: 'login', component: _login__WEBPACK_IMPORTED_MODULE_1__["LoginComponent"] },
-    { path: 'register', component: _register__WEBPACK_IMPORTED_MODULE_2__["RegisterComponent"] },
+    { path: '', component: _home__WEBPACK_IMPORTED_MODULE_1__["HomeComponent"], canActivate: [_guards__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]] },
+    { path: 'login', component: _login__WEBPACK_IMPORTED_MODULE_2__["LoginComponent"] },
+    { path: 'register', component: _register__WEBPACK_IMPORTED_MODULE_3__["RegisterComponent"] },
     { path: 'bots/add', component: _bots_edit_bots_edit_component__WEBPACK_IMPORTED_MODULE_6__["BotsEditComponent"] },
     { path: 'bots/:id', component: _bots_details_bots_details_component__WEBPACK_IMPORTED_MODULE_5__["BotsDetailsComponent"] },
     { path: 'bots/edit/:id', component: _bots_edit_bots_edit_component__WEBPACK_IMPORTED_MODULE_6__["BotsEditComponent"] },
@@ -939,118 +936,6 @@ var appRoutes = [
     { path: '**', redirectTo: '' }
 ];
 var routing = _angular_router__WEBPACK_IMPORTED_MODULE_0__["RouterModule"].forRoot(appRoutes);
-
-
-/***/ }),
-
-/***/ "./src/app/bots-add/bots-add.component.css":
-/*!*************************************************!*\
-  !*** ./src/app/bots-add/bots-add.component.css ***!
-  \*************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = ""
-
-/***/ }),
-
-/***/ "./src/app/bots-add/bots-add.component.html":
-/*!**************************************************!*\
-  !*** ./src/app/bots-add/bots-add.component.html ***!
-  \**************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "<h2>Add Bot</h2>\n<form [formGroup]=\"addBotForm\" (ngSubmit)=\"onSubmit()\">\n    <div class=\"form-group\">\n        <label for=\"name\">Name</label>\n        <input type=\"text\" formControlName=\"name\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.name.errors }\" />\n        <div *ngIf=\"submitted && f.name.errors\" class=\"invalid-feedback\">\n            <div *ngIf=\"f.name.errors.required\">Name is required</div>\n        </div>\n    </div>\n    <div class=\"form-group\">\n        <label for=\"commandPrefix\">CommandPrefix</label>\n        <input type=\"text\" formControlName=\"commandPrefix\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.commandPrefix.errors }\" />\n        <div *ngIf=\"submitted && f.commandPrefix.errors\" class=\"invalid-feedback\">\n            <div *ngIf=\"f.commandPrefix.errors.required\">commandPrefix is required</div>\n        </div>\n    </div>\n\n    <div class=\"form-group\">\n        <button [disabled]=\"loading\" class=\"btn btn-primary\">Add</button>\n        <img *ngIf=\"loading\" src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />\n        <a [routerLink]=\"['/']\" class=\"btn btn-link\">Cancel</a>\n    </div>\n</form>\n"
-
-/***/ }),
-
-/***/ "./src/app/bots-add/bots-add.component.ts":
-/*!************************************************!*\
-  !*** ./src/app/bots-add/bots-add.component.ts ***!
-  \************************************************/
-/*! exports provided: BotsAddComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BotsAddComponent", function() { return BotsAddComponent; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_services */ "./src/app/_services/index.ts");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (undefined && undefined.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-var BotsAddComponent = /** @class */ (function () {
-    function BotsAddComponent(formBuilder, router, botService, alertService) {
-        this.formBuilder = formBuilder;
-        this.router = router;
-        this.botService = botService;
-        this.alertService = alertService;
-        this.loading = false;
-        this.submitted = false;
-    }
-    BotsAddComponent.prototype.ngOnInit = function () {
-        this.addBotForm = this.formBuilder.group({
-            name: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required],
-            commandPrefix: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required]
-            // ,
-            // email: ['', Validators.email],
-            // phone: ['', Validators.pattern('^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}$')],
-            // notes: ['']
-        });
-    };
-    Object.defineProperty(BotsAddComponent.prototype, "f", {
-        // convenience getter for easy access to form fields
-        get: function () { return this.addBotForm.controls; },
-        enumerable: true,
-        configurable: true
-    });
-    BotsAddComponent.prototype.onSubmit = function () {
-        var _this = this;
-        this.submitted = true;
-        // stop here if form is invalid
-        if (this.addBotForm.invalid) {
-            return;
-        }
-        this.loading = true;
-        this.botService.add(this.addBotForm.value)
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["first"])())
-            .subscribe(function (data) {
-            _this.alertService.success('Bot added successfully', true);
-            _this.router.navigate(['/']);
-        }, function (error) {
-            _this.alertService.error(error);
-            _this.loading = false;
-        });
-    };
-    BotsAddComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
-            selector: 'app-bots-add',
-            template: __webpack_require__(/*! ./bots-add.component.html */ "./src/app/bots-add/bots-add.component.html"),
-            styles: [__webpack_require__(/*! ./bots-add.component.css */ "./src/app/bots-add/bots-add.component.css")]
-        }),
-        __metadata("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormBuilder"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
-            _services__WEBPACK_IMPORTED_MODULE_1__["BotService"],
-            _services__WEBPACK_IMPORTED_MODULE_1__["AlertService"]])
-    ], BotsAddComponent);
-    return BotsAddComponent;
-}());
-
 
 
 /***/ }),
@@ -1384,7 +1269,7 @@ var BotsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "<app-bots></app-bots>\r\n"
 
 /***/ }),
 
@@ -1422,26 +1307,9 @@ var HomeComponent = /** @class */ (function () {
         this.data = data;
         this.formBuilder = formBuilder;
         this.alertService = alertService;
-        this.users = [];
-        this.selectedCat = '';
-        // this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
         this.data.currentUser.subscribe(function (user) { return _this.currentUser = user; });
     }
     HomeComponent.prototype.ngOnInit = function () {
-        // this.itemForm = this.formBuilder.group({
-        //     itemname: ['', Validators.required],
-        //     category: ['', Validators.required],
-        //     ownerId: ['', Validators.required],
-        //     quantity: ['', Validators.required]
-        // });
-        // this.itemService.getAll()
-        //   .subscribe(items => {
-        //     //assign the itemlist property to the proper http response
-        //     this.itemsList = items
-        //     })
-        //
-        // this.loadAllUsers();
-        // this.loadAllItems();
     };
     HomeComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({ template: __webpack_require__(/*! ./home.component.html */ "./src/app/home/home.component.html") }),
