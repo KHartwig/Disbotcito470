@@ -1,0 +1,16 @@
+<div class="container" *ngIf="bot">
+  <h3>{{bot.name}}</h3>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm">
+        <strong>CommandPrefix:</strong>
+      </div>
+      <div class="col-sm">
+        {{bot.commandPrefix}}
+      </div>
+    </div>
+
+  </div>
+  <a [routerLink]="['/']" class="btn btn-link">Back</a>
+  <a [routerLink]="['/bots/edit', bot.id ]" class="btn btn-link">Edit</a>
+</div>

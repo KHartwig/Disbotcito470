@@ -22,6 +22,14 @@
     </div>
     <div class="form-group">
       <button [disabled]="loading" class="btn btn-primary">
+        <label for="commandPrefix">CommandPrefix</label>
+        <input type="text" formControlName="commandPrefix" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.commandPrefix.errors }" />
+        <div *ngIf="submitted && f.commandPrefix.errors" class="invalid-feedback">
+          <div *ngIf="f.commandPrefix.errors.required">CommandPrefix is required</div>
+        </div>
+    </div>
+    <div class="form-group">
+      <button [disabled]="loading" class="btn btn-primary">
         <div *ngIf="shouldAdd">Add</div>
         <div *ngIf="!shouldAdd">Edit</div>
       </button>

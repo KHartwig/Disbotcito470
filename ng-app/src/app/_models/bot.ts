@@ -4,6 +4,7 @@ export class Bot {
   discordToken: string;
   status: string;
   OwnerId: number;
+  commandPrefix: string;
   createdAt: Date;
   updatedAt: Date;
 }

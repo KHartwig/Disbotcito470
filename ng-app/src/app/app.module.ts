@@ -19,9 +19,9 @@ import { NavComponent } from './nav';
 import { LoginComponent } from './login';
 import { RegisterComponent } from './register';
 import { BotsComponent } from './bots/bots.component';
-import { ContactsAddComponent } from './contacts-add/contacts-add.component';
+import { BotsAddComponent } from './bots-add/bots-add.component';
 import { BotsEditComponent } from './bots-edit/bots-edit.component';
-import { ContactsDetailsComponent } from './contacts-details/contacts-details.component';
+import { BotsDetailsComponent } from './bots-details/bots-details.component';
 
 @NgModule({
     imports: [
@@ -39,9 +39,9 @@ import { ContactsDetailsComponent } from './contacts-details/contacts-details.co
         LoginComponent,
         RegisterComponent,
         BotsComponent,
-        ContactsAddComponent,
+        BotsAddComponent,
         BotsEditComponent,
-        ContactsDetailsComponent
+        BotsDetailsComponent
     ],
     providers: [
         AuthGuard,

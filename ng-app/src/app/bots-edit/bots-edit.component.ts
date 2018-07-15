@@ -38,7 +38,8 @@ export class BotsEditComponent implements OnInit {
           this.editBotForm = this.formBuilder.group({
             name: [`${this.bot.name}`, Validators.required],
             discordToken: [`${this.bot.discordToken}`, Validators.required],
-            status: [this.bot.status ? `${this.bot.status}` : 'Offline']
+            status: [this.bot.status ? `${this.bot.status}` : 'Offline'],
+            commandPrefix: [`${this.bot.commandPrefix}`, Validators.required]
           });
         });
       } else {
