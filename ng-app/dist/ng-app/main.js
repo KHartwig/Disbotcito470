@@ -1613,7 +1613,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- Example taken from bootstrap -->\n<div class=\"d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow\">\n  <h5 class=\"my-0 mr-md-auto font-weight-normal\">DisBotCito</h5>\n  <nav class=\"my-2 my-md-0 mr-md-3\" *ngIf=\"currentUser\">\n    <a class=\"p-2 text-dark\" [routerLink]=\"['/login']\">Logout</a>\n  </nav>\n</div>\n"
+module.exports = "<!-- Example taken from bootstrap -->\n<div class=\"d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow\">\n  <h5 class=\"my-0 mr-md-auto font-weight-normal\" [routerLink]=\"['/']\">DisBotCito</h5>\n  <nav class=\"my-2 my-md-0 mr-md-3\" *ngIf=\"currentUser\">\n    <a class=\"p-2 text-dark\" [routerLink]=\"['/login']\">Logout</a>\n  </nav>\n</div>\n"
 
 /***/ }),
 
