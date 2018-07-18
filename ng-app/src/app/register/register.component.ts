@@ -11,6 +11,13 @@ export class RegisterComponent implements OnInit {
     loading = false;
     submitted = false;
 
+    /*Class for email validator trial
+    class EmailValidator implements Validator {
+      set email: boolean | string
+      validate(c: AbstractControl): ValidationErrors | null
+      registerOnValidatorChange(fn: () => void): void
+    }*/
+
     constructor(
         private formBuilder: FormBuilder,
         private router: Router,
@@ -19,8 +26,7 @@ export class RegisterComponent implements OnInit {
 
     ngOnInit() {
         this.registerForm = this.formBuilder.group({
-            firstName: ['', Validators.required],
-            lastName: ['', Validators.required],
+            email: ['', Validators.required]
             username: ['', Validators.required],
             password: ['', [Validators.required, Validators.minLength(6)]]
         });
