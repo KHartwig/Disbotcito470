@@ -11,7 +11,7 @@ module.exports = {
       },
       {
           id:2,
-          name: 'time',
+          name: 'slots',
           BotId: 1,
           createdAt: new Date(),
           updatedAt: new Date()
@@ -46,7 +46,7 @@ module.exports = {
       },
       {
           id:7,
-          name: 'slots',
+          name: 'time',
           BotId: 4,
           createdAt: new Date(),
           updatedAt: new Date()
