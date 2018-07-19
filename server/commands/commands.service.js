@@ -2,6 +2,13 @@ const db = require('_infra/db/models/index');
 const User = db.User;
 const Bot = db.Bot;
 const Command = db.Command;
+const Action = db.Action;
+
+const optActions = {
+                include: [{
+                        model: Action
+                    }]
+            };
 
 module.exports = {
     getAll,
@@ -17,7 +24,7 @@ async function getAll() {
 }
 
 async function getAllByBot(bot) {
-    const commands = await bot.getCommands();
+    const commands = await bot.getCommands(optActions);
     return commands;
 }
 
@@ -25,7 +32,7 @@ async function getById(bot, comId){
     // Check for valid Id
     if (isNaN(comId)) return null;
 
-    const options = {where:{id:comId}};
+    const options = {where:{id:comId}, include: optActions.include};
     const commands = await bot.getCommands(options);
 
     // Return the only command in the array if it exists (should only be one)
