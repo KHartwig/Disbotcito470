@@ -32,6 +32,7 @@ async function getAll() {
 }
 
 async function getById(id) {
+    if (isNaN(id)) return null;
     return await User.findById(id, {
         attributes: ['id', 'username', 'email']
     });

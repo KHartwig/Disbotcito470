@@ -27,7 +27,7 @@ async function getAll(includeCommands) {
     return await Bot.findAll(options);
 }
 
-async function getById(botId, userId, includeCommands) {
+async function getById(user, botId, includeCommands) {
     // Check for valid Id
     if (isNaN(botId)) return null;
 
@@ -36,23 +36,19 @@ async function getById(botId, userId, includeCommands) {
     }
 
     // Get the session user and find the bot by its id
-    const user = await getSessionUser(userId);
     const bots = await user.getBots(options);
 
     // Return the only bot in the array if it exists (should only be one)
     return bots ? bots[0] : null;
 }
 
-async function getAllByUser(userId, includeCommands) {
+async function getAllByUser(user, includeCommands) {
     const options = includeCommands == 'true' ? optCommands : {};
-    const user = await getSessionUser(userId);
     const bots = await user.getBots(options);
     return bots;
 }
 
-async function create(botParam, userId) {
-    const user = await getSessionUser(userId);
-
+async function create(user, botParam) {
     // Create bot and set its Owner to the session user
     const bot = await Bot.create(botParam);
     await bot.setOwner(user);
@@ -63,8 +59,6 @@ async function create(botParam, userId) {
 }
 
 async function update(bot, botParam) {
-    // const bot = await getBotIfExists(botId, userId);
-
     // Defined in the models/bot.js, only sets 'writable' fields in db
     bot.writableFields = botParam;
     await bot.save();
@@ -72,24 +66,6 @@ async function update(bot, botParam) {
 }
 
 async function _delete(bot) {
-    // Find the bot
-    // const bot = await getBotIfExists(botId, userId);
-
     // Delete the bot
     await Bot.destroy({where: {id: bot.get('id')}});
 }
-
-// Finds ther user specified (intended to be session user)
-async function getSessionUser(userId) {
-    const user = await User.findById(userId);
-    if (!user) throw 'Session user does not exist';
-    return user;
-}
-
-// Use this method if we want to throw an error (not '404')
-//      when the bot cannot be found
-// async function getBotIfExists(botId, userId) {
-//     const bot = await getById(botId, userId);
-//     if (!bot) throw 'Bot does not exist';
-//     return bot;
-// }
