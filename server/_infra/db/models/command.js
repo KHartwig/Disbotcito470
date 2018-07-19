@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
               allowNull: true
           }
       });
-      models.Command.hasMany(models.Action, {as: 'Actions'});
+      models.Command.hasMany(models.Action);
   };
   return Command;
 };

@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true
         }
     });
-    models.Bot.hasMany(models.Command, {as: 'Commands'});
+    models.Bot.hasMany(models.Command);
   };
   return Bot;
 };
