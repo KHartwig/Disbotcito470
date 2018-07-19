@@ -1,17 +1,14 @@
-﻿const express = require('express');
-const router = express.Router();
 const userService = require('./users.service');
 
-// routes
-router.post('/authenticate', authenticate);
-router.post('/register', register);
-router.get('/', getAll);
-router.get('/:id', getById);
-router.get('/current', getCurrent);
-router.put('/:id', update);
-router.delete('/:id', _delete);
-
-module.exports = router;
+module.exports = {
+    authenticate,
+    register,
+    getById,
+    getAll,
+    getCurrent,
+    update,
+    delete: _delete
+};
 
 function authenticate(req, res, next) {
     userService.authenticate(req.body)
