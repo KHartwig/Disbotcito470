@@ -21,7 +21,8 @@ app.use('/api', jwt());
 
 // Route needs token
 app.use('/api/users', require('./users/users.controller'));
-app.use('/api/bots', require('./bots/bots.controller'));
+app.use('/api/bots', require('./bots/bots.router'));
+// app.use('/api/commands', require('./commands/commands.controller'));
 
 // Routes without token
 // app.use('/api-pub/contacts', require('./contacts/contacts.controller'));
@@ -40,13 +41,13 @@ models.sequelize.sync().then(function() {
 });
 
 // ___ Application Serve Server ____
-var distPath = path.join(__dirname, '../ng-app/dist/ng-app');
-appServe.use(express.static(distPath));
-appServe.get('*', function (req, res) {
-    res.sendFile(distPath + '/index.html');
-});
-
-const portServe = config.development.portServe;
-const serverAppServe = appServe.listen(portServe, function(){
-    console.log('Serving application on port ' + portServe);
-});
+// var distPath = path.join(__dirname, '../ng-app/dist/ng-app');
+// appServe.use(express.static(distPath));
+// appServe.get('*', function (req, res) {
+//     res.sendFile(distPath + '/index.html');
+// });
+//
+// const portServe = config.development.portServe;
+// const serverAppServe = appServe.listen(portServe, function(){
+//     console.log('Serving application on port ' + portServe);
+// });

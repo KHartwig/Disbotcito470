@@ -1,6 +1,17 @@
 const db = require('_infra/db/models/index');
 const User = db.User;
 const Bot = db.Bot;
+const Command = db.Command;
+const Action = db.Action;
+
+const optCommands = {
+        include: [{
+                model: Command,
+                include: [{
+                        model: Action
+                    }]
+            }]
+    };
 
 module.exports = {
     getAll,
@@ -11,25 +22,31 @@ module.exports = {
     delete: _delete
 };
 
-async function getAll() {
-    return await Bot.findAll();
+async function getAll(includeCommands) {
+    const options = includeCommands ? optCommands : {};
+    return await Bot.findAll(options);
 }
 
-async function getById(botId, userId) {
+async function getById(botId, userId, includeCommands) {
     // Check for valid Id
     if (isNaN(botId)) return null;
 
+    const options = { where:{id:botId},
+                        include: includeCommands == 'true' ? optCommands.include : null
+    }
+
     // Get the session user and find the bot by its id
     const user = await getSessionUser(userId);
-    const bots = await user.getBots({where:{id:botId}});
+    const bots = await user.getBots(options);
 
     // Return the only bot in the array if it exists (should only be one)
     return bots ? bots[0] : null;
 }
 
-async function getAllByUser(userId) {
+async function getAllByUser(userId, includeCommands) {
+    const options = includeCommands == 'true' ? optCommands : {};
     const user = await getSessionUser(userId);
-    const bots = await user.getBots();
+    const bots = await user.getBots(options);
     return bots;
 }
 
@@ -45,8 +62,8 @@ async function create(botParam, userId) {
     return bot;
 }
 
-async function update(botId, botParam, userId) {
-    const bot = await getBotIfExists(botId, userId);
+async function update(bot, botParam) {
+    // const bot = await getBotIfExists(botId, userId);
 
     // Defined in the models/bot.js, only sets 'writable' fields in db
     bot.writableFields = botParam;
@@ -54,9 +71,9 @@ async function update(botId, botParam, userId) {
     return bot;
 }
 
-async function _delete(botId, userId) {
+async function _delete(bot) {
     // Find the bot
-    const bot = await getBotIfExists(botId, userId);
+    // const bot = await getBotIfExists(botId, userId);
 
     // Delete the bot
     await Bot.destroy({where: {id: bot.get('id')}});
@@ -71,8 +88,8 @@ async function getSessionUser(userId) {
 
 // Use this method if we want to throw an error (not '404')
 //      when the bot cannot be found
-async function getBotIfExists(botId, userId) {
-    const bot = await getById(botId, userId);
-    if (!bot) throw 'Bot does not exist';
-    return bot;
-}
+// async function getBotIfExists(botId, userId) {
+//     const bot = await getById(botId, userId);
+//     if (!bot) throw 'Bot does not exist';
+//     return bot;
+// }
