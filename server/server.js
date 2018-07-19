@@ -20,7 +20,7 @@ app.use(cors());
 app.use('/api', jwt());
 
 // Route needs token
-app.use('/api/users', require('./users/users.controller'));
+app.use('/api/users', require('./users/users.router'));
 app.use('/api/bots', require('./bots/bots.router'));
 // app.use('/api/commands', require('./commands/commands.controller'));
 
