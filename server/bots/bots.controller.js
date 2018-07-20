@@ -1,5 +1,6 @@
 const botService = require('./bots.service');
 
+<<<<<<< HEAD
 module.exports = {
     attachBot,
     add,
@@ -22,6 +23,18 @@ function attachBot(req, res, next){
         })
         .catch(err => next(err));
 }
+=======
+// routes
+router.post('/add', add);
+router.get('/', getAllByUser);
+router.get('/:id', getById);
+router.put('/:id', update);
+router.delete('/:id', _delete);
+router.put('/:id/start', toggleStatus);
+router.put('/:id/stop', toggleStatus);
+
+module.exports = router;
+>>>>>>> 5ce65ded29bf764ceb238b7c9ddc8b8a81f92396
 
 function add(req, res, next) {
     botService.create(req.sessionUser, req.body)
@@ -55,5 +68,11 @@ function update(req, res, next) {
 function _delete(req, res, next) {
     botService.delete(req.bot)
         .then(() => res.json({}))
+        .catch(err => next(err));
+}
+
+function toggleStatus(req, res, next) {
+    botService.toggleStatus(req.params.id, req.user.sub)
+        .then((bot) => res.json(bot))
         .catch(err => next(err));
 }

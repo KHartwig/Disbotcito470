@@ -19,7 +19,8 @@ module.exports = {
     getById,
     create,
     update,
-    delete: _delete
+    delete: _delete,
+    toggleStatus
 };
 
 async function getAll(includeCommands) {
@@ -69,3 +70,39 @@ async function _delete(bot) {
     // Delete the bot
     await Bot.destroy({where: {id: bot.get('id')}});
 }
+<<<<<<< HEAD
+=======
+
+// Finds ther user specified (intended to be session user)
+async function getSessionUser(userId) {
+    const user = await User.findById(userId);
+    if (!user) throw 'Session user does not exist';
+    return user;
+}
+
+// Use this method if we want to throw an error (not '404')
+//      when the bot cannot be found
+async function getBotIfExists(botId, userId) {
+    const bot = await getById(botId, userId);
+    if (!bot) throw 'Bot does not exist';
+    return bot;
+}
+
+// Toggle status of bot between ONLINE and OFFLINE
+async function toggleStatus(botId, userId) {
+    const bot = await getBotIfExists(botId, userId);
+    var currStatus = bot.status;
+    if (!currStatus) throw 'Bot has a null status';
+
+    if (currStatus === 'OFFLINE') {
+        currStatus = 'ONLINE';
+    }
+    else {
+        currStatus = 'OFFLINE';
+    }
+    bot.status = currStatus;
+    await bot.save();
+
+    return bot;
+}
+>>>>>>> 5ce65ded29bf764ceb238b7c9ddc8b8a81f92396

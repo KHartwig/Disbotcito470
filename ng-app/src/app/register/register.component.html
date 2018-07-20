@@ -28,7 +28,8 @@
                 </div><!-- Password end here-->
                 <div class="form-group">
                     <button [disabled]="loading" class="btn btn-primary">Register</button>
-                    <img *ngIf="loading" src="https://cdn.dribbble.com/users/267/screenshots/1927432/loading.gif"/>
+                    <img *ngIf="loading" src="loading.gif"/>
+                    <a [routerLink]="['/forgetpw']" class="btn btn-link">Forget password</a>
                     <a [routerLink]="['/login']" class="btn btn-link">Cancel</a>
                 </div>
             </form><!-- Form end here-->
