@@ -8,7 +8,8 @@ module.exports = {
     getById,
     create,
     update,
-    delete: _delete
+    delete: _delete,
+    toggleStatus
 };
 
 async function getAll() {
@@ -74,5 +75,23 @@ async function getSessionUser(userId) {
 async function getBotIfExists(botId, userId) {
     const bot = await getById(botId, userId);
     if (!bot) throw 'Bot does not exist';
+    return bot;
+}
+
+// Toggle status of bot between ONLINE and OFFLINE
+async function toggleStatus(botId, userId) {
+    const bot = await getBotIfExists(botId, userId);
+    var currStatus = bot.status;
+    if (!currStatus) throw 'Bot has a null status';
+
+    if (currStatus === 'OFFLINE') {
+        currStatus = 'ONLINE';
+    }
+    else {
+        currStatus = 'OFFLINE';
+    }
+    bot.status = currStatus;
+    await bot.save();
+
     return bot;
 }

@@ -8,6 +8,8 @@ router.get('/', getAllByUser);
 router.get('/:id', getById);
 router.put('/:id', update);
 router.delete('/:id', _delete);
+router.put('/:id/start', toggleStatus);
+router.put('/:id/stop', toggleStatus);
 
 module.exports = router;
 
@@ -44,5 +46,11 @@ function update(req, res, next) {
 function _delete(req, res, next) {
     botService.delete(req.params.id, req.user.sub)
         .then(() => res.json({}))
+        .catch(err => next(err));
+}
+
+function toggleStatus(req, res, next) {
+    botService.toggleStatus(req.params.id, req.user.sub)
+        .then((bot) => res.json(bot))
         .catch(err => next(err));
 }
