@@ -6,7 +6,8 @@ const Action = db.Action;
 
 const optActions = {
                 include: [{
-                        model: Action
+                        model: Action,
+                        attributes: ['id', 'type', 'parameters']                        
                     }]
             };
 

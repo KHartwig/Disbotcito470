@@ -4,7 +4,7 @@ const botsController = require('./bots.controller');
 const usersController = require('../users/users.controller');
 const commandsRouter = require('../commands/commands.router');
 
-// Middleware
+// Middleware for user
 router.use('/', usersController.attachSessionUser); // Attaches req.sessionUser
 
 // Routes

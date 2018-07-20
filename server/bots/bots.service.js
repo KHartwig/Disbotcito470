@@ -8,7 +8,8 @@ const optCommands = {
         include: [{
                 model: Command,
                 include: [{
-                        model: Action
+                        model: Action,
+                        attributes: ['id', 'type', 'parameters']                        
                     }]
             }]
     };
@@ -70,8 +71,6 @@ async function _delete(bot) {
     // Delete the bot
     await Bot.destroy({where: {id: bot.get('id')}});
 }
-<<<<<<< HEAD
-=======
 
 // Finds ther user specified (intended to be session user)
 async function getSessionUser(userId) {
@@ -105,4 +104,3 @@ async function toggleStatus(botId, userId) {
 
     return bot;
 }
->>>>>>> 5ce65ded29bf764ceb238b7c9ddc8b8a81f92396

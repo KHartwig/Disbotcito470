@@ -1,6 +1,5 @@
 const botService = require('./bots.service');
 
-<<<<<<< HEAD
 module.exports = {
     attachBot,
     add,
@@ -23,18 +22,6 @@ function attachBot(req, res, next){
         })
         .catch(err => next(err));
 }
-=======
-// routes
-router.post('/add', add);
-router.get('/', getAllByUser);
-router.get('/:id', getById);
-router.put('/:id', update);
-router.delete('/:id', _delete);
-router.put('/:id/start', toggleStatus);
-router.put('/:id/stop', toggleStatus);
-
-module.exports = router;
->>>>>>> 5ce65ded29bf764ceb238b7c9ddc8b8a81f92396
 
 function add(req, res, next) {
     botService.create(req.sessionUser, req.body)
