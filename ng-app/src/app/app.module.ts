@@ -20,7 +20,9 @@ import { LoginComponent } from './login';
 import { RegisterComponent } from './register';
 import { BotsComponent } from './bots/bots.component';
 import { BotsEditComponent } from './bots-edit/bots-edit.component';
-import { BotsDetailsComponent } from './bots-details/bots-details.component';
+import { BotsDetailsComponent } from './bots-details/bots-details.component';;
+import { CommandsComponent } from './commands/commands.component'
+import { CommandService } from "./_services/command.service";
 
 @NgModule({
     imports: [
@@ -39,7 +41,8 @@ import { BotsDetailsComponent } from './bots-details/bots-details.component';
         RegisterComponent,
         BotsComponent,
         BotsEditComponent,
-        BotsDetailsComponent
+        BotsDetailsComponent,
+        CommandsComponent
     ],
     providers: [
         AuthGuard,
@@ -48,6 +51,7 @@ import { BotsDetailsComponent } from './bots-details/bots-details.component';
         DataService,
         UserService,
         BotService,
+        CommandService,
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 
