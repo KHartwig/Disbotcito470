@@ -439,6 +439,174 @@ var JwtInterceptor = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/_models/action.ts":
+/*!***********************************!*\
+  !*** ./src/app/_models/action.ts ***!
+  \***********************************/
+/*! exports provided: Action */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Action", function() { return Action; });
+var Action = /** @class */ (function () {
+    function Action() {
+    }
+    return Action;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/_models/bot.ts":
+/*!********************************!*\
+  !*** ./src/app/_models/bot.ts ***!
+  \********************************/
+/*! exports provided: Bot */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Bot", function() { return Bot; });
+var Bot = /** @class */ (function () {
+    function Bot() {
+    }
+    return Bot;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/_models/command.ts":
+/*!************************************!*\
+  !*** ./src/app/_models/command.ts ***!
+  \************************************/
+/*! exports provided: Command */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Command", function() { return Command; });
+var Command = /** @class */ (function () {
+    function Command() {
+    }
+    return Command;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/_models/index.ts":
+/*!**********************************!*\
+  !*** ./src/app/_models/index.ts ***!
+  \**********************************/
+/*! exports provided: User, Bot, Command, Action */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./user */ "./src/app/_models/user.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "User", function() { return _user__WEBPACK_IMPORTED_MODULE_0__["User"]; });
+
+/* harmony import */ var _bot__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./bot */ "./src/app/_models/bot.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Bot", function() { return _bot__WEBPACK_IMPORTED_MODULE_1__["Bot"]; });
+
+/* harmony import */ var _command__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./command */ "./src/app/_models/command.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Command", function() { return _command__WEBPACK_IMPORTED_MODULE_2__["Command"]; });
+
+/* harmony import */ var _action__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./action */ "./src/app/_models/action.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Action", function() { return _action__WEBPACK_IMPORTED_MODULE_3__["Action"]; });
+
+
+
+
+
+
+
+/***/ }),
+
+/***/ "./src/app/_models/user.ts":
+/*!*********************************!*\
+  !*** ./src/app/_models/user.ts ***!
+  \*********************************/
+/*! exports provided: User */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "User", function() { return User; });
+var User = /** @class */ (function () {
+    function User() {
+    }
+    return User;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/_services/action.service.ts":
+/*!*********************************************!*\
+  !*** ./src/app/_services/action.service.ts ***!
+  \*********************************************/
+/*! exports provided: ActionService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ActionService", function() { return ActionService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var ActionService = /** @class */ (function () {
+    function ActionService(http) {
+        this.http = http;
+        this.apiUrl = 'http://localhost:4000/api';
+        this.actionUrl = '';
+    }
+    ActionService.prototype.setIds = function (botId, commandId) {
+        this.actionUrl = this.apiUrl + '/bots/' + botId + '/commands/' + commandId + '/actions';
+        //console.log("ActionURL: " + this.actionUrl);
+    };
+    ActionService.prototype.getAll = function () {
+        return this.http.get("" + this.actionUrl);
+    };
+    ActionService.prototype.getById = function (id) {
+        return this.http.get(this.actionUrl + "/" + id);
+    };
+    ActionService.prototype.add = function (action) {
+        return this.http.post(this.actionUrl + "/add", action);
+    };
+    ActionService.prototype.update = function (action, id) {
+        return this.http.put(this.actionUrl + "/" + id, action);
+    };
+    ActionService.prototype.delete = function (id) {
+        return this.http.delete(this.actionUrl + "/" + id);
+    };
+    ActionService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+    ], ActionService);
+    return ActionService;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/_services/alert.service.ts":
 /*!********************************************!*\
   !*** ./src/app/_services/alert.service.ts ***!
@@ -610,6 +778,12 @@ var BotService = /** @class */ (function () {
     BotService.prototype.update = function (bot, id) {
         return this.http.put(this.botUrl + "/" + id, bot);
     };
+    BotService.prototype.start = function (id) {
+        return this.http.put(this.apiUrl + '/bots/' + id + "/start", "");
+    };
+    BotService.prototype.stop = function (id) {
+        return this.http.put(this.apiUrl + '/bots/' + id + "/stop", "");
+    };
     BotService.prototype.delete = function (id) {
         return this.http.delete(this.botUrl + "/" + id);
     };
@@ -618,6 +792,64 @@ var BotService = /** @class */ (function () {
         __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
     ], BotService);
     return BotService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/_services/command.service.ts":
+/*!**********************************************!*\
+  !*** ./src/app/_services/command.service.ts ***!
+  \**********************************************/
+/*! exports provided: CommandService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CommandService", function() { return CommandService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var CommandService = /** @class */ (function () {
+    function CommandService(http) {
+        this.http = http;
+        this.apiUrl = 'http://localhost:4000/api';
+        this.commandUrl = '';
+    }
+    CommandService.prototype.setBotId = function (botId) {
+        this.commandUrl = this.apiUrl + '/bots/' + botId + '/commands';
+    };
+    CommandService.prototype.getAll = function () {
+        return this.http.get("" + this.commandUrl);
+    };
+    CommandService.prototype.getById = function (id) {
+        return this.http.get(this.commandUrl + "/" + id);
+    };
+    CommandService.prototype.add = function (cmd) {
+        return this.http.post(this.commandUrl + "/add", cmd);
+    };
+    CommandService.prototype.update = function (cmd, id) {
+        return this.http.put(this.commandUrl + "/" + id, cmd);
+    };
+    CommandService.prototype.delete = function (id) {
+        return this.http.delete(this.commandUrl + "/" + id);
+    };
+    CommandService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+    ], CommandService);
+    return CommandService;
 }());
 
 
@@ -676,7 +908,7 @@ var DataService = /** @class */ (function () {
 /*!************************************!*\
   !*** ./src/app/_services/index.ts ***!
   \************************************/
-/*! exports provided: AlertService, DataService, AuthenticationService, UserService, BotService */
+/*! exports provided: AlertService, DataService, AuthenticationService, UserService, BotService, ActionService */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -695,6 +927,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony import */ var _bot_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./bot.service */ "./src/app/_services/bot.service.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "BotService", function() { return _bot_service__WEBPACK_IMPORTED_MODULE_4__["BotService"]; });
+
+/* harmony import */ var _action_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./action.service */ "./src/app/_services/action.service.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ActionService", function() { return _action_service__WEBPACK_IMPORTED_MODULE_5__["ActionService"]; });
+
 
 
 
@@ -832,6 +1068,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _bots_bots_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./bots/bots.component */ "./src/app/bots/bots.component.ts");
 /* harmony import */ var _bots_edit_bots_edit_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./bots-edit/bots-edit.component */ "./src/app/bots-edit/bots-edit.component.ts");
 /* harmony import */ var _bots_details_bots_details_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./bots-details/bots-details.component */ "./src/app/bots-details/bots-details.component.ts");
+/* harmony import */ var _command_list_command_list_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./command-list/command-list.component */ "./src/app/command-list/command-list.component.ts");
+/* harmony import */ var _services_command_service__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./_services/command.service */ "./src/app/_services/command.service.ts");
+/* harmony import */ var _command_command_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./command/command.component */ "./src/app/command/command.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -858,6 +1097,11 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+;
+
+
+;
+
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -879,7 +1123,9 @@ var AppModule = /** @class */ (function () {
                 _register__WEBPACK_IMPORTED_MODULE_13__["RegisterComponent"],
                 _bots_bots_component__WEBPACK_IMPORTED_MODULE_14__["BotsComponent"],
                 _bots_edit_bots_edit_component__WEBPACK_IMPORTED_MODULE_15__["BotsEditComponent"],
-                _bots_details_bots_details_component__WEBPACK_IMPORTED_MODULE_16__["BotsDetailsComponent"]
+                _bots_details_bots_details_component__WEBPACK_IMPORTED_MODULE_16__["BotsDetailsComponent"],
+                _command_list_command_list_component__WEBPACK_IMPORTED_MODULE_17__["CommandListComponent"],
+                _command_command_component__WEBPACK_IMPORTED_MODULE_19__["CommandComponent"]
             ],
             providers: [
                 _guards__WEBPACK_IMPORTED_MODULE_7__["AuthGuard"],
@@ -888,6 +1134,8 @@ var AppModule = /** @class */ (function () {
                 _services__WEBPACK_IMPORTED_MODULE_9__["DataService"],
                 _services__WEBPACK_IMPORTED_MODULE_9__["UserService"],
                 _services__WEBPACK_IMPORTED_MODULE_9__["BotService"],
+                _services_command_service__WEBPACK_IMPORTED_MODULE_18__["CommandService"],
+                _services__WEBPACK_IMPORTED_MODULE_9__["ActionService"],
                 { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HTTP_INTERCEPTORS"], useClass: _helpers__WEBPACK_IMPORTED_MODULE_8__["JwtInterceptor"], multi: true },
                 { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HTTP_INTERCEPTORS"], useClass: _helpers__WEBPACK_IMPORTED_MODULE_8__["ErrorInterceptor"], multi: true },
             ],
@@ -958,7 +1206,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\" *ngIf=\"bot\">\n  <h3>{{bot.name}}</h3>\n  <div class=\"container\">\n    <div class=\"row\">\n      <div class=\"col-sm\">\n        <strong>Discord Token:</strong>\n      </div>\n      <div class=\"col-sm\">\n        {{bot.discordToken}}\n      </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-sm\">\n        <strong>Status:</strong>\n      </div>\n      <div class=\"col-sm\">\n        {{bot.status}}\n      </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-sm\">\n        <strong>Command Prefix:</strong>\n      </div>\n      <div class=\"col-sm\">\n        {{bot.commandPrefix}}\n      </div>\n    </div>\n  </div>\n  <a [routerLink]=\"['/']\" class=\"btn btn-link\">Back</a>\n  <a [routerLink]=\"['/bots/edit', bot.id ]\" class=\"btn btn-link\">Edit</a>\n</div>\n"
+module.exports = "<div class=\"container\" *ngIf=\"bot\">\n  <h3>{{bot.name}} \n  <!-- <a [routerLink]=\"['/']\" class=\"btn btn-link\">I am a button, cool</a>  -->\n        <button *ngIf=\"bot.status == 'ONLINE'\" class=\"btn btn-danger\" type=\"button\" (click)=\"startStop()\">turn off</button>\n        <button *ngIf=\"bot.status == 'OFFLINE'\" class=\"btn btn-success\" type=\"button\" (click)=\"startStop()\">turn on</button>\n  </h3>\n  <div class=\"container\">\n    <div class=\"row\">\n      <div class=\"col-sm\">\n        <strong>Discord Token:</strong>\n      </div>\n      <div class=\"col-sm\">\n        {{bot.discordToken}}\n      </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-sm\">\n        <strong>Status:</strong>\n      </div>\n      <div class=\"col-sm\">\n        {{bot.status}}\n      </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-sm\">\n        <strong>Command Prefix:</strong>\n      </div>\n      <div class=\"col-sm\">\n        {{bot.commandPrefix}}\n      </div>\n    </div>\n  </div>\n  <a [routerLink]=\"['/']\" class=\"btn btn-link\">Back</a>\n  <a [routerLink]=\"['/bots/edit', bot.id ]\" class=\"btn btn-link\">Edit</a>\n</div>\n"
 
 /***/ }),
 
@@ -991,18 +1239,49 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 var BotsDetailsComponent = /** @class */ (function () {
-    function BotsDetailsComponent(activatedRouter, botService) {
+    function BotsDetailsComponent(activatedRouter, botService, alertService) {
         this.activatedRouter = activatedRouter;
         this.botService = botService;
+        this.alertService = alertService;
     }
     BotsDetailsComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.sub = this.activatedRouter.params.subscribe(function (params) {
             _this.id = params['id']; // (+) converts string 'id' to a number
             // In a real app: dispatch action to load the details here.
-            _this.botService.getById(_this.id).pipe(Object(rxjs_internal_operators__WEBPACK_IMPORTED_MODULE_3__["first"])()).subscribe(function (rcvdBot) {
-                _this.bot = rcvdBot;
+            _this.loadBot();
+        });
+    };
+    BotsDetailsComponent.prototype.startStop = function () {
+        //console.log(this.bot.status);
+        var _this = this;
+        // this.loading = true;
+        if (this.bot.status == "ONLINE") {
+            this.botService.stop(this.bot.id)
+                .pipe(Object(rxjs_internal_operators__WEBPACK_IMPORTED_MODULE_3__["first"])())
+                .subscribe(function (data) {
+                _this.loadBot();
+                _this.alertService.success('Bot stopped', true);
+            }, function (error) {
+                _this.alertService.error(error);
             });
+        }
+        else {
+            this.botService.start(this.bot.id)
+                .pipe(Object(rxjs_internal_operators__WEBPACK_IMPORTED_MODULE_3__["first"])())
+                .subscribe(function (data) {
+                _this.loadBot();
+                _this.alertService.success('Bot started', true);
+            }, function (error) {
+                _this.alertService.error(error);
+            });
+        }
+        // console.log(this.bot.status);
+    };
+    BotsDetailsComponent.prototype.loadBot = function () {
+        var _this = this;
+        this.botService.getById(this.id).pipe(Object(rxjs_internal_operators__WEBPACK_IMPORTED_MODULE_3__["first"])()).subscribe(function (rcvdBot) {
+            _this.bot = rcvdBot;
         });
     };
     BotsDetailsComponent.prototype.ngOnDestroy = function () {
@@ -1015,7 +1294,8 @@ var BotsDetailsComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./bots-details.component.css */ "./src/app/bots-details/bots-details.component.css")]
         }),
         __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"],
-            _services__WEBPACK_IMPORTED_MODULE_2__["BotService"]])
+            _services__WEBPACK_IMPORTED_MODULE_2__["BotService"],
+            _services__WEBPACK_IMPORTED_MODULE_2__["AlertService"]])
     ], BotsDetailsComponent);
     return BotsDetailsComponent;
 }());
@@ -1042,7 +1322,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"pageAction == PAGE_ACTIONS.Add\"><h2>Add Bot</h2></div>\n<div *ngIf=\"pageAction == PAGE_ACTIONS.Edit\"><h2>Edit Bot</h2></div>\n<div *ngIf=\"pageAction == PAGE_ACTIONS.Add || bot\">\n  <form [formGroup]=\"editBotForm\" (ngSubmit)=\"onSubmit()\">\n    <div class=\"form-group\">\n      <label for=\"name\">Name</label>\n      <input type=\"text\" formControlName=\"name\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.name.errors }\" />\n      <div *ngIf=\"submitted && f.name.errors\" class=\"invalid-feedback\">\n        <div *ngIf=\"f.name.errors.required\">Name is required</div>\n      </div>\n    </div>\n    <div class=\"form-group\">\n      <label for=\"discordToken\">Discord Token</label>\n      <input type=\"text\" formControlName=\"discordToken\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.discordToken.errors }\" />\n      <div *ngIf=\"submitted && f.discordToken.errors\" class=\"invalid-feedback\">\n        <div *ngIf=\"f.discordToken.errors.required\">Discord token is required</div>\n      </div>\n    </div>\n    <div class=\"form-group\">\n      <label for=\"commandPrefix\">Command Prefix</label>\n      <input type=\"text\" formControlName=\"commandPrefix\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.commandPrefix.errors }\" />\n      <div *ngIf=\"submitted && f.commandPrefix.errors\" class=\"invalid-feedback\">\n        <div *ngIf=\"f.commandPrefix.errors.required\">Command prefix is required</div>\n      </div>\n    </div>\n    <div class=\"form-group\">\n      <button [disabled]=\"loading\" class=\"btn btn-primary\">\n        <div *ngIf=\"pageAction == PAGE_ACTIONS.Add\">Add</div>\n        <div *ngIf=\"pageAction == PAGE_ACTIONS.Edit\">Save</div>\n      </button>\n      <button *ngIf=\"pageAction == PAGE_ACTIONS.Edit\" [disabled]=\"loading\" class=\"btn btn-danger\" type=\"button\" (click)=\"onDelete()\">Delete</button>\n      <img *ngIf=\"loading\" src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />\n      <a *ngIf=\"pageAction == PAGE_ACTIONS.Add\" [routerLink]=\"['/bots/']\" class=\"btn btn-link\">Cancel</a>\n      <a *ngIf=\"pageAction == PAGE_ACTIONS.Edit\" [routerLink]=\"['/bots', bot.id]\" class=\"btn btn-link\">Cancel</a>\n    </div>\n  </form>\n</div>\n"
+module.exports = "<div *ngIf=\"pageAction == PAGE_ACTIONS.Add\"><h2>Add Bot</h2></div>\n<div *ngIf=\"pageAction == PAGE_ACTIONS.Edit\"><h2>Edit Bot</h2></div>\n<div *ngIf=\"pageAction == PAGE_ACTIONS.Add || bot\">\n  <form [formGroup]=\"editBotForm\" (ngSubmit)=\"onSubmit()\">\n    <div class=\"form-group\">\n      <label for=\"name\">Name</label>\n      <input type=\"text\" formControlName=\"name\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.name.errors }\" />\n      <div *ngIf=\"submitted && f.name.errors\" class=\"invalid-feedback\">\n        <div *ngIf=\"f.name.errors.required\">Name is required</div>\n      </div>\n    </div>\n    <div class=\"form-group\">\n      <label for=\"discordToken\">Discord Token</label>\n      <input type=\"text\" formControlName=\"discordToken\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.discordToken.errors }\" />\n      <div *ngIf=\"submitted && f.discordToken.errors\" class=\"invalid-feedback\">\n        <div *ngIf=\"f.discordToken.errors.required\">Discord token is required</div>\n      </div>\n    </div>\n    <div class=\"form-group\">\n      <label for=\"commandPrefix\">Command Prefix</label>\n      <input type=\"text\" formControlName=\"commandPrefix\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.commandPrefix.errors }\" />\n      <div *ngIf=\"submitted && f.commandPrefix.errors\" class=\"invalid-feedback\">\n        <div *ngIf=\"f.commandPrefix.errors.required\">Command prefix is required</div>\n      </div>\n    </div>\n    <div *ngIf=\"pageAction == PAGE_ACTIONS.Edit\">\n      <hr>\n      <app-command-list [botId]=\"bot.id\">\n      </app-command-list>\n    </div>\n    <hr>\n    <div class=\"form-group\">\n      <button [disabled]=\"loading\" class=\"btn btn-primary\">\n        <div *ngIf=\"pageAction == PAGE_ACTIONS.Add\">Add</div>\n        <div *ngIf=\"pageAction == PAGE_ACTIONS.Edit\">Save</div>\n      </button>\n      <button *ngIf=\"pageAction == PAGE_ACTIONS.Edit\" [disabled]=\"loading\" class=\"btn btn-danger\" type=\"button\" (click)=\"onDelete()\">Delete</button>\n      <img *ngIf=\"loading\" src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />\n      <a *ngIf=\"pageAction == PAGE_ACTIONS.Add\" [routerLink]=\"['/bots/']\" class=\"btn btn-link\">Cancel</a>\n      <a *ngIf=\"pageAction == PAGE_ACTIONS.Edit\" [routerLink]=\"['/bots', bot.id]\" class=\"btn btn-link\">Cancel</a>\n    </div>\n  </form>\n</div>\n"
 
 /***/ }),
 
@@ -1204,7 +1484,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2 class=\"text-center\">Bots</h2>\n<!-- *ngIf bots, else you have no bots -->\n<div class=\"container\">\n    <h5 class=\"text-center\" *ngIf=\"!botList || botList.length === 0\">You have no bots right now</h5>\n    <div class=\"list-group\" *ngFor=\"let bot of botList\">\n      <a [routerLink]=\"['/bots', bot.id]\" class=\"list-group-item list-group-item-action text-center\">{{ bot.name }}</a>\n    </div>\n</div>\n<a [routerLink]=\"['/bots/add']\" class=\"btn btn-link\">Add Bot</a>\n"
+module.exports = "<h2 class=\"text-center\">Bots</h2>\n<!-- *ngIf bots, else you have no bots -->\n<div class=\"container\">\n    <h5 class=\"text-center\" *ngIf=\"!botList || botList.length === 0\">You have no bots right now</h5>\n    <div class=\"list-group\" *ngFor=\"let bot of botList\">\n      <a [routerLink]=\"['/bots', bot.id]\" class=\"list-group-item list-group-item-action text-center\">{{ bot.name }}</a>\n<!--       <button *ngIf=\"bot.status == 'ONLINE'\" class=\"btn btn-danger\" type=\"button\" (click)=\"startStop(bot.id)\">turn off</button>\n      <button *ngIf=\"bot.status == 'OFFLINE'\" class=\"btn btn-success\" type=\"button\" (click)=\"startStop(bot.id)\">turn on</button> -->\n    </div>\n</div>\n<a [routerLink]=\"['/bots/add']\" class=\"btn btn-link\">Add Bot</a>\n"
 
 /***/ }),
 
@@ -1219,8 +1499,9 @@ module.exports = "<h2 class=\"text-center\">Bots</h2>\n<!-- *ngIf bots, else you
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BotsComponent", function() { return BotsComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_services */ "./src/app/_services/index.ts");
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_services */ "./src/app/_services/index.ts");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1233,8 +1514,12 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var BotsComponent = /** @class */ (function () {
-    function BotsComponent(botService) {
+    // selectedBot: Bot;
+    // id: number;
+    function BotsComponent(activatedRouter, botService) {
+        this.activatedRouter = activatedRouter;
         this.botService = botService;
         this.botList = [];
     }
@@ -1243,7 +1528,7 @@ var BotsComponent = /** @class */ (function () {
     };
     BotsComponent.prototype.loadBots = function () {
         var _this = this;
-        this.botService.getAll().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["first"])()).subscribe(function (bots) {
+        this.botService.getAll().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["first"])()).subscribe(function (bots) {
             _this.botList = bots;
         });
     };
@@ -1253,9 +1538,259 @@ var BotsComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./bots.component.html */ "./src/app/bots/bots.component.html"),
             styles: [__webpack_require__(/*! ./bots.component.css */ "./src/app/bots/bots.component.css")]
         }),
-        __metadata("design:paramtypes", [_services__WEBPACK_IMPORTED_MODULE_1__["BotService"]])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"],
+            _services__WEBPACK_IMPORTED_MODULE_2__["BotService"]])
     ], BotsComponent);
     return BotsComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/command-list/command-list.component.css":
+/*!*********************************************************!*\
+  !*** ./src/app/command-list/command-list.component.css ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/command-list/command-list.component.html":
+/*!**********************************************************!*\
+  !*** ./src/app/command-list/command-list.component.html ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div>\n  <h4>Commands</h4>\n  <div *ngFor=\"let command of commandList\">\n    <app-command *ngIf=\"command\" [botId]=\"botId\" [command]=\"command\" (commandDeletedEvent)=\"loadCommands()\">\n    </app-command>\n  </div>\n  <hr>\n  <form [formGroup]=\"addCommandForm\">\n    <div class=\"form-group\">\n      <label for=\"name\">Name</label>\n      <input type=\"text\" formControlName=\"name\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.name.errors }\" />\n      <div *ngIf=\"submitted && f.name.errors\" class=\"invalid-feedback\">\n        <div *ngIf=\"f.name.errors.required\">Name is required</div>\n      </div>\n    </div>\n    <div class=\"form-group\">\n      <button class=\"btn btn-secondary\" type=\"button\" (click)=\"addCommand()\">\n        Add Command\n      </button>\n      <!--\n      <button *ngIf=\"pageAction == PAGE_ACTIONS.Edit\" [disabled]=\"loading\" class=\"btn btn-danger\" type=\"button\" (click)=\"onDelete()\">Delete</button>\n      <img *ngIf=\"loading\" src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />\n      -->\n    </div>\n  </form>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/command-list/command-list.component.ts":
+/*!********************************************************!*\
+  !*** ./src/app/command-list/command-list.component.ts ***!
+  \********************************************************/
+/*! exports provided: CommandListComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CommandListComponent", function() { return CommandListComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _services_command_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_services/command.service */ "./src/app/_services/command.service.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var CommandListComponent = /** @class */ (function () {
+    function CommandListComponent(commandService, formBuilder) {
+        this.commandService = commandService;
+        this.formBuilder = formBuilder;
+        this.commandList = [];
+        this.submitted = false;
+        this.newCommandName = '';
+    }
+    CommandListComponent.prototype.ngOnInit = function () {
+        this.commandService.setBotId(this.botId);
+        this.loadCommands();
+        this.addCommandForm = this.formBuilder.group({
+            name: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required]
+        });
+    };
+    Object.defineProperty(CommandListComponent.prototype, "f", {
+        // convenience getter for easy access to form fields
+        get: function () { return this.addCommandForm.controls; },
+        enumerable: true,
+        configurable: true
+    });
+    CommandListComponent.prototype.addCommand = function () {
+        var _this = this;
+        this.submitted = true;
+        if (this.addCommandForm.invalid) {
+            return;
+        }
+        this.commandService.add(this.addCommandForm.value)
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["first"])())
+            .subscribe(function (data) {
+            _this.submitted = false;
+            _this.addCommandForm.setValue({ name: '' });
+            _this.loadCommands();
+        });
+    };
+    CommandListComponent.prototype.loadCommands = function () {
+        var _this = this;
+        this.commandService.getAll().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["first"])()).subscribe(function (cmds) {
+            _this.commandList = cmds;
+        });
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Number)
+    ], CommandListComponent.prototype, "botId", void 0);
+    CommandListComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-command-list',
+            template: __webpack_require__(/*! ./command-list.component.html */ "./src/app/command-list/command-list.component.html"),
+            styles: [__webpack_require__(/*! ./command-list.component.css */ "./src/app/command-list/command-list.component.css")]
+        }),
+        __metadata("design:paramtypes", [_services_command_service__WEBPACK_IMPORTED_MODULE_1__["CommandService"], _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"]])
+    ], CommandListComponent);
+    return CommandListComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/command/command.component.css":
+/*!***********************************************!*\
+  !*** ./src/app/command/command.component.css ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "td.o {\r\n\r\n}\r\n\r\nbutton.todo {\r\n  visibility: hidden;\r\n}\r\n"
+
+/***/ }),
+
+/***/ "./src/app/command/command.component.html":
+/*!************************************************!*\
+  !*** ./src/app/command/command.component.html ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div>\n  <p><h5>{{command.name}} ({{actions.length}} actions)<button class=\"todo\" type=\"button\" (click)=\"deleteCommand(command.id)\">X</button></h5>\n  <div>\n    <table class=\"table\">\n      <tbody>\n        <tr *ngFor=\"let action of actions\">\n          <td><input type=\"text\" name=\"actionType-{{action.id}}\" id=\"actionType\" [(ngModel)]=\"action.type\" placeholder=\"Type\" class=\"form-control\"></td>\n          <td>\n            <div *ngFor=\"let param of action.parameters; let i = index\">\n              <input type=\"text\" class=\"form-control\" value=\"{{param}}\" [(ngModel)]=\"action.parameters[i]\">\n            </div>\n          </td>\n          <td class=\"o\">\n            <button class=\"btn btn-success\" type=\"button\" (click)=\"updateAction(action)\">\n              Update\n            </button>\n            <button class=\"btn btn-danger\" type=\"button\" (click)=\"deleteAction(action.id)\">\n              Delete\n            </button>\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <button class=\"btn btn-secondary\" type=\"button\" (click)=\"addAction()\">\n      Add Action\n    </button>\n  </div>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/command/command.component.ts":
+/*!**********************************************!*\
+  !*** ./src/app/command/command.component.ts ***!
+  \**********************************************/
+/*! exports provided: CommandComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CommandComponent", function() { return CommandComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_services */ "./src/app/_services/index.ts");
+/* harmony import */ var _services_command_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_services/command.service */ "./src/app/_services/command.service.ts");
+/* harmony import */ var _models__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_models */ "./src/app/_models/index.ts");
+/* harmony import */ var rxjs_internal_operators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/internal/operators */ "./node_modules/rxjs/internal/operators/index.js");
+/* harmony import */ var rxjs_internal_operators__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(rxjs_internal_operators__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+var CommandComponent = /** @class */ (function () {
+    function CommandComponent(router, formBuilder, activatedRouter, commandService, actionService) {
+        this.router = router;
+        this.formBuilder = formBuilder;
+        this.activatedRouter = activatedRouter;
+        this.commandService = commandService;
+        this.actionService = actionService;
+        this.commandDeletedEvent = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
+        this.newAction = new _models__WEBPACK_IMPORTED_MODULE_4__["Action"]();
+        this.submitted = false;
+        this.actions = [];
+    }
+    CommandComponent.prototype.ngOnInit = function () {
+        this.loadActions();
+    };
+    CommandComponent.prototype.deleteCommand = function (id) {
+        this.commandService.delete(id).pipe(Object(rxjs_internal_operators__WEBPACK_IMPORTED_MODULE_5__["first"])()).subscribe();
+        this.commandDeletedEvent.emit();
+    };
+    CommandComponent.prototype.addAction = function () {
+        var _this = this;
+        this.submitted = true;
+        this.newAction.type = 'respondDirect';
+        this.newAction.parameters = [];
+        this.actionService.setIds(this.botId, this.command.id);
+        this.actionService.add(this.newAction)
+            .pipe(Object(rxjs_internal_operators__WEBPACK_IMPORTED_MODULE_5__["first"])())
+            .subscribe(function (data) {
+            _this.submitted = false;
+            _this.loadActions();
+        });
+    };
+    CommandComponent.prototype.updateAction = function (action) {
+        var _this = this;
+        this.actionService.setIds(this.botId, this.command.id);
+        this.actionService.update(action, action.id)
+            .pipe(Object(rxjs_internal_operators__WEBPACK_IMPORTED_MODULE_5__["first"])())
+            .subscribe(function (data) { _this.loadActions(); });
+    };
+    CommandComponent.prototype.deleteAction = function (id) {
+        var _this = this;
+        this.actionService.setIds(this.botId, this.command.id);
+        this.actionService.delete(id)
+            .pipe(Object(rxjs_internal_operators__WEBPACK_IMPORTED_MODULE_5__["first"])())
+            .subscribe(function (data) { _this.loadActions(); });
+    };
+    CommandComponent.prototype.loadActions = function () {
+        var _this = this;
+        this.actionService.setIds(this.botId, this.command.id);
+        this.actionService.getAll().pipe(Object(rxjs_internal_operators__WEBPACK_IMPORTED_MODULE_5__["first"])()).subscribe(function (actions) {
+            _this.actions = actions;
+        });
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Number)
+    ], CommandComponent.prototype, "botId", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", _models__WEBPACK_IMPORTED_MODULE_4__["Command"])
+    ], CommandComponent.prototype, "command", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
+        __metadata("design:type", Object)
+    ], CommandComponent.prototype, "commandDeletedEvent", void 0);
+    CommandComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-command',
+            template: __webpack_require__(/*! ./command.component.html */ "./src/app/command/command.component.html"),
+            styles: [__webpack_require__(/*! ./command.component.css */ "./src/app/command/command.component.css")]
+        }),
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
+            _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormBuilder"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"],
+            _services_command_service__WEBPACK_IMPORTED_MODULE_3__["CommandService"],
+            _services__WEBPACK_IMPORTED_MODULE_2__["ActionService"]])
+    ], CommandComponent);
+    return CommandComponent;
 }());
 
 
@@ -1554,7 +2089,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n    <div class=\"row\">\n        <div class=\"col-sm-6 offset-sm-3\">\n            ﻿<h2>Register</h2>\n            <form [formGroup]=\"registerForm\" (ngSubmit)=\"onSubmit()\">\n                <div class=\"form-group\">\n                    <label for=\"firstName\">First Name</label>\n                    <input type=\"text\" formControlName=\"firstName\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.firstName.errors }\" />\n                    <div *ngIf=\"submitted && f.firstName.errors\" class=\"invalid-feedback\">\n                        <div *ngIf=\"f.firstName.errors.required\">First Name is required</div>\n                    </div>\n                </div>\n                <div class=\"form-group\">\n                    <label for=\"lastName\">Last Name</label>\n                    <input type=\"text\" formControlName=\"lastName\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.lastName.errors }\" />\n                    <div *ngIf=\"submitted && f.lastName.errors\" class=\"invalid-feedback\">\n                        <div *ngIf=\"f.lastName.errors.required\">Last Name is required</div>\n                    </div>\n                </div>\n                <div class=\"form-group\">\n                    <label for=\"username\">Username</label>\n                    <input type=\"text\" formControlName=\"username\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.username.errors }\" />\n                    <div *ngIf=\"submitted && f.username.errors\" class=\"invalid-feedback\">\n                        <div *ngIf=\"f.username.errors.required\">Username is required</div>\n                    </div>\n                </div>\n                <div class=\"form-group\">\n                    <label for=\"password\">Password</label>\n                    <input type=\"password\" formControlName=\"password\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.password.errors }\" />\n                    <div *ngIf=\"submitted && f.password.errors\" class=\"invalid-feedback\">\n                        <div *ngIf=\"f.password.errors.required\">Password is required</div>\n                        <div *ngIf=\"f.password.errors.minlength\">Password must be at least 6 characters</div>\n                    </div>\n                </div>\n                <div class=\"form-group\">\n                    <button [disabled]=\"loading\" class=\"btn btn-primary\">Register</button>\n                    <img *ngIf=\"loading\" src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />\n                    <a [routerLink]=\"['/login']\" class=\"btn btn-link\">Cancel</a>\n                </div>\n            </form>\n        </div>\n    </div>\n</div>\n"
+module.exports = "<div class=\"container\">\n    <div class=\"row\">\n        <div class=\"col-sm-6 offset-sm-3\">\n            ﻿<h2>Register</h2>\n            <form [formGroup]=\"registerForm\" (ngSubmit)=\"onSubmit()\">\n                <div class=\"form-group\">\n                  <label for=\"username\">Username</label>\n                  <input type=\"text\" formControlName=\"username\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.username.errors }\" />\n                  <div *ngIf=\"submitted && f.username.errors\" class=\"invalid-feedback\">\n                      <div *ngIf=\"f.username.errors.required\">Username is required</div>\n                  </div>\n                </div><!--Username end here-->\n                <div class=\"form-group\">\n                    <label for=\"email\">Email</label>\n                    <input type=\"email\" formControlName=\"email\" ngModel [email] class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.email.errors }\" />\n                    <div *ngIf=\"submitted && f.email.errors\" class=\"invalid-feedback\">\n                        <div *ngIf=\"f.email.errors.required\">Email is required</div>\n                        <div *ngIf=\"f.email.errors.minlength\">This is an invalid email address</div>\n                    </div>\n                </div><!--Email end here-->\n                <div class=\"form-group\">\n                    <label for=\"password\">Password</label>\n                    <input type=\"password\" formControlName=\"password\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.password.errors }\" />\n                    <div *ngIf=\"submitted && f.password.errors\" class=\"invalid-feedback\">\n                        <div *ngIf=\"f.password.errors.required\">Password is required</div>\n                        <div *ngIf=\"f.password.errors.minlength\">Password must be at least 6 characters</div>\n                    </div>\n                </div><!-- Password end here-->\n                <div class=\"form-group\">\n                    <button [disabled]=\"loading\" class=\"btn btn-primary\">Register</button>\n                    <img *ngIf=\"loading\" src=\"loading.gif\"/>\n                    <a [routerLink]=\"['/forgetpw']\" class=\"btn btn-link\">Forget password</a>\n                    <a [routerLink]=\"['/login']\" class=\"btn btn-link\">Cancel</a>\n                </div>\n            </form><!-- Form end here-->\n        </div>\n    </div>\n</div>\n"
 
 /***/ }),
 
@@ -1588,6 +2123,12 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 var RegisterComponent = /** @class */ (function () {
+    /*Class for email validator trial
+    class EmailValidator implements Validator {
+      set email: boolean | string
+      validate(c: AbstractControl): ValidationErrors | null
+      registerOnValidatorChange(fn: () => void): void
+    }*/
     function RegisterComponent(formBuilder, router, userService, alertService) {
         this.formBuilder = formBuilder;
         this.router = router;
@@ -1598,8 +2139,7 @@ var RegisterComponent = /** @class */ (function () {
     }
     RegisterComponent.prototype.ngOnInit = function () {
         this.registerForm = this.formBuilder.group({
-            firstName: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
-            lastName: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
+            email: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
             username: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
             password: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].minLength(6)]]
         });

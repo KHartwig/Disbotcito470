@@ -83,7 +83,6 @@ export class BotsEditComponent implements OnInit {
             this.loading = false;
           });
     } else {
-      this.didEdit = true;
       this.botService.update(this.editBotForm.value, this.bot.id)
         .pipe(first())
         .subscribe(
