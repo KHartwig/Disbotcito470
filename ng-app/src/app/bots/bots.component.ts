@@ -11,7 +11,7 @@ import {first} from "rxjs/operators";
 })
 export class BotsComponent implements OnInit {
   botList: Bot[] = [];
-
+  botStatList: boolean = [];
   constructor(private botService: BotService) { }
 
   ngOnInit() {
@@ -24,15 +24,15 @@ export class BotsComponent implements OnInit {
     });
   }
 
-  startStop() {
+  startStop(id number) {
     // this.loading = true;
-    if ( this.state ){
-      this.botService.stop(this.bot.id)
+    if ( this.botStatList[id] ){
+      this.botService.stop(id)
       .pipe(first())
       .subscribe(
         data => {
-          this.state= false;
-          this.alertService.success('Bot stopped', true);
+          this.botStatList[id] = false;
+          // this.alertService.success('Bot stopped', true);
           // this.router.navigate(['/']);
         },
         error => {
@@ -42,12 +42,12 @@ export class BotsComponent implements OnInit {
     }
       
     else{
-      this.botService.start(this.bot.id)
+      this.botService.start(id)
         .pipe(first())
         .subscribe(
           data => {
-          this.state= true;
-            this.alertService.success('Bot started', true);
+          this.botStatList[id] = true;
+            // this.alertService.success('Bot started', true);
             // this.router.navigate(['/']);
           },
           error => {
