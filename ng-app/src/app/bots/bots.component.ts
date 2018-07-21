@@ -23,4 +23,37 @@ export class BotsComponent implements OnInit {
       this.botList = bots;
     });
   }
+
+  startStop() {
+    // this.loading = true;
+    if ( this.state ){
+      this.botService.stop(this.bot.id)
+      .pipe(first())
+      .subscribe(
+        data => {
+          this.state= false;
+          this.alertService.success('Bot stopped', true);
+          // this.router.navigate(['/']);
+        },
+        error => {
+          this.alertService.error(error);
+          // this.loading = false;
+      });
+    }
+      
+    else{
+      this.botService.start(this.bot.id)
+        .pipe(first())
+        .subscribe(
+          data => {
+          this.state= true;
+            this.alertService.success('Bot started', true);
+            // this.router.navigate(['/']);
+          },
+          error => {
+            this.alertService.error(error);
+            // this.loading = false;
+        });
+    }
+  }
 }
