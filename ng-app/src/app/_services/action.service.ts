@@ -12,7 +12,7 @@ export class ActionService {
 
   setIds(botId: number, commandId: number) {
     this.actionUrl = this.apiUrl + '/bots/' + botId + '/commands/' + commandId + '/actions';
-    console.log("ActionURL: " + this.actionUrl);
+    //console.log("ActionURL: " + this.actionUrl);
   }
 
   getAll() {
