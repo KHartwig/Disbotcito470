@@ -88,8 +88,8 @@ async function getBotIfExists(botId, userId) {
 }
 
 // Toggle status of bot between ONLINE and OFFLINE
-async function toggleStatus(botId, userId) {
-    const bot = await getBotIfExists(botId, userId);
+async function toggleStatus(user, botId) {
+    const bot = await getById(user, botId, "false");
     var currStatus = bot.status;
     if (!currStatus) throw 'Bot has a null status';
 
