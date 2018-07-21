@@ -1,0 +1,9 @@
+<div>
+  <p><h5>{{command.name}} ({{actions.length}} actions)</h5>
+  <div *ngFor="let action of actions">
+    <strong>{{action.type}}</strong>
+    <ul *ngFor="let param of action.parameters">
+      <li>{{param}}</li>
+    </ul>
+  </div>
+</div>

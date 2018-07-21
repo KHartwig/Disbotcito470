@@ -23,8 +23,8 @@
         <div *ngIf="f.commandPrefix.errors.required">Command prefix is required</div>
       </div>
     </div>
-    <app-commands [bot]="bot">
-    </app-commands>
+    <app-command-list [botId]="bot.id">
+    </app-command-list>
     <div class="form-group">
       <button [disabled]="loading" class="btn btn-primary">
         <div *ngIf="pageAction == PAGE_ACTIONS.Add">Add</div>

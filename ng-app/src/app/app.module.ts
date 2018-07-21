@@ -13,7 +13,7 @@ import { routing }        from './app.routing';
 import { AlertComponent } from './_directives';
 import { AuthGuard } from './_guards';
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
-import { AlertService, AuthenticationService, DataService, UserService, BotService } from './_services';
+import {AlertService, AuthenticationService, DataService, UserService, BotService, ActionService} from './_services';
 import { HomeComponent } from './home';
 import { NavComponent } from './nav';
 import { LoginComponent } from './login';
@@ -21,8 +21,9 @@ import { RegisterComponent } from './register';
 import { BotsComponent } from './bots/bots.component';
 import { BotsEditComponent } from './bots-edit/bots-edit.component';
 import { BotsDetailsComponent } from './bots-details/bots-details.component';;
-import { CommandsComponent } from './commands/commands.component'
-import { CommandService } from "./_services/command.service";
+import { CommandListComponent } from './command-list/command-list.component'
+import { CommandService } from "./_services/command.service";;
+import { CommandComponent } from './command/command.component'
 
 @NgModule({
     imports: [
@@ -42,7 +43,8 @@ import { CommandService } from "./_services/command.service";
         BotsComponent,
         BotsEditComponent,
         BotsDetailsComponent,
-        CommandsComponent
+        CommandListComponent,
+        CommandComponent
     ],
     providers: [
         AuthGuard,
@@ -52,6 +54,7 @@ import { CommandService } from "./_services/command.service";
         UserService,
         BotService,
         CommandService,
+        ActionService,
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 

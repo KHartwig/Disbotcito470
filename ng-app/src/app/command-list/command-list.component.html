@@ -1,0 +1,7 @@
+<div>
+  <h4>Commands</h4>
+  <div *ngFor="let command of commandList">
+    <app-command [botId]="botId" [command]="command">
+    </app-command>
+  </div>
+</div>

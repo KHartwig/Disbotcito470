@@ -8,12 +8,10 @@ export class CommandService {
   constructor(private http: HttpClient) {  }
 
   apiUrl = 'http://localhost:4000/api';
-  botUrl = this.apiUrl + '/bots';
   commandUrl = '';
 
   setBotId(botId: number) {
-    this.commandUrl = this.botUrl + '/' + botId + '/commands';
-    console.log("CommandURL: " + this.commandUrl);
+    this.commandUrl = this.apiUrl + '/bots/' + botId + '/commands';
   }
 
   getAll() {
