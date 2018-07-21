@@ -11,6 +11,7 @@ const appRoutes: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard] },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
+    //{ path: 'forgetpw', component: ForgetpwComponent },
     { path: 'bots/add', component: BotsEditComponent },
     { path: 'bots/:id', component: BotsDetailsComponent },
     { path: 'bots/edit/:id', component: BotsEditComponent },
