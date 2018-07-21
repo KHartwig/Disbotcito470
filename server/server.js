@@ -41,13 +41,13 @@ models.sequelize.sync().then(function() {
 });
 
 // ___ Application Serve Server ____
-// var distPath = path.join(__dirname, '../ng-app/dist/ng-app');
-// appServe.use(express.static(distPath));
-// appServe.get('*', function (req, res) {
-//     res.sendFile(distPath + '/index.html');
-// });
-//
-// const portServe = config.development.portServe;
-// const serverAppServe = appServe.listen(portServe, function(){
-//     console.log('Serving application on port ' + portServe);
-// });
+var distPath = path.join(__dirname, '../ng-app/dist/ng-app');
+appServe.use(express.static(distPath));
+appServe.get('*', function (req, res) {
+    res.sendFile(distPath + '/index.html');
+});
+
+const portServe = config.development.portServe;
+const serverAppServe = appServe.listen(portServe, function(){
+    console.log('Serving application on port ' + portServe);
+});
