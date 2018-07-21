@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { Bot } from '../_models';
 import { BotService } from "../_services";
@@ -11,8 +12,11 @@ import {first} from "rxjs/operators";
 })
 export class BotsComponent implements OnInit {
   botList: Bot[] = [];
-  botStatList: boolean = [];
-  constructor(private botService: BotService) { }
+  bot: Bot;
+  // selectedBot: Bot;
+  // id: number;
+  constructor(private activatedRouter: ActivatedRoute,
+              private botService: BotService) { }
 
   ngOnInit() {
     this.loadBots();
@@ -24,36 +28,43 @@ export class BotsComponent implements OnInit {
     });
   }
 
-  startStop(id number) {
+  startStop(i number) {
     // this.loading = true;
-    if ( this.botStatList[id] ){
-      this.botService.stop(id)
+
+    this.botService.getById(i).pipe(first()).subscribe(rcvdBot => {
+      this.bot = rcvdBot;
+    });
+
+    // this.bot = ;
+    if ( this.bot.status == "ONLINE" ){
+      this.botService.stop(this.bot.id)
       .pipe(first())
       .subscribe(
         data => {
-          this.botStatList[id] = false;
-          // this.alertService.success('Bot stopped', true);
-          // this.router.navigate(['/']);
+
+
         },
         error => {
           this.alertService.error(error);
-          // this.loading = false;
       });
     }
       
     else{
-      this.botService.start(id)
+      this.botService.start(this.bot.id)
         .pipe(first())
         .subscribe(
           data => {
-          this.botStatList[id] = true;
-            // this.alertService.success('Bot started', true);
-            // this.router.navigate(['/']);
+
+          console.log(this.selectedBot.status);
+
+
+
           },
           error => {
             this.alertService.error(error);
-            // this.loading = false;
         });
     }
+
+
   }
 }
