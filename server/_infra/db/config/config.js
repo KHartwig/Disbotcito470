@@ -2,8 +2,8 @@ const env = process.env.NODE_ENV || 'development';
 const config =
 {
   "development": {
-    "username": "",
-    "password": null,
+    "username": "postgres",
+    "password": "password",
     "database": "cmpt470",
     "host": "127.0.0.1",
     "dialect": "postgres",

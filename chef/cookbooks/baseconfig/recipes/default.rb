@@ -30,9 +30,7 @@ cookbook_file "pg_hba.conf" do
 end
 
 # Further configuration
-execute "setup_db" do
-    command 'sudo -u postgres createdb cmpt470 && sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD \'password\'"'
-end
+
 
 execute "install_node_npm" do
     command 'v=10 && curl -sL https://deb.nodesource.com/setup_$v.x | sudo -E bash - && sudo apt-get install -y nodejs'
