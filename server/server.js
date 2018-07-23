@@ -9,7 +9,7 @@ const models = require('_infra/db/models');
 const jwt = require('_helpers/jwt');
 const errorHandler = require('_helpers/error-handler');
 const env = process.env.NODE_ENV || 'development';
-const config = require('./config')[env];
+const config = require('./config');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
