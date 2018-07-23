@@ -1,3 +1,5 @@
+const env = process.env.NODE_ENV || 'development';
+const config =
 {
   "development": {
     "username": "",
@@ -6,7 +8,7 @@
     "host": "127.0.0.1",
     "dialect": "postgres",
     "operatorsAliases": false,
-    "logging": true
+    "logging": console.log
   },
   "test": {
     "username": "postgres",
@@ -15,7 +17,7 @@
     "host": "127.0.0.1",
     "dialect": "postgres",
     "operatorsAliases": false,
-    "logging": true
+    "logging": console.log
   },
   "production": {
       "username": "postgres",
@@ -27,3 +29,5 @@
       "logging": false
   }
 }
+
+module.exports = config[env];
