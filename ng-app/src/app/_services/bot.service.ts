@@ -26,6 +26,14 @@ export class BotService {
         return this.http.put(`${this.botUrl}/` + id, bot);
     }
 
+    start(id: number) {
+        return this.http.put(this.apiUrl + '/bots/'+ id + `/start`, "");
+    }
+
+    stop(id: number) {
+        return this.http.put(this.apiUrl + '/bots/'+ id + `/stop`, "");
+    }
+
     delete(id: number) {
         return this.http.delete(`${this.botUrl}/` + id);
     }

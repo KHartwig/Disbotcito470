@@ -23,6 +23,12 @@
         <div *ngIf="f.commandPrefix.errors.required">Command prefix is required</div>
       </div>
     </div>
+    <div *ngIf="pageAction == PAGE_ACTIONS.Edit">
+      <hr>
+      <app-command-list [botId]="bot.id">
+      </app-command-list>
+    </div>
+    <hr>
     <div class="form-group">
       <button [disabled]="loading" class="btn btn-primary">
         <div *ngIf="pageAction == PAGE_ACTIONS.Add">Add</div>

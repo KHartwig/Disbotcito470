@@ -7,7 +7,8 @@ module.exports = {
     getAllByUser,
     getAll,
     update,
-    delete: _delete
+    delete: _delete,
+    toggleStatus
 };
 
 // Finds the bot and attaches it to the req object
@@ -55,5 +56,12 @@ function update(req, res, next) {
 function _delete(req, res, next) {
     botService.delete(req.bot)
         .then(() => res.json({}))
+        .catch(err => next(err));
+}
+
+function toggleStatus(req, res, next) {
+    console.log(req);
+    botService.toggleStatus(req.sessionUser, req.params.id)
+        .then((bot) => res.json(bot))
         .catch(err => next(err));
 }

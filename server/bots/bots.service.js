@@ -8,7 +8,8 @@ const optCommands = {
         include: [{
                 model: Command,
                 include: [{
-                        model: Action
+                        model: Action,
+                        attributes: ['id', 'type', 'parameters']                        
                     }]
             }]
     };
@@ -19,7 +20,8 @@ module.exports = {
     getById,
     create,
     update,
-    delete: _delete
+    delete: _delete,
+    toggleStatus
 };
 
 async function getAll(includeCommands) {
@@ -68,4 +70,37 @@ async function update(bot, botParam) {
 async function _delete(bot) {
     // Delete the bot
     await Bot.destroy({where: {id: bot.get('id')}});
+}
+
+// Finds ther user specified (intended to be session user)
+async function getSessionUser(userId) {
+    const user = await User.findById(userId);
+    if (!user) throw 'Session user does not exist';
+    return user;
+}
+
+// Use this method if we want to throw an error (not '404')
+//      when the bot cannot be found
+async function getBotIfExists(botId, userId) {
+    const bot = await getById(botId, userId);
+    if (!bot) throw 'Bot does not exist';
+    return bot;
+}
+
+// Toggle status of bot between ONLINE and OFFLINE
+async function toggleStatus(user, botId) {
+    const bot = await getById(user, botId, "false");
+    var currStatus = bot.status;
+    if (!currStatus) throw 'Bot has a null status';
+
+    if (currStatus === 'OFFLINE') {
+        currStatus = 'ONLINE';
+    }
+    else {
+        currStatus = 'OFFLINE';
+    }
+    bot.status = currStatus;
+    await bot.save();
+
+    return bot;
 }

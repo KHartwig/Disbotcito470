@@ -4,7 +4,7 @@ const botsController = require('./bots.controller');
 const usersController = require('../users/users.controller');
 const commandsRouter = require('../commands/commands.router');
 
-// Middleware
+// Middleware for user
 router.use('/', usersController.attachSessionUser); // Attaches req.sessionUser
 
 // Routes
@@ -18,5 +18,7 @@ router.use('/:id/commands', commandsRouter); // Nested Route
 router.get('/:id', botsController.getById);
 router.put('/:id', botsController.update);
 router.delete('/:id', botsController.delete);
+router.put('/:id/start', botsController.toggleStatus);
+router.put('/:id/stop', botsController.toggleStatus);
 
 module.exports = router;

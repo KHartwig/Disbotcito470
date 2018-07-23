@@ -2,10 +2,12 @@
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
+import {AbstractControl} from '@angular/forms';
 
 import { AlertService, UserService } from '../_services';
 
 @Component({templateUrl: 'register.component.html'})
+
 export class RegisterComponent implements OnInit {
     registerForm: FormGroup;
     loading = false;
@@ -28,7 +30,8 @@ export class RegisterComponent implements OnInit {
         this.registerForm = this.formBuilder.group({
             email: ['', Validators.required],
             username: ['', Validators.required],
-            password: ['', [Validators.required, Validators.minLength(6)]]
+            password: ['', [Validators.required, Validators.minLength(6)]],
+            confirmpassword: ['',Validators.required]
         });
     }
 

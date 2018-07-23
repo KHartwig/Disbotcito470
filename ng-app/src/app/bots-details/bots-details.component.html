@@ -1,5 +1,9 @@
 <div class="container" *ngIf="bot">
-  <h3>{{bot.name}}</h3>
+  <h3>{{bot.name}} 
+  <!-- <a [routerLink]="['/']" class="btn btn-link">I am a button, cool</a>  -->
+        <button *ngIf="bot.status == 'ONLINE'" class="btn btn-danger" type="button" (click)="startStop()">turn off</button>
+        <button *ngIf="bot.status == 'OFFLINE'" class="btn btn-success" type="button" (click)="startStop()">turn on</button>
+  </h3>
   <div class="container">
     <div class="row">
       <div class="col-sm">

@@ -6,7 +6,8 @@ const Action = db.Action;
 
 const optActions = {
                 include: [{
-                        model: Action
+                        model: Action,
+                        attributes: ['id', 'type', 'parameters']
                     }]
             };
 
@@ -39,9 +40,12 @@ async function getById(bot, comId){
     return commands ? commands[0] : null;
 }
 
+// Can also create actions
 async function create(bot, commandParam) {
-    // Create command and set its Bot from parameter
-    const command = await Command.create(commandParam);
+    // Create command and set its Bot from parameter, also creates actions
+    const command = await Command.create(commandParam, {
+        include: [ Action ]
+    });
     await command.setBot(bot);
     await command.reload();
 
@@ -49,11 +53,13 @@ async function create(bot, commandParam) {
     return command;
 }
 
+// Does not update actions
 async function update(command, commandParam) {
     command.update(commandParam);
     return command;
 }
 
+// Cascades to delete actions
 async function _delete(command) {
     // Delete the command
     await Command.destroy({where: {id: command.get('id')}});

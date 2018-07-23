@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Bot } from "../_models";
-import { BotService } from "../_services";
+import { AlertService, BotService } from "../_services";
 import {first} from "rxjs/internal/operators";
 
 @Component({
@@ -16,16 +16,59 @@ export class BotsDetailsComponent implements OnInit, OnDestroy {
   bot: Bot;
 
   constructor(private activatedRouter: ActivatedRoute,
-              private botService: BotService ) { }
+              private botService: BotService,
+              private alertService: AlertService ) { }
 
   ngOnInit() {
+
     this.sub = this.activatedRouter.params.subscribe(params => {
       this.id = params['id']; // (+) converts string 'id' to a number
       // In a real app: dispatch action to load the details here.
-      this.botService.getById(this.id).pipe(first()).subscribe(rcvdBot => {
-        this.bot = rcvdBot;
-      });
+      this.loadBot();
     });
+  }
+
+  startStop() {
+     //console.log(this.bot.status);
+
+    // this.loading = true;
+    if ( this.bot.status == "ONLINE"){
+      this.botService.stop(this.bot.id)
+      .pipe(first())
+      .subscribe(
+        data => {
+          this.loadBot();
+          this.alertService.success('Bot stopped', true);
+  
+        },
+        error => {
+          this.alertService.error(error);
+      });
+    }
+      
+    else{
+
+      this.botService.start(this.bot.id)
+        .pipe(first())
+        .subscribe(
+          data => {
+            this.loadBot();
+            this.alertService.success('Bot started', true);
+
+          },
+          error => {
+            this.alertService.error(error);
+        });
+    }
+    
+    // console.log(this.bot.status);
+  }
+
+  loadBot(){
+          this.botService.getById(this.id).pipe(first()).subscribe(rcvdBot => {
+        this.bot = rcvdBot;
+
+      });
   }
 
   ngOnDestroy() {
