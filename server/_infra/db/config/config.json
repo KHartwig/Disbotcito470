@@ -1,24 +1,29 @@
 {
   "development": {
+    "username": "",
+    "password": null,
+    "database": "cmpt470",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "operatorsAliases": false,
+    "logging": true
+  },
+  "test": {
     "username": "postgres",
     "password": "password",
     "database": "cmpt470",
     "host": "127.0.0.1",
     "dialect": "postgres",
-    "operatorsAliases": false
-  },
-  "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "operatorsAliases": false,
+    "logging": true
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+      "username": "postgres",
+      "password": "password",
+      "database": "cmpt470",
+      "host": "127.0.0.1",
+      "dialect": "postgres",
+      "operatorsAliases": false,
+      "logging": false
   }
 }

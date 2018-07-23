@@ -1,5 +1,6 @@
 const expressJwt = require('express-jwt');
-const config = require('config.json');
+const env = process.env.NODE_ENV || 'development';
+const config = require('config.json')[env];
 const userService = require('../users/users.service');
 
 module.exports = jwt;

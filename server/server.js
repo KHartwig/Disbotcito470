@@ -5,10 +5,11 @@ const appServe = express();
 const path = require('path');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const config = require('./config');
-const models = require('_infra/db/models')
+const models = require('_infra/db/models');
 const jwt = require('_helpers/jwt');
 const errorHandler = require('_helpers/error-handler');
+const env = process.env.NODE_ENV || 'development';
+const config = require('./config')[env];
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -22,7 +23,6 @@ app.use('/api', jwt());
 // Route needs token
 app.use('/api/users', require('./users/users.router'));
 app.use('/api/bots', require('./bots/bots.router'));
-// app.use('/api/commands', require('./commands/commands.controller'));
 
 // Routes without token
 // app.use('/api-pub/contacts', require('./contacts/contacts.controller'));
@@ -32,7 +32,7 @@ app.use(errorHandler);
 
 // start server
 // const port = process.env.NODE_ENV === 'production' ? 80 : 4000;
-const port = config.development.port;
+const port = config.port;
 models.sequelize.sync().then(function() {
     console.log('Models synchronized');
     app.listen(port, function() {
@@ -41,13 +41,15 @@ models.sequelize.sync().then(function() {
 });
 
 // ___ Application Serve Server ____
-var distPath = path.join(__dirname, '../ng-app/dist/ng-app');
-appServe.use(express.static(distPath));
-appServe.get('*', function (req, res) {
-    res.sendFile(distPath + '/index.html');
-});
+if (config.serveFrontEnd) {
+    var distPath = path.join(__dirname, '../ng-app/dist/ng-app');
+    appServe.use(express.static(distPath));
+    appServe.get('*', function (req, res) {
+        res.sendFile(distPath + '/index.html');
+    });
 
-const portServe = config.development.portServe;
-const serverAppServe = appServe.listen(portServe, function(){
-    console.log('Serving application on port ' + portServe);
-});
+    const portServe = config.portServe;
+    const serverAppServe = appServe.listen(portServe, function(){
+        console.log('Serving application on port ' + portServe);
+    });
+}
