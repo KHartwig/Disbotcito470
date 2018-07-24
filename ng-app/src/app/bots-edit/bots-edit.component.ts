@@ -36,9 +36,9 @@ export class BotsEditComponent implements OnInit {
 
   ngOnInit() {
     this.sub = this.activatedRouter.params.subscribe(params => {
-      if (params['id']) { //has id, so edit
+      if (params['bid']) { //has id, so edit
         this.pageAction = PageAction.Edit;
-        this.id = params['id']; // (+) converts string 'id' to a number
+        this.id = params['bid']; // (+) converts string 'id' to a number
         // In a real app: dispatch action to load the details here.
         this.botService.getById(this.id).pipe(first()).subscribe(rcvdBot => {
           this.bot = rcvdBot;

@@ -1,7 +1,15 @@
 <!-- <div class="container" *ngIf="guild"> -->
-<div class="container" >
-  <h5> guild1</h5>
-  <h5> guild2</h5>
+
+<div class="container" *ngIf="guildList || guildList.length !== 0">
+
+  <h4>Member:</h4>
+  <div class="list-group" *ngFor="let guild of guildList" >
+    <div class="list-group"  *ngFor="let member of guild.member">
+      <p *ngIf="guild.id == gid" class="text-center">{{ member }}</p>
+
+    </div>
+  </div>
+  <a [routerLink]="['/']" class="btn btn-link">Back</a>
   <!-- <h3>{{guild.name}}  -->
   <!-- <a [routerLink]="['/']" class="btn btn-link">I am a button, cool</a>  -->
   <!-- </h3> -->

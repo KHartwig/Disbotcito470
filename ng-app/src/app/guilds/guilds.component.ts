@@ -12,7 +12,10 @@ import {first} from "rxjs/operators";
 })
 export class GuildsComponent implements OnInit {
 // export class GuildsComponent  {
-  // guildList: Guild[] = [];
+  guildList = [  { "id":1, "name":"pikachu"}, 
+                 { "id":2, "name":"pikachu1"}, 
+                 { "id":3, "name":"pikachu2"}
+              ];
   // // guild: Guild;
   // // selectedGuild: Guild;
   // // id: number;

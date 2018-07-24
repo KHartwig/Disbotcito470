@@ -11,22 +11,39 @@ import {first} from "rxjs/internal/operators";
   styleUrls: ['./guilds-details.component.css']
 })
 export class GuildsDetailsComponent implements OnInit, OnDestroy {
-// export class GuildsDetailsComponent  {
-  // id: number;
-  // sub: any;
+// @Input() gId: number;
+gid: number;
+  sub: any;
   // guild: Guild;
+guildList = [  { "id":1, "name":"pikachu", "member": [  "usr1", "usr2"]}, 
+                 { "id":2, "name":"pikachu1", "member": [ "usr3", "usr4"]}, 
+                 { "id":3, "name":"pikachu2", "member": [ "usr5", "usr6"]}
+              ];
 
+// member = {
+//    id
+//    name
+//    status
+// }
+
+
+// emoji = {
+//    id
+//    tag
+//    url
+// }
   constructor(private activatedRouter: ActivatedRoute,
               private guildService: GuildService,
               private alertService: AlertService ) { }
 
   ngOnInit() {
 
-  //   this.sub = this.activatedRouter.params.subscribe(params => {
-  //     this.id = params['id']; // (+) converts string 'id' to a number
+    this.sub = this.activatedRouter.params.subscribe(params => {
+      this.gid = params['gid']; // (+) converts string 'id' to a number
+      console.log(this.gid);
   //     // In a real app: dispatch action to load the details here.
   //     this.loadGuild();
-  //   });
+    });
   }
 
   // startStop() {
@@ -73,6 +90,6 @@ export class GuildsDetailsComponent implements OnInit, OnDestroy {
   // }
 
   ngOnDestroy() {
-  //   this.sub.unsubscribe();
+    // this.sub.unsubscribe();
   }
 }

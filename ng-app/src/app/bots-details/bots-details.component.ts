@@ -22,7 +22,7 @@ export class BotsDetailsComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.sub = this.activatedRouter.params.subscribe(params => {
-      this.id = params['id']; // (+) converts string 'id' to a number
+      this.id = params['bid']; // (+) converts string 'id' to a number
       // In a real app: dispatch action to load the details here.
       this.loadBot();
     });

@@ -6,6 +6,7 @@ import { RegisterComponent } from './register';
 import { AuthGuard } from './_guards';
 import { BotsDetailsComponent } from "./bots-details/bots-details.component";
 import { BotsEditComponent } from "./bots-edit/bots-edit.component";
+import { GuildsDetailsComponent } from "./guilds-details/guilds-details.component";
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -13,8 +14,10 @@ const appRoutes: Routes = [
     { path: 'register', component: RegisterComponent },
     //{ path: 'forgetpw', component: ForgetpwComponent },
     { path: 'bots/add', component: BotsEditComponent },
-    { path: 'bots/:id', component: BotsDetailsComponent },
-    { path: 'bots/edit/:id', component: BotsEditComponent },
+    { path: 'bots/:bid', component: BotsDetailsComponent, 
+        children: [{ path: 'guilds/:gid', component: GuildsDetailsComponent }]
+    },
+    { path: 'bots/edit/:bid', component: BotsEditComponent },
 
   // otherwise redirect to home
     { path: '**', redirectTo: '' }
