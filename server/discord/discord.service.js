@@ -6,6 +6,7 @@ module.exports = {
     createClient,
     destroyClient,
     updateClientCommands,
+    getGuildObject,
     getGuilds,
     getGuildById,
     getGuildMembers,
@@ -46,8 +47,8 @@ async function getGuildMembers(guild) {
     return guild.members.first(DEFAULT_LIMIT).map(memberFilter);
 }
 
-async function getGuildEmojis(botId, guildId) {
-    return guild.emojis.first(DEFAULT_LIMIT).map(memberFilter);
+async function getGuildEmojis(guild) {
+    return guild.emojis.first(DEFAULT_LIMIT).map(emojiFilter);
 }
 
 // Discord Object filters
