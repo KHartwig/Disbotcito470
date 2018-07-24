@@ -35,7 +35,7 @@ export class BotsComponent implements OnInit {
       });
   }
 
-  startStop(i number) {
+  startStop(i:number) {
         this.botService.getById(i).pipe(first()).subscribe(rcvdBot => {
         this.bot = rcvdBot;
 
@@ -45,31 +45,31 @@ export class BotsComponent implements OnInit {
             .pipe(first())
             .subscribe(
               data => {
-        
-        
+
+
               },
               error => {
                 this.alertService.error(error);
             });
           }
-        
+
           else{
             this.botService.start(this.bot.id)
               .pipe(first())
               .subscribe(
                 data => {
-        
+
                 console.log(this.selectedBot.status);
-        
-        
-        
+
+
+
                 },
                 error => {
                   this.alertService.error(error);
               });
           }
-        
+
         });
-  
+
   }
 }
