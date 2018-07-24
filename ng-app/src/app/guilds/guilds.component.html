@@ -1,11 +1,11 @@
-<h2 class="text-center">Bots</h2>
-<!-- *ngIf bots, else you have no bots -->
+<!-- *ngIf guilds, else you have no guilds -->
 <div class="container">
-    <h5 class="text-center" *ngIf="!botList || botList.length === 0">You have no bots right now</h5>
-    <div class="list-group" *ngFor="let bot of botList">
-      <a [routerLink]="['/bots', bot.id]" class="list-group-item list-group-item-action text-center">{{ bot.name }}</a>
-      <button *ngIf="bot.status == 'ONLINE'" class="btn btn-danger" type="button" (click)="startStop(bot.id)">turn off</button>
-      <button *ngIf="bot.status == 'OFFLINE'" class="btn btn-success" type="button" (click)="startStop(bot.id)">turn on</button>
-    </div>
+<h4 >Guilds:</h4>
+    <!-- <h5 class="text-center" *ngIf="!guildList || guildList.length === 0">You have no guilds right now</h5> -->
+   <!--  <div class="list-group" *ngFor="let guild of guildList">
+      <a [routerLink]="['/guilds', guild.id]" class="list-group-item list-group-item-action text-center">{{ guild.name }}</a>
+      <button *ngIf="guild.status == 'ONLINE'" class="btn btn-danger" type="button" (click)="startStop(guild.id)">turn off</button>
+      <button *ngIf="guild.status == 'OFFLINE'" class="btn btn-success" type="button" (click)="startStop(guild.id)">turn on</button>
+    </div> -->
 </div>
-<a [routerLink]="['/bots/add']" class="btn btn-link">Add Bot</a>
+<!-- /<a [routerLink]="['/guilds/add']" class="btn btn-link">Add Guild</a> -->

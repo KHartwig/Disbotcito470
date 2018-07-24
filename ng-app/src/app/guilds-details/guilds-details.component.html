@@ -1,16 +1,17 @@
-<div class="container" *ngIf="bot">
-  <h3>{{bot.name}} 
+<!-- <div class="container" *ngIf="guild"> -->
+<div class="container" >
+  <h5> guild1</h5>
+  <h5> guild2</h5>
+  <!-- <h3>{{guild.name}}  -->
   <!-- <a [routerLink]="['/']" class="btn btn-link">I am a button, cool</a>  -->
-        <button *ngIf="bot.status == 'ONLINE'" class="btn btn-danger" type="button" (click)="startStop()">turn off</button>
-        <button *ngIf="bot.status == 'OFFLINE'" class="btn btn-success" type="button" (click)="startStop()">turn on</button>
-  </h3>
-  <div class="container">
+  <!-- </h3> -->
+<!--   <div class="container">
     <div class="row">
       <div class="col-sm">
         <strong>Discord Token:</strong>
       </div>
       <div class="col-sm">
-        {{bot.discordToken}}
+        {{guild.discordToken}}
       </div>
     </div>
     <div class="row">
@@ -18,7 +19,7 @@
         <strong>Status:</strong>
       </div>
       <div class="col-sm">
-        {{bot.status}}
+        {{guild.status}}
       </div>
     </div>
     <div class="row">
@@ -26,10 +27,10 @@
         <strong>Command Prefix:</strong>
       </div>
       <div class="col-sm">
-        {{bot.commandPrefix}}
+        {{guild.commandPrefix}}
       </div>
     </div>
-  </div>
-  <a [routerLink]="['/']" class="btn btn-link">Back</a>
-  <a [routerLink]="['/bots/edit', bot.id ]" class="btn btn-link">Edit</a>
+  </div> -->
+<!--   <a [routerLink]="['/']" class="btn btn-link">Back</a>
+  <a [routerLink]="['/guilds/edit', guild.id ]" class="btn btn-link">Edit</a> -->
 </div>

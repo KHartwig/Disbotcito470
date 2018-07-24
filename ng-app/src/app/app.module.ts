@@ -13,7 +13,7 @@ import { routing }        from './app.routing';
 import { AlertComponent } from './_directives';
 import { AuthGuard } from './_guards';
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
-import {AlertService, AuthenticationService, DataService, UserService, BotService, ActionService} from './_services';
+import {AlertService, AuthenticationService, DataService, UserService, BotService, GuildService, ActionService} from './_services';
 import { HomeComponent } from './home';
 import { NavComponent } from './nav';
 import { LoginComponent } from './login';
@@ -21,6 +21,8 @@ import { RegisterComponent } from './register';
 import { BotsComponent } from './bots/bots.component';
 import { BotsEditComponent } from './bots-edit/bots-edit.component';
 import { BotsDetailsComponent } from './bots-details/bots-details.component';;
+import { GuildsComponent } from './guilds/guilds.component';
+import { GuildsDetailsComponent } from './guilds-details/guilds-details.component';
 import { CommandListComponent } from './command-list/command-list.component'
 import { CommandService } from "./_services/command.service";;
 import { CommandComponent } from './command/command.component'
@@ -43,6 +45,8 @@ import { CommandComponent } from './command/command.component'
         BotsComponent,
         BotsEditComponent,
         BotsDetailsComponent,
+        GuildsComponent,
+        GuildsDetailsComponent,
         CommandListComponent,
         CommandComponent
     ],
@@ -53,6 +57,7 @@ import { CommandComponent } from './command/command.component'
         DataService,
         UserService,
         BotService,
+        GuildService,
         CommandService,
         ActionService,
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+// import { ActivatedRoute } from '@angular/router';
 
-import { Guild } from '../_models';
+// import { Guild } from '../_models';
 import { GuildService, AlertService } from "../_services";
 import {first} from "rxjs/operators";
 
@@ -11,56 +11,58 @@ import {first} from "rxjs/operators";
   styleUrls: ['./guilds.component.css']
 })
 export class GuildsComponent implements OnInit {
-  guildList: Guild[] = [];
-  // guild: Guild;
-  // selectedGuild: Guild;
-  // id: number;
-  constructor(private activatedRouter: ActivatedRoute,
+// export class GuildsComponent  {
+  // guildList: Guild[] = [];
+  // // guild: Guild;
+  // // selectedGuild: Guild;
+  // // id: number;
+  constructor(
+              // private activatedRouter: ActivatedRoute,
               private guildService: GuildService,
               private alertService: AlertService) { }
 
   ngOnInit() {
-    this.loadGuilds();
+  //   this.loadGuilds();
   }
 
-  private loadGuilds () {
-    this.guildService.getAll().pipe(first()).subscribe(guilds => {
-      this.guildList = guilds;
-    });
-  }
+  // private loadGuilds () {
+  //   this.guildService.getAll().pipe(first()).subscribe(guilds => {
+  //     this.guildList = guilds;
+  //   });
+  // }
 
-  startStop(i:number) {
-        this.guildService.getById(i).pipe(first()).subscribe(rcvdGuild => {
-            const guild: Guild = rcvdGuild;
+  // startStop(i:number) {
+  //       this.guildService.getById(i).pipe(first()).subscribe(rcvdGuild => {
+  //           const guild: Guild = rcvdGuild;
 
 
-          if ( guild.status == "ONLINE" ){
-            this.guildService.stop(guild.id)
-            .pipe(first())
-            .subscribe(
-              guild => {
-                    this.loadGuilds();
-              },
-              error => {
-                this.alertService.error(error);
-            });
-          }
+  //         if ( guild.status == "ONLINE" ){
+  //           this.guildService.stop(guild.id)
+  //           .pipe(first())
+  //           .subscribe(
+  //             guild => {
+  //                   this.loadGuilds();
+  //             },
+  //             error => {
+  //               this.alertService.error(error);
+  //           });
+  //         }
 
-          else{
-            this.guildService.start(guild.id)
-              .pipe(first())
-              .subscribe(
-                data => {
+  //         else{
+  //           this.guildService.start(guild.id)
+  //             .pipe(first())
+  //             .subscribe(
+  //               data => {
 
-                    this.loadGuilds();
+  //                   this.loadGuilds();
 
-                },
-                error => {
-                  this.alertService.error(error);
-              });
-          }
+  //               },
+  //               error => {
+  //                 this.alertService.error(error);
+  //             });
+  //         }
 
-        });
+  //       });
 
-  }
+  
 }
