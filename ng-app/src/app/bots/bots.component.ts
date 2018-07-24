@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Bot } from '../_models';
-import { BotService } from "../_services";
+import { BotService, AlertService } from "../_services";
 import {first} from "rxjs/operators";
 
 @Component({
@@ -12,11 +12,12 @@ import {first} from "rxjs/operators";
 })
 export class BotsComponent implements OnInit {
   botList: Bot[] = [];
-  bot: Bot;
+  // bot: Bot;
   // selectedBot: Bot;
   // id: number;
   constructor(private activatedRouter: ActivatedRoute,
-              private botService: BotService) { }
+              private botService: BotService,
+              private alertService: AlertService) { }
 
   ngOnInit() {
     this.loadBots();
@@ -28,25 +29,17 @@ export class BotsComponent implements OnInit {
     });
   }
 
-  loadBot(){
-        this.botService.getById(this.id).pipe(first()).subscribe(rcvdBot => {
-        this.bot = rcvdBot;
-
-      });
-  }
-
   startStop(i:number) {
         this.botService.getById(i).pipe(first()).subscribe(rcvdBot => {
-        this.bot = rcvdBot;
+            const bot: Bot = rcvdBot;
 
 
-          if ( this.bot.status == "ONLINE" ){
-            this.botService.stop(this.bot.id)
+          if ( bot.status == "ONLINE" ){
+            this.botService.stop(bot.id)
             .pipe(first())
             .subscribe(
-              data => {
-
-
+              bot => {
+                    this.loadBots();
               },
               error => {
                 this.alertService.error(error);
@@ -54,14 +47,12 @@ export class BotsComponent implements OnInit {
           }
 
           else{
-            this.botService.start(this.bot.id)
+            this.botService.start(bot.id)
               .pipe(first())
               .subscribe(
                 data => {
 
-                console.log(this.selectedBot.status);
-
-
+                    this.loadBots();
 
                 },
                 error => {
