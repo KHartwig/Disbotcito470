@@ -13,6 +13,8 @@ import {first} from "rxjs/internal/operators";
 export class GuildsDetailsComponent implements OnInit, OnDestroy {
 // @Input() gId: number;
 gid: number;
+bid: number;
+
   sub: any;
   // guild: Guild;
 guildList = [  { "id":1, "name":"pikachu", "member": [  "usr1", "usr2"]}, 
@@ -39,6 +41,7 @@ guildList = [  { "id":1, "name":"pikachu", "member": [  "usr1", "usr2"]},
   ngOnInit() {
 
     this.sub = this.activatedRouter.params.subscribe(params => {
+      this.bid = params['bid']; // (+) converts string 'id' to a number
       this.gid = params['gid']; // (+) converts string 'id' to a number
       console.log(this.gid);
   //     // In a real app: dispatch action to load the details here.

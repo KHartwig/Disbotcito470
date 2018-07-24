@@ -6,10 +6,10 @@
   <div class="list-group" *ngFor="let guild of guildList" >
     <div class="list-group"  *ngFor="let member of guild.member">
       <p *ngIf="guild.id == gid" class="text-center">{{ member }}</p>
-
+<!-- <router-outlet></router-outlet> -->
     </div>
   </div>
-  <a [routerLink]="['/']" class="btn btn-link">Back</a>
+  <a [routerLink]="['/bots', bid]" class="btn btn-link">Back</a>
   <!-- <h3>{{guild.name}}  -->
   <!-- <a [routerLink]="['/']" class="btn btn-link">I am a button, cool</a>  -->
   <!-- </h3> -->

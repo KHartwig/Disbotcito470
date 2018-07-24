@@ -15,9 +15,11 @@ const appRoutes: Routes = [
     //{ path: 'forgetpw', component: ForgetpwComponent },
     { path: 'bots/add', component: BotsEditComponent },
     { path: 'bots/:bid', component: BotsDetailsComponent, 
-        children: [{ path: 'guilds/:gid', component: GuildsDetailsComponent }]
+        // children: [{ path: 'guilds/:gid', component: GuildsDetailsComponent }]
     },
     { path: 'bots/edit/:bid', component: BotsEditComponent },
+
+    { path: 'bots/:bid/guilds/:gid', component: GuildsDetailsComponent, 
 
   // otherwise redirect to home
     { path: '**', redirectTo: '' }

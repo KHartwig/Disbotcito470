@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-// import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 // import { Guild } from '../_models';
 import { GuildService, AlertService } from "../_services";
@@ -16,15 +16,24 @@ export class GuildsComponent implements OnInit {
                  { "id":2, "name":"pikachu1"}, 
                  { "id":3, "name":"pikachu2"}
               ];
+bid: number;
+gid: number;
   // // guild: Guild;
   // // selectedGuild: Guild;
   // // id: number;
   constructor(
-              // private activatedRouter: ActivatedRoute,
+              private activatedRouter: ActivatedRoute,
               private guildService: GuildService,
               private alertService: AlertService) { }
 
   ngOnInit() {
+      this.sub = this.activatedRouter.params.subscribe(params => {
+      this.bid = params['bid']; // (+) converts string 'id' to a number
+      this.gid = params['gid']; // (+) converts string 'id' to a number
+      console.log(this.gid);
+  //     // In a real app: dispatch action to load the details here.
+  //     this.loadGuild();
+    });
   //   this.loadGuilds();
   }
 
