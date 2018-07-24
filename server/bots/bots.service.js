@@ -14,14 +14,20 @@ const optCommands = {
             }]
     };
 
+const VALID_BOT_STATUS = [
+    'OFFLINE',
+    'ONLINE'
+];
+
 module.exports = {
     getAll,
     getAllByUser,
     getById,
     create,
     update,
+    updateStatus,
     delete: _delete,
-    toggleStatus
+    toggleStatus,
 };
 
 async function getAll(includeCommands) {
@@ -33,9 +39,12 @@ async function getById(user, botId, includeCommands) {
     // Check for valid Id
     if (isNaN(botId)) return null;
 
-    const options = { where:{id:botId},
-                        include: includeCommands == 'true' ? optCommands.include : null
-    }
+    const options = {
+        where:{
+            id:botId
+        },
+        include: includeCommands === 'true' ? optCommands.include : null
+    };
 
     // Get the session user and find the bot by its id
     const bots = await user.getBots(options);
@@ -45,9 +54,8 @@ async function getById(user, botId, includeCommands) {
 }
 
 async function getAllByUser(user, includeCommands) {
-    const options = includeCommands == 'true' ? optCommands : {};
-    const bots = await user.getBots(options);
-    return bots;
+    const options = includeCommands === 'true' ? optCommands : {};
+    return await user.getBots(options);
 }
 
 async function create(user, botParam) {
@@ -67,24 +75,17 @@ async function update(bot, botParam) {
     return bot;
 }
 
+// Update status to given status if it is a valid one
+async function updateStatus(bot, status) {
+    if (!VALID_BOT_STATUS.includes(status)) throw 'Invalid Status';
+    bot.status = status;
+    await bot.save();
+    return bot;
+}
+
 async function _delete(bot) {
     // Delete the bot
     await Bot.destroy({where: {id: bot.get('id')}});
-}
-
-// Finds ther user specified (intended to be session user)
-async function getSessionUser(userId) {
-    const user = await User.findById(userId);
-    if (!user) throw 'Session user does not exist';
-    return user;
-}
-
-// Use this method if we want to throw an error (not '404')
-//      when the bot cannot be found
-async function getBotIfExists(botId, userId) {
-    const bot = await getById(botId, userId);
-    if (!bot) throw 'Bot does not exist';
-    return bot;
 }
 
 // Toggle status of bot between ONLINE and OFFLINE
