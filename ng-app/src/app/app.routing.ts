@@ -19,7 +19,7 @@ const appRoutes: Routes = [
     },
     { path: 'bots/edit/:bid', component: BotsEditComponent },
 
-    { path: 'bots/:bid/guilds/:gid', component: GuildsDetailsComponent, 
+    { path: 'bots/:bid/guilds/:gid', component: GuildsDetailsComponent},
 
   // otherwise redirect to home
     { path: '**', redirectTo: '' }

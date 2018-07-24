@@ -16,6 +16,7 @@ export class GuildsComponent implements OnInit {
                  { "id":2, "name":"pikachu1"}, 
                  { "id":3, "name":"pikachu2"}
               ];
+sub: any;
 bid: number;
 gid: number;
   // // guild: Guild;
