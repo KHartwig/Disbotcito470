@@ -5,7 +5,6 @@ module.exports = {
     stop
 };
 
-// Finds the bot and attaches it to the req object
 function start(req, res, next){
 }
 
