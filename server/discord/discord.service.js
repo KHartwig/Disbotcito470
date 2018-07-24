@@ -12,7 +12,7 @@ module.exports = {
     getGuildEmojis
 };
 
-const defaultLimit = 100;
+const DEFAULT_LIMIT = 100;
 
 async function createClient(botId, commands) {
     cwMap.set(botId, new clientWrapper(botId, commands));
@@ -35,7 +35,7 @@ async function getGuildObject(botId) {
 
 async function getGuilds(botId) {
     // const guilds = await cwMap[botId].client.guilds();
-    const guilds = cwMap.get(botId).guilds.first(defaultLimit).map(guildFilter);
+    const guilds = cwMap.get(botId).guilds.first(DEFAULT_LIMIT).map(guildFilter);
 }
 
 async function getGuildById(guild) {
@@ -43,11 +43,11 @@ async function getGuildById(guild) {
 }
 
 async function getGuildMembers(guild) {
-    return guild.members.first(defaultLimit).map(memberFilter);
+    return guild.members.first(DEFAULT_LIMIT).map(memberFilter);
 }
 
 async function getGuildEmojis(botId, guildId) {
-    return guild.emojis.first(defaultLimit).map(memberFilter);
+    return guild.emojis.first(DEFAULT_LIMIT).map(memberFilter);
 }
 
 // Discord Object filters
