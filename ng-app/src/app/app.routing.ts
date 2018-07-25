@@ -3,6 +3,7 @@
 import { HomeComponent } from './home';
 import { LoginComponent } from './login';
 import { RegisterComponent } from './register';
+import { confirmPasswordValidation } from './register';
 import { AuthGuard } from './_guards';
 import { BotsDetailsComponent } from "./bots-details/bots-details.component";
 import { BotsEditComponent } from "./bots-edit/bots-edit.component";
