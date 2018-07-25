@@ -11,7 +11,9 @@ import {first} from "rxjs/operators";
   styleUrls: ['./bots.component.css']
 })
 export class BotsComponent implements OnInit {
-  botList: Bot[] = [];
+    botList: Bot[] = [];
+    onlineBots: Bot[] = [];
+    offlineBots: Bot[] = [];
   // bot: Bot;
   // selectedBot: Bot;
   // id: number;
@@ -23,9 +25,20 @@ export class BotsComponent implements OnInit {
     this.loadBots();
   }
 
+  // Function to sort bots, goes by createdAt, if same then sorts by id
+  private botSort(botA, botB) {
+      const timeA = new Date(botA.createdAt).getTime();
+      const timeB = new Date(botB.createdAt).getTime();
+      if (timeA !== timeB) return timeA - timeB;
+      else return botA.id - botB.id;
+  }
+
   private loadBots () {
     this.botService.getAll().pipe(first()).subscribe(bots => {
-      this.botList = bots;
+        bots.sort(this.botSort);
+        this.botList = bots;
+        this.onlineBots = bots.filter(bot => {return bot.status === 'ONLINE';})
+        this.offlineBots = bots.filter(bot => {return bot.status === 'OFFLINE';})
     });
   }
 
