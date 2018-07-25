@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import {AbstractControl} from '@angular/forms';
+import { confirmPasswordValidation } from './confirmpassword';
+
 
 import { AlertService, UserService } from '../_services';
 
@@ -13,13 +15,6 @@ export class RegisterComponent implements OnInit {
     loading = false;
     submitted = false;
 
-    /*Class for email validator trial
-    class EmailValidator implements Validator {
-      set email: boolean | string
-      validate(c: AbstractControl): ValidationErrors | null
-      registerOnValidatorChange(fn: () => void): void
-    }*/
-
     constructor(
         private formBuilder: FormBuilder,
         private router: Router,
@@ -28,10 +23,12 @@ export class RegisterComponent implements OnInit {
 
     ngOnInit() {
         this.registerForm = this.formBuilder.group({
-            email: ['', Validators.required],
+            email: ['', [Validators.required, Validators.email] ],
             username: ['', Validators.required],
             password: ['', [Validators.required, Validators.minLength(6)]],
             confirmpassword: ['',Validators.required]
+        }, {
+          validator: confirmPasswordValidation.MatchPassword
         });
     }
 
