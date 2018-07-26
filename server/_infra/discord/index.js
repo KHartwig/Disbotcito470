@@ -13,6 +13,7 @@ class ClientWrapper {
         //discord stuff
         this.natureEmojis = ["four_leaf_clover", "full_moon", "thunder_cloud_rain", "cloud_tornado", "mushroom"];
         this.numberEmojis = ["seven", "one", "two", "three", "four", "five", "six", "eight", "nine"];
+        this.isSendingAudio = false;
 
         this.client = new Discord.Client();
         this.client.login(this.botToken);
@@ -50,7 +51,7 @@ class ClientWrapper {
                         this.messageDirect(message, action.parameters[0]);
                         break;
                     case 'playAudio':
-
+                        this.playAudio(message, action.parameters[0]);
                         break;
                     case 'slots':
                         this.rollSlots(message, action.parameters[0], action.parameters[1]);
@@ -113,6 +114,33 @@ class ClientWrapper {
         response += didWin ? winMessage : loseMessage;
         console.log("> Slots - result: " + result);
         this.messageChannel(message, response);
+    }
+
+    //param1: url to file
+    playAudio(message, fileUrl)
+    {
+        const voiceChannel = message.member.voiceChannel
+        if (voiceChannel)
+        {
+            if (this.isSendingAudio)
+            {
+                this.messageChannel(message, "I'm playing audio already! Please wait and try again.");
+            }
+            else
+            {
+                voiceChannel.join().then(connection => {
+                    this.isSendingAudio = true;
+                    const dispatcher = connection.playFile(fileUrl);
+                    dispatcher.on("end", end => {
+                        this.isSendingAudio = false;
+                        console.log("Finished playing audio file " + fileUrl);
+                        voiceChannel.leave();
+                    });
+                }).catch(err => console.log("Error occurred while joining voice channel: " + err));
+            }
+        }
+        else
+            this.messageChannel(message, "Sorry, you have to join a voice channel first!");
     }
 
     destroy()
