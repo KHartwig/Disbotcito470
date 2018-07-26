@@ -4,10 +4,15 @@ class ClientWrapper {
 
     constructor(botToken, commandPrefix, commands)
     {
+        //disbotcito stuff
         this.botToken = botToken;
         this.commandPrefix = commandPrefix;
         this.commands = commands;
         //console.log("Commands: " + JSON.stringify(commands));
+
+        //discord stuff
+        this.natureEmojis = ["four_leaf_clover", "full_moon", "thunder_cloud_rain", "cloud_tornado", "mushroom"];
+        this.numberEmojis = ["seven", "one", "two", "three", "four", "five", "six", "eight", "nine"];
 
         this.client = new Discord.Client();
         this.client.login(this.botToken);
@@ -16,9 +21,9 @@ class ClientWrapper {
 
     handleMessage(message)
     {
-        console.log("Handling message...");
-        if (message.author.bot)
+        if (message.author.bot) //ignore messages from bots
             return;
+        console.log("Handling message...");
 
         const cmdName = message.content.split(' ')[0];
         console.log("Command: " + cmdName);
@@ -39,16 +44,16 @@ class ClientWrapper {
                 switch (action.type)
                 {
                     case 'msgChannel':
-                        this.messageChannel(action, message);
+                        this.messageChannel(message, action.parameters[0]);
                         break;
                     case 'msgDirect':
-                        this.messageDirect(action, message);
+                        this.messageDirect(message, action.parameters[0]);
                         break;
                     case 'playAudio':
 
                         break;
                     case 'slots':
-                        
+                        this.rollSlots(message, action.parameters[0], action.parameters[1]);
                         break;
                     default:
                         message.reply('Error, invalid action type "' + action.type + '"');
@@ -58,22 +63,56 @@ class ClientWrapper {
         }
     }
 
-    messageChannel(action, message)
+    //param1: messageToSend
+    messageChannel(message, messageContents)
     {
-        for (let gid=0; gid < this.client.guilds.array().length; ++gid)
+        if (message.guild.available)
         {
-            const guild = this.client.guilds.array()[gid];
-            console.log("Guild name: " + guild.name);
-            if (guild === message.guild && guild.available)
-            {
-                message.reply(action.parameters[0]);
-            }
+            console.log("Sending message in guild " + message.guild.name);
+            message.reply(messageContents);
         }
     }
 
-    messageDirect(action, message)
+    //param1: messageToSend
+    messageDirect(message, messageContents)
     {
-        message.author.send(action.parameters[0]);
+        message.author.send(messageContents);
+    }
+
+    //param1: number of emojis to roll
+    //param2: category of the emoji
+    rollSlots(message, emojiCount, emojiCategory)
+    {
+        let didWin = true;
+        let winMessage = 'Congratulations, you won!';
+        let loseMessage = 'Sorry, please try again!';
+        let emojiArr = [];
+        switch (emojiCategory)
+        {
+            case 'nature':
+                emojiArr = this.natureEmojis;
+                break;
+            case 'number':
+            default:
+                emojiArr = this.numberEmojis;
+                break;
+        }
+        console.log("> Slots - emojiCategory: " + emojiCategory);
+        console.log("> Guild emojis - " + message.guild.emojis.map(e=>e.toString()).join(" "));
+
+        let result = '';
+        for (let i=0; i < emojiCount; ++i)
+        {
+            const currEmoji = emojiArr[Math.floor(Math.random() * emojiArr.length)];
+            if (currEmoji !== emojiArr[0]) //first emoji is considered "winning" one
+                didWin = false;
+            result += ':' + currEmoji + ':';//message.guild.emojis.find("name", currEmoji);
+        }
+
+        let response = '\n-  SLOTS  -\n========\n' + result + '\n========\n';
+        response += didWin ? winMessage : loseMessage;
+        console.log("> Slots - result: " + result);
+        this.messageChannel(message, response);
     }
 
     destroy()
