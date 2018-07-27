@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const discordController = require('./bots.controller');
+const discordController = require('./discord.controller');
 
 router.put('/start', discordController.start);
 router.put('/stop', discordController.stop);
