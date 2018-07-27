@@ -31,7 +31,7 @@
                     <input type="password" formControlName="confirmpassword" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirmpassword.errors }" />
                     <div *ngIf="submitted && f.confirmpassword.errors" class="invalid-feedback">
                         <div class="alert alert-danger" *ngIf="f.confirmpassword.errors.required">Confirm Password is required</div>
-                        <div class="alert alert-danger" *ngIf="f.confirmpassword.errors?.MatchPassword">Password not match</div>
+                        <div class="alert alert-danger" *ngIf="f.confirmpassword.errors?.MatchPassword">Password does not match</div>
                         <!-- <div *ngIf="f.confirmpassword.errors.minlength">Please enter confirm password with at least 6 characters</div> -->
                     </div>
                 </div><!-- Confirm Password end here-->
