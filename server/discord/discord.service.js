@@ -1,4 +1,4 @@
-const clientWrapper = require('_infra/discord/index');
+const clientWrapper = require('../_infra/discord/index');
 
 let cwMap = new Map();
 
@@ -15,28 +15,27 @@ module.exports = {
 
 const DEFAULT_LIMIT = 100;
 
-async function createClient(botId, commands) {
-    cwMap.set(botId, new clientWrapper(botId, commands));
+async function createClient(bot) {
+    cwMap.set(bot.id, new clientWrapper(bot.discordToken, bot.commandPrefix, bot.commands));
 }
 
-async function destroyClient(botId) {
-    cwMap.get(botId).destroy();
-    cwMap.delete(botId);
+async function destroyClient(bot) {
+    cwMap.get(bot.id).destroy();
+    cwMap.delete(bot.id);
 }
 
-async function updateClientCommands(botId, commands) {
-    cwMap.get(botId).updateCommands(commands);
+async function updateClientCommands(bot, commands) {
+    cwMap.get(bot.id).commands = commands;
 }
 
-async function getGuildObject(botId) {
-    const guild = cwMap.get(botId).guilds.find('id', guildId);
+async function getGuildObject(bot) {
+    const guild = cwMap.get(bot.id).client.guilds.find('id', guildId);
     if (!guild.available) throw 'Guild Unavailable';
     return guild;
 }
 
-async function getGuilds(botId) {
-    // const guilds = await cwMap[botId].client.guilds();
-    const guilds = cwMap.get(botId).guilds.first(DEFAULT_LIMIT).map(guildFilter);
+async function getGuilds(bot) {
+    return cwMap.get(bot.id).client.guilds.first(DEFAULT_LIMIT).map(guildFilter);
 }
 
 async function getGuildById(guild) {
@@ -60,7 +59,8 @@ function guildFilter(guild) {
         ownerUsername: guild.owner.user.username,   // string - Username of the owner user
         ownerID: guild.ownerID,                     // string - ID of the owner user
         memberCount: guild.memberCount,             // number - Number of members in the guild
-        region: guild.region                        // string - Region where guild is hosted
+        region: guild.region,                       // string - Region where guild is hosted
+        available: guild.available                  // bool - false indicates server outage
     }
 }
 
