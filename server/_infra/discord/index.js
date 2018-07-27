@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const ytdl = require('ytdl-core');
 
 class ClientWrapper {
 
@@ -20,20 +21,23 @@ class ClientWrapper {
         this.client.on('message', async message => this.handleMessage(message));
     }
 
+    sync(commands)
+    {
+        this.commands = commands;
+    }
+
     handleMessage(message)
     {
-        if (message.author.bot) //ignore messages from bots
+        if (message.author.bot || !message.content.startsWith(this.commandPrefix)) //ignore messages from bots
             return;
-        console.log("Handling message...");
+        console.log("\nHandling message...");
 
         const cmdName = message.content.split(' ')[0];
         console.log("Command: " + cmdName);
-        console.log("Command name: " + cmdName.substr(this.commandPrefix.length));
         for (let i=0; i < this.commands.length; ++i)
         {
             const command = this.commands[i];
-            //console.log("Comparing against " + JSON.stringify(command));
-            if (!(message.content.startsWith(this.commandPrefix) && cmdName.substr(this.commandPrefix.length) === command.name))
+            if (cmdName.substr(this.commandPrefix.length) !== command.name)
                 continue;
 
             console.log("Found command '" + command.name + "'");
@@ -51,7 +55,7 @@ class ClientWrapper {
                         this.messageDirect(message, action.parameters[0]);
                         break;
                     case 'playAudio':
-                        this.playAudio(message, action.parameters[0]);
+                        this.playAudio(message, action.parameters[0], action.parameters[1]);
                         break;
                     case 'slots':
                         this.rollSlots(message, action.parameters[0], action.parameters[1]);
@@ -93,6 +97,9 @@ class ClientWrapper {
             case 'nature':
                 emojiArr = this.natureEmojis;
                 break;
+            case 'server':
+                emojiArr = message.guild.emojis.array();
+                break;
             case 'number':
             default:
                 emojiArr = this.numberEmojis;
@@ -105,7 +112,7 @@ class ClientWrapper {
         for (let i=0; i < emojiCount; ++i)
         {
             const currEmoji = emojiArr[Math.floor(Math.random() * emojiArr.length)];
-            if (currEmoji !== emojiArr[0]) //first emoji is considered "winning" one
+            if (i > 0 && currEmoji !== emojiArr[i-1])
                 didWin = false;
             result += ':' + currEmoji + ':';//message.guild.emojis.find("name", currEmoji);
         }
@@ -116,10 +123,11 @@ class ClientWrapper {
         this.messageChannel(message, response);
     }
 
-    //param1: url to file
-    playAudio(message, fileUrl)
+    //param1: location type (local or youtube)
+    //param2: link to audio
+    playAudio(message, type, audioUrl)
     {
-        const voiceChannel = message.member.voiceChannel
+        const voiceChannel = message.member.voiceChannel;
         if (voiceChannel)
         {
             if (this.isSendingAudio)
@@ -129,14 +137,38 @@ class ClientWrapper {
             else
             {
                 voiceChannel.join().then(connection => {
-                    this.isSendingAudio = true;
-                    const dispatcher = connection.playFile(fileUrl);
-                    dispatcher.on("end", end => {
+                    try
+                    {
+                        this.isSendingAudio = true;
+                        if (type === "local")
+                        {
+                            const dispatcher = connection.playFile(audioUrl);
+                            dispatcher.on("end", end => {
+                                this.isSendingAudio = false;
+                                console.log("Finished playing audio file " + audioUrl);
+                                voiceChannel.leave();
+                            });
+                        }
+                        else if (type === "youtube")
+                        {
+                            const streamOptions = { seek: 0, volume: 1 };
+                            const stream = ytdl(audioUrl, { filter : 'audioonly' });
+                            const dispatcher = connection.playStream(stream, streamOptions);
+                            dispatcher.on("end", end => {
+                                this.isSendingAudio = false;
+                                console.log("Finished playing audio stream " + audioUrl);
+                                voiceChannel.leave();
+                            });
+                        }
+                    } catch (ex)
+                    {
+                        console.log("Unknown exception occurred when trying to play audio file: " + ex.message);
                         this.isSendingAudio = false;
-                        console.log("Finished playing audio file " + fileUrl);
-                        voiceChannel.leave();
-                    });
-                }).catch(err => console.log("Error occurred while joining voice channel: " + err));
+                    }
+                }).catch(err => {
+                    console.log("Error occurred while joining voice channel: " + err);
+                    voiceChannel.leave();
+                });
             }
         }
         else

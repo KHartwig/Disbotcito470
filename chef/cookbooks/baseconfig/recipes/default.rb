@@ -12,6 +12,7 @@ package "ntp"
 package "nginx"
 package "postgresql"
 package "postgresql-contrib"
+package "ffmpeg"
 
 cookbook_file "ntp.conf" do
   path "/etc/ntp.conf"
