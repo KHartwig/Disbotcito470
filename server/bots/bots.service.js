@@ -1,5 +1,4 @@
 const db = require('_infra/db/models/index');
-const User = db.User;
 const Bot = db.Bot;
 const Command = db.Command;
 const Action = db.Action;
