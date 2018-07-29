@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 // import { Guild } from "../_models";
-import { AlertService, GuildService } from "../_services";
+import { AlertService, GuildService, BotService } from "../_services";
 import {first} from "rxjs/internal/operators";
 
 @Component({
@@ -16,26 +16,54 @@ gid: number;
 bid: number;
 
   sub: any;
-  // guild: Guild;
-guildList = [  { "id":1, "name":"pikachu", "member": [  "usr1", "usr2"]}, 
-                 { "id":2, "name":"pikachu1", "member": [ "usr3", "usr4"]}, 
-                 { "id":3, "name":"pikachu2", "member": [ "usr5", "usr6"]}
-              ];
-
-// member = {
-//    id
-//    name
-//    status
-// }
 
 
-// emoji = {
-//    id
-//    tag
-//    url
-// }
+
+
+memberList = [{
+                "id": "sample",
+                "username": "sample",
+                "nickname": "sample",
+                "displayName": "sample",
+                "tag": "sample",
+                "avatarURL": "sample",
+                "status": "sample",
+                "joinedAt": "sample",
+                "createdAt": "sample",
+                "bot": "sample"
+              }];
+
+
+        // id: member.id,                              // string - discord id
+        // username: member.user.username,             // string - username of the user
+        // nickname: member.nickname,                  // string - nickname in the guild
+        // displayName: member.displayName,            // string - nickname, if null then username
+        // tag: member.user.tag,                       // string - discord tag of the user
+        // avatarURL: member.user.displayAvatarURL,    // string - url to the avatar pic/gif
+        // status: member.user.presence.status,        // string - 'online', 'offline', 'idle', 'dnd' - DoNotDisturb
+        // joinedAt: member.joinedAt,                  // date - when user became a member of the guild
+        // createdAt: member.user.createdAt,           // date - when the user was created
+        // bot: member.user.bot  
+
+
+emojiList = [{
+                "id": "sample",
+                "name": "sample",
+                "url": "sample",
+                "requiresColons": "sample",
+                "createdAt": "sample"
+              }];
+
+
+        // id: emoji.id,                               // string - discord id
+        // name: emoji.name,                           // string - name of the emoji
+        // url: emoji.url,                             // string - url where emoji is found
+        // requiresColons: emoji.requiresColons,       // bool -  true if emoji requires colons surrounding name
+        // createdAt: emoji.createdAt    
+
   constructor(private activatedRouter: ActivatedRoute,
               private guildService: GuildService,
+              private botService: BotService,
               private alertService: AlertService ) { }
 
   ngOnInit() {
@@ -45,8 +73,25 @@ guildList = [  { "id":1, "name":"pikachu", "member": [  "usr1", "usr2"]},
       this.gid = params['gid']; // (+) converts string 'id' to a number
       console.log(this.gid);
   //     // In a real app: dispatch action to load the details here.
-  //     this.loadGuild();
+      this.botService.getById(this.bid).pipe(first()).subscribe(rcvdBot => {
+          const bot = rcvdBot;
+
+          if ( bot.status == "ONLINE") 
+            this.loadMembersAndEmojis();
+        });
+      
     });
+  }
+
+
+  loadMembersAndEmojis(){
+        this.guildService.getMembers(this.bid, this.gid).pipe(first()).subscribe(member => {
+        this.memberList = member;        
+      });
+        this.guildService.getEmojis(this.bid, this.gid).pipe(first()).subscribe(emoji => {
+        this.emojiList = emoji;
+
+      });
   }
 
   // startStop() {
@@ -85,12 +130,7 @@ guildList = [  { "id":1, "name":"pikachu", "member": [  "usr1", "usr2"]},
   //   // console.log(this.guild.status);
   // }
 
-  // loadGuild(){
-  //         this.guildService.getById(this.id).pipe(first()).subscribe(rcvdGuild => {
-  //       this.guild = rcvdGuild;
 
-  //     });
-  // }
 
   ngOnDestroy() {
     // this.sub.unsubscribe();

@@ -11,8 +11,16 @@ export class GuildService {
     apiUrl = 'http://localhost:4000/api';
     guildUrl = this.apiUrl + '/bots/guilds';
 
-    getAll(bid: number, bot: Bot) {
-        return this.http.get(this.apiUrl+ '/bots/' + bid + '/guilds/');
+    getAll(bid: number) {
+        return this.http.get(this.apiUrl+ '/bots/' + bid + '/discord/guilds/');
+    }    
+
+    getMembers(bid: number, gid: number) {
+        return this.http.get(this.apiUrl+ '/bots/' + bid + '/discord/guilds/' + gid + '/members');
+    }    
+
+    getEmojis(bid: number, gid: number) {
+        return this.http.get(this.apiUrl+ '/bots/' + bid + '/discord/guilds/' + gid + '/emojis');
     }
 
     // getById(id: number) {

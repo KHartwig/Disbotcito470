@@ -27,11 +27,11 @@ export class BotService {
     }
 
     start(id: number) {
-        return this.http.put(`${this.botUrl}/`+ id + `/start`, "");
+        return this.http.put(`${this.botUrl}/`+ id + `/discord/start`, "");
     }
 
     stop(id: number) {
-        return this.http.put(`${this.botUrl}/`+ id + `/stop`, "");
+        return this.http.put(`${this.botUrl}/`+ id + `/discord/stop`, "");
     }
 
     delete(id: number) {

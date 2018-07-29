@@ -1,13 +1,24 @@
 <!-- <div class="container" *ngIf="guild"> -->
 
-<div class="container" *ngIf="guildList || guildList.length !== 0">
+<div class="container" *ngIf="memberList || memberList.length !== 0">
 
   <h4>Member:</h4>
-  <div class="list-group" *ngFor="let guild of guildList" >
-    <div class="list-group"  *ngFor="let member of guild.member">
-      <p *ngIf="guild.id == gid" class="text-center">{{ member }}</p>
+  <div class="list-group" *ngFor="let member of memberList" >
+    <!-- <div class="list-group"  *ngFor="let member of guild.member"> -->
+      <!-- <p *ngIf="guild.id == gid" class="text-center">{{ member }}</p> -->
 <!-- <router-outlet></router-outlet> -->
-    </div>
+<p> username: {{member.username}}</p>
+    <!-- </div> -->
+  </div>
+
+
+  <h4>Emoji:</h4>
+  <div class="list-group" *ngFor="let emoji of emojiList" >
+    <!-- <div class="list-group"  *ngFor="let member of guild.member"> -->
+      <!-- <p *ngIf="guild.id == gid" class="text-center">{{ member }}</p> -->
+<!-- <router-outlet></router-outlet> -->
+<p> name: {{emoji.name}}</p>
+    <!-- </div> -->
   </div>
   <a [routerLink]="['/bots', bid]" class="btn btn-link">Back</a>
   <!-- <h3>{{guild.name}}  -->
