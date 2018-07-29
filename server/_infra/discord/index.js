@@ -74,14 +74,18 @@ class ClientWrapper {
         if (message.guild.available)
         {
             console.log("Sending message in guild " + message.guild.name);
-            message.reply(messageContents);
+            message.reply(messageContents).catch(err => {
+                console.log("Error when sending message in guild - " + err.message)
+            });
         }
     }
 
     //param1: messageToSend
     messageDirect(message, messageContents)
     {
-        message.author.send(messageContents);
+        message.author.send(messageContents).catch(err => {
+            console.log("Error when sending direct message to " + message.author.username + " - " + err.message)
+        });
     }
 
     //param1: number of emojis to roll
@@ -108,13 +112,19 @@ class ClientWrapper {
         console.log("> Slots - emojiCategory: " + emojiCategory);
         console.log("> Guild emojis - " + message.guild.emojis.map(e=>e.toString()).join(" "));
 
+        let firstEmoji = '';
         let result = '';
         for (let i=0; i < emojiCount; ++i)
         {
-            const currEmoji = emojiArr[Math.floor(Math.random() * emojiArr.length)];
-            if (i > 0 && currEmoji !== emojiArr[i-1])
+            let currEmoji = emojiArr[Math.floor(Math.random() * emojiArr.length)];
+            if (emojiCategory !== 'server')
+                currEmoji = ':' + currEmoji + ':';
+            if (i === 0) //store first emoji for comparison
+                firstEmoji = currEmoji;
+            else if (currEmoji !== firstEmoji) //not first emoji, so compare and see if it matches
                 didWin = false;
-            result += ':' + currEmoji + ':';//message.guild.emojis.find("name", currEmoji);
+
+            result += currEmoji;
         }
 
         let response = '\n-  SLOTS  -\n========\n' + result + '\n========\n';
