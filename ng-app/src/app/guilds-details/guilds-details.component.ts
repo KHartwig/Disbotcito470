@@ -20,18 +20,7 @@ bid: number;
 
 
 
-memberList = [{
-                "id": "sample",
-                "username": "sample",
-                "nickname": "sample",
-                "displayName": "sample",
-                "tag": "sample",
-                "avatarURL": "sample",
-                "status": "sample",
-                "joinedAt": "sample",
-                "createdAt": "sample",
-                "bot": "sample"
-              }];
+memberList: any;
 
 
         // id: member.id,                              // string - discord id
@@ -46,13 +35,7 @@ memberList = [{
         // bot: member.user.bot  
 
 
-emojiList = [{
-                "id": "sample",
-                "name": "sample",
-                "url": "sample",
-                "requiresColons": "sample",
-                "createdAt": "sample"
-              }];
+emojiList: any;
 
 
         // id: emoji.id,                               // string - discord id
@@ -67,7 +50,8 @@ emojiList = [{
               private alertService: AlertService ) { }
 
   ngOnInit() {
-
+    this.memberList=false;
+    this.emojiList=false;
     this.sub = this.activatedRouter.params.subscribe(params => {
       this.bid = params['bid']; // (+) converts string 'id' to a number
       this.gid = params['gid']; // (+) converts string 'id' to a number

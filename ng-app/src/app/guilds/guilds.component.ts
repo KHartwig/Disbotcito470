@@ -14,15 +14,8 @@ import {first} from "rxjs/operators";
 })
 export class GuildsComponent implements OnInit {
 // export class GuildsComponent  {
-  guildList = [{
-                "name": "",
-                "iconURL": "",
-                "ownerUsername": "",
-                "ownerID": "",
-                "memberCount": "",
-                "region": "",
-                "available": ""
-              }];
+  guildList: any;
+
 
         //               id: guild.id,                               // string - discord id
         // name: guild.name,                           // string - name of the guild
@@ -47,6 +40,7 @@ gid: number;
               private alertService: AlertService) { }
 
   ngOnInit() {
+    this.guildList=false;
       this.sub = this.activatedRouter.params.subscribe(params => {
       this.bid = params['bid']; // (+) converts string 'id' to a number
       this.gid = params['gid']; // (+) converts string 'id' to a number
