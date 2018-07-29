@@ -1,55 +1,62 @@
-<!-- <div class="container" *ngIf="guild"> -->
+
+<div class="container" *ngIf="guild" >
+  <h4>{{guild.name}}</h4>
+    <!-- <div class="list-group"  *ngFor="let member of guild.member"> -->
+      <!-- <p *ngIf="guild.id == gid" class="text-center">{{ member }}</p> -->
+<!-- <router-outlet></router-outlet> -->
+
+<h6>Guild Info</h6>
+  <img src={{guild.iconURL}} width="100" height="100">
+  <p> memberCount: {{guild.memberCount}} </p>
+  <p> ownerUsername: {{guild.ownerUsername}} </p>
+  <p> region: {{guild.region}} </p>
+  <p> available: {{guild.available}} </p>
+    <!-- </div> -->
+
+</div>
+<!--         // id: guild.id,                               // string - discord id
+        // name: guild.name,                           // string - name of the guild
+        // iconURL: guild.iconURL,                     // string - url to guild's icon
+        // ownerUsername: guild.owner.user.username,   // string - Username of the owner user
+        // ownerID: guild.ownerID,                     // string - ID of the owner user
+        // memberCount: guild.memberCount,             // number - Number of members in the guild
+        // region: guild.region,                       // string - Region where guild is hosted
+        // available: guild.available  -->
+<hr>
 
 <div class="container" *ngIf="memberList || memberList.length !== 0">
-
   <h4>Member:</h4>
   <div class="list-group" *ngFor="let member of memberList" >
-    <!-- <div class="list-group"  *ngFor="let member of guild.member"> -->
-      <!-- <p *ngIf="guild.id == gid" class="text-center">{{ member }}</p> -->
-<!-- <router-outlet></router-outlet> -->
-<p> username: {{member.username}}</p>
-    <!-- </div> -->
+    <img src={{member.avatarURL}} width="40" height="40" >
+    <p> {{member.username}} </p>
   </div>
+</div>
 
 
+<!--         // id: member.id,                              // string - discord id
+        // username: member.user.username,             // string - username of the user
+        // nickname: member.nickname,                  // string - nickname in the guild
+        // displayName: member.displayName,            // string - nickname, if null then username
+        // tag: member.user.tag,                       // string - discord tag of the user
+        // avatarURL: member.user.displayAvatarURL,    // string - url to the avatar pic/gif
+        // status: member.user.presence.status,        // string - 'online', 'offline', 'idle', 'dnd' - DoNotDisturb
+        // joinedAt: member.joinedAt,                  // date - when user became a member of the guild
+        // createdAt: member.user.createdAt,           // date - when the user was created
+        // bot: member.user.bot   -->
+
+<hr>
+<div class="container" *ngIf="emojiList || emojiList.length !== 0">
   <h4>Emoji:</h4>
   <div class="list-group" *ngFor="let emoji of emojiList" >
-    <!-- <div class="list-group"  *ngFor="let member of guild.member"> -->
-      <!-- <p *ngIf="guild.id == gid" class="text-center">{{ member }}</p> -->
-<!-- <router-outlet></router-outlet> -->
-<p> name: {{emoji.name}}</p>
-    <!-- </div> -->
+    <p> name: {{emoji.name}}</p>
+     <img src={emoji.url}}>
   </div>
-  <a [routerLink]="['/bots', bid]" class="btn btn-link">Back</a>
-  <!-- <h3>{{guild.name}}  -->
-  <!-- <a [routerLink]="['/']" class="btn btn-link">I am a button, cool</a>  -->
-  <!-- </h3> -->
-<!--   <div class="container">
-    <div class="row">
-      <div class="col-sm">
-        <strong>Discord Token:</strong>
-      </div>
-      <div class="col-sm">
-        {{guild.discordToken}}
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm">
-        <strong>Status:</strong>
-      </div>
-      <div class="col-sm">
-        {{guild.status}}
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm">
-        <strong>Command Prefix:</strong>
-      </div>
-      <div class="col-sm">
-        {{guild.commandPrefix}}
-      </div>
-    </div>
-  </div> -->
-<!--   <a [routerLink]="['/']" class="btn btn-link">Back</a>
-  <a [routerLink]="['/guilds/edit', guild.id ]" class="btn btn-link">Edit</a> -->
 </div>
+
+<!--         // id: emoji.id,                               // string - discord id
+        // name: emoji.name,                           // string - name of the emoji
+        // url: emoji.url,                             // string - url where emoji is found
+        // requiresColons: emoji.requiresColons,       // bool -  true if emoji requires colons surrounding name
+        // createdAt: emoji.createdAt   -->  
+
+<a [routerLink]="['/bots', bid]" class="btn btn-link">Back</a>

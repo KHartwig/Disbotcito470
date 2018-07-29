@@ -1,15 +1,14 @@
 <!-- *ngIf guilds, else you have no guilds -->
 <h4 >Guilds:</h4>
-<div class="container" *ngIf="guildList || guildList.length !== 0">
 
+<div class="container" *ngIf="guildList || guildList.length !== 0">
   <div class="list-group" *ngFor="let guild of guildList">
   <!-- <h5> {{guild}}</h5> -->
 
   	<a [routerLink]="['/bots', bid, 'guilds', guild.id]"  class="list-group-item list-group-item-action text-center">
      name: [{{ guild.name }}] 
-     count:[{{guild.memberCount}}]
     </a>
-    
+
 <!-- ['/team', teamId, 'user', userName]  -->
 </div>
   <!-- <h5> guild2</h5> -->

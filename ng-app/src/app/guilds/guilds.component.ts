@@ -14,25 +14,12 @@ import {first} from "rxjs/operators";
 })
 export class GuildsComponent implements OnInit {
 // export class GuildsComponent  {
-  guildList: any;
-
-
-        //               id: guild.id,                               // string - discord id
-        // name: guild.name,                           // string - name of the guild
-        // iconURL: guild.iconURL,                     // string - url to guild's icon
-        // ownerUsername: guild.owner.user.username,   // string - Username of the owner user
-        // ownerID: guild.ownerID,                     // string - ID of the owner user
-        // memberCount: guild.memberCount,             // number - Number of members in the guild
-        // region: guild.region,                       // string - Region where guild is hosted
-        // available: guild.available 
-
-
+guildList: any;
 sub: any;
+
 bid: number;
 gid: number;
-  // // guild: Guild;
-  // // selectedGuild: Guild;
-  // // id: number;
+
   constructor(
               private activatedRouter: ActivatedRoute,
               private guildService: GuildService,

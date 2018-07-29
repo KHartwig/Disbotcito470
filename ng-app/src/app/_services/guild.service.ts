@@ -13,6 +13,10 @@ export class GuildService {
 
     getAll(bid: number) {
         return this.http.get(this.apiUrl+ '/bots/' + bid + '/discord/guilds/');
+    }     
+
+    getById(bid: number, gid: number) {
+        return this.http.get(this.apiUrl+ '/bots/' + bid + '/discord/guilds/'+ gid);
     }    
 
     getMembers(bid: number, gid: number) {

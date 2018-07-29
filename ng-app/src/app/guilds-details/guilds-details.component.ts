@@ -15,14 +15,18 @@ export class GuildsDetailsComponent implements OnInit, OnDestroy {
 gid: number;
 bid: number;
 
-  sub: any;
+sub: any; //for activatedRouter.params
 
-
-
-
+guild: any;
+        // id: guild.id,                               // string - discord id
+        // name: guild.name,                           // string - name of the guild
+        // iconURL: guild.iconURL,                     // string - url to guild's icon
+        // ownerUsername: guild.owner.user.username,   // string - Username of the owner user
+        // ownerID: guild.ownerID,                     // string - ID of the owner user
+        // memberCount: guild.memberCount,             // number - Number of members in the guild
+        // region: guild.region,                       // string - Region where guild is hosted
+        // available: guild.available 
 memberList: any;
-
-
         // id: member.id,                              // string - discord id
         // username: member.user.username,             // string - username of the user
         // nickname: member.nickname,                  // string - nickname in the guild
@@ -33,11 +37,7 @@ memberList: any;
         // joinedAt: member.joinedAt,                  // date - when user became a member of the guild
         // createdAt: member.user.createdAt,           // date - when the user was created
         // bot: member.user.bot  
-
-
 emojiList: any;
-
-
         // id: emoji.id,                               // string - discord id
         // name: emoji.name,                           // string - name of the emoji
         // url: emoji.url,                             // string - url where emoji is found
@@ -69,7 +69,11 @@ emojiList: any;
 
 
   loadMembersAndEmojis(){
-        this.guildService.getMembers(this.bid, this.gid).pipe(first()).subscribe(member => {
+      this.guildService.getById(this.bid, this.gid).pipe(first()).subscribe(guild => {
+        this.guild = guild;        
+      });
+
+      this.guildService.getMembers(this.bid, this.gid).pipe(first()).subscribe(member => {
         this.memberList = member;        
       });
         this.guildService.getEmojis(this.bid, this.gid).pipe(first()).subscribe(emoji => {
