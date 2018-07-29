@@ -6,13 +6,12 @@ router.put('/start', discordController.start);
 router.put('/stop', discordController.stop);
 
 
-//middleware
-router.use('/guilds/:gid', discordController.attachGuildObject);
 
-router.get('/guilds/', discordController.getAllByBot);
+router.get('/guilds/', discordController.getAllGuildsByBot);
+router.use('/guilds/:gid', discordController.attachGuildObject); //middleware
 router.get('/guilds/:gid', discordController.getById);
-router.get('/guilds/:gid/member'), discordController.getMembersByGid);
-router.get('/guilds/:gid/emojis'), discordController.getEmojisByGid);
+router.get('/guilds/:gid/members', discordController.getMembersByGuild);
+router.get('/guilds/:gid/emojis', discordController.getEmojisByGuild);
 
 
 module.exports = router;
