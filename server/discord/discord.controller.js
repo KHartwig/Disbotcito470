@@ -1,58 +1,68 @@
 const discordService = require('./discord.service');
+const botService = require('../bots/bots.service');
 
 module.exports = {
-    start,
-    stop.
-    getAllByBot,
     attachGuildObject,
+    start,
+    stop,
+    getAllGuildsByBot,
     getById,
-    getMembersByGuildGid,
-    getEmojisByGid
+    getMembersByGuild,
+    getEmojisByGuild
 };
-//
+
+function attachGuildObject(req, res, next) {
+    discordService.getGuildObject(req.bot, req.params.gid)
+        .then(function (guild) {
+            if (!guild) res.sendStatus(404);
+            else {
+                req.guild = guild;
+                next();
+            }
+        })
+        .catch(err => next(err));
+}
+
 function start(req, res, next){
   discordService.createClient(req.bot)
-    .then(() => res.json({}))
-    .catch(err => next(err));
-  botService.updateStatus(req.bot, 'ONLINE')
-    .then((bot) => res.json(bot))
+    .then(() => {
+        botService.updateStatus(req.bot, 'ONLINE')
+            .then((bot) => res.json(bot))
+            .catch(err => { next(err); });
+    })
     .catch(err => next(err));
 }
 
 function stop(req, res, next) {
-  botService.updateStatus(req.bot, 'OFFLINE')
-    .then((bot) => res.json(bot))
-    .catch(err => next(err));
   discordService.destroyClient(req.bot)
-    .then((bot) => res.json({}))
-    .catch(err => next(err));
-}
-
-function getAllByBot(req, res, next) {
-  discordService.getGuildById(req.bot)
-    .then((guild) => res.json(guild))
-    .catch(err => next(err));
-}
-
-function attachGuildObject(req, res, next) {
-  getGuildObject(req.bot)
-    .then(function (guild) {
-        if (!guild) res.sendStatus(404);
-        else {
-            req.guild= guild;
-            next();
-        }
+    .then(() => {
+        botService.updateStatus(req.bot, 'OFFLINE')
+            .then((bot) => res.json(bot))
+            .catch(err => next(err));
     })
     .catch(err => next(err));
 }
+
+function getAllGuildsByBot(req, res, next) {
+  discordService.getGuilds(req.bot)
+    .then((guilds) => res.json(guilds))
+    .catch(err => next(err));
+}
+
 function getById(req, res, next) {
-  discordService.getGuildById(req.guild)
+    discordService.getGuildById(req.guild)
+        .then(guild => { res.json(guild) })
+        .catch(err => next(err));
 }
 
-function getMembersByGuildGid(req, res, next) {
+function getMembersByGuild(req, res, next) {
   discordService.getGuildMembers(req.guild)
+    .then(members => { res.json(members) })
+    .catch(err => next(err));
 }
 
-function getEmojisByGid(req, res, next) {
-  discordService.getGuildEmojis(req.guild)
+function getEmojisByGuild(req, res, next) {
+    discordService.getGuildEmojis(req.guild)
+        .then(members => { res.json(members) })
+        .catch(err => next(err));
 }

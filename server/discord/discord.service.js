@@ -24,17 +24,30 @@ async function destroyClient(bot) {
     cwMap.delete(bot.id);
 }
 
-async function updateClientCommands(bot, commands) {
-    cwMap.get(bot.id).commands = commands;
+function destroyAllClients(){
+    cwMap.forEach((cw, botId) => {
+        console.log('Destroy client for bot ' + botId);
+        cw.destroy();
+    });
+    cwMap.clear();
+    console.log('All clients destroyed');
 }
 
-async function getGuildObject(bot) {
-    const guild = cwMap.get(bot.id).client.guilds.find('id', guildId);
-    if (!guild.available) throw 'Guild Unavailable';
+async function updateClientCommands(bot, commands) {
+    cwMap.get(bot.id).sync(commands);
+}
+
+async function getGuildObject(bot, guildId) {
+    const clientWrapper = cwMap.get(bot.id);
+    if (!clientWrapper) throw 'Bot must be started';
+    const guild = clientWrapper.client.guilds.find('id', guildId);
+    if (guild && !guild.available) throw 'Guild Unavailable';
     return guild;
 }
 
 async function getGuilds(bot) {
+    const clientWrapper = cwMap.get(bot.id);
+    if (!clientWrapper) throw 'Bot must be started';
     return cwMap.get(bot.id).client.guilds.first(DEFAULT_LIMIT).map(guildFilter);
 }
 
@@ -88,3 +101,24 @@ function emojiFilter(emoji) {
         createdAt: emoji.createdAt                  // date - when emoji was created
     }
 }
+
+function shutdown() {
+    console.log('Shutting down discord...');
+    destroyAllClients();
+}
+
+// Temp solution for Graceful shutdown, also need to set all bots to offline in botService
+process.on('SIGTERM', function() {
+    console.log('Shutting down sigtermx...');
+    shutdown();
+});
+process.on('SIGINT', function() {
+    console.log('SIGINT !');
+    shutdown();
+    process.exit();
+});
+// Nodemon restart, is not handled on Windows
+process.once('SIGUSR2', function() {
+    console.log('SIGUSR2 ! - nodemon restart');
+    shutdown();
+});
