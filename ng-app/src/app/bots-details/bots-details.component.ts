@@ -67,7 +67,6 @@ export class BotsDetailsComponent implements OnInit, OnDestroy {
   loadBot(){
           this.botService.getById(this.id).pipe(first()).subscribe(rcvdBot => {
         this.bot = rcvdBot;
-
       });
   }
 

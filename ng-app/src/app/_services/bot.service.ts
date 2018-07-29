@@ -27,11 +27,11 @@ export class BotService {
     }
 
     start(id: number) {
-        return this.http.put(this.apiUrl + '/bots/'+ id + `/start`, "");
+        return this.http.put(`${this.botUrl}/`+ id + `/start`, "");
     }
 
     stop(id: number) {
-        return this.http.put(this.apiUrl + '/bots/'+ id + `/stop`, "");
+        return this.http.put(`${this.botUrl}/`+ id + `/stop`, "");
     }
 
     delete(id: number) {
