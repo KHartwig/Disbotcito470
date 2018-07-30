@@ -1,4 +1,5 @@
 const db = require('_infra/db/models/index');
+const discordService = require('../discord/discord.service');
 const Bot = db.Bot;
 const Command = db.Command;
 const Action = db.Action;
@@ -95,9 +96,14 @@ async function toggleStatus(user, botId) {
 
     if (currStatus === 'OFFLINE') {
         currStatus = 'ONLINE';
+        discordService.createClient(bot)
+            .catch(err => {
+                console.log('Error creating client in discord service: ' + err.message)
+            });
     }
     else {
         currStatus = 'OFFLINE';
+        //todo: logout discord client?
     }
     bot.status = currStatus;
     await bot.save();

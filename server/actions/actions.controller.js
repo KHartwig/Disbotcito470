@@ -1,4 +1,5 @@
 const actionsService = require('./actions.service');
+const discordService = require('../discord/discord.service');
 
 module.exports = {
     add,
@@ -13,6 +14,8 @@ module.exports = {
 function add(req, res, next) {
     actionsService.create(req.command, req.body)
         .then(action => res.json(action))
+        .catch(err => next(err));
+    discordService.updateClientCommands(req.bot, req.bot.commands)
         .catch(err => next(err));
 }
 
@@ -44,10 +47,14 @@ function update(req, res, next) {
     actionsService.update(req.action, req.body)
         .then((action) => res.json(action))
         .catch(err => next(err));
+    discordService.updateClientCommands(req.bot, req.bot.commands)
+        .catch(err => next(err));
 }
 
 function _delete(req, res, next) {
     actionsService.delete(req.action)
         .then(() => res.json({}))
+        .catch(err => next(err));
+    discordService.updateClientCommands(req.bot, req.bot.commands)
         .catch(err => next(err));
 }

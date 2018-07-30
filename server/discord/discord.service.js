@@ -17,6 +17,7 @@ const DEFAULT_LIMIT = 100;
 
 async function createClient(bot) {
     cwMap.set(bot.id, new clientWrapper(bot.discordToken, bot.commandPrefix, bot.commands));
+    console.log('Client created for bot ' + bot.id + ' (' + bot.name + ')')
 }
 
 async function destroyClient(bot) {
@@ -34,7 +35,9 @@ function destroyAllClients(){
 }
 
 async function updateClientCommands(bot, commands) {
+    console.log('Trying to update commands for bot ' + bot.id + ' (' + bot.name + ')...');
     cwMap.get(bot.id).sync(commands);
+    console.log('Commands updated for bot ' + bot.name);
 }
 
 async function getGuildObject(bot, guildId) {
