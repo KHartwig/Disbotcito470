@@ -1,7 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Bot } from "../_models";
+
+import { GuildsComponent } from '../guilds/guilds.component';
+
 import { AlertService, BotService } from "../_services";
 import {first} from "rxjs/internal/operators";
 
@@ -10,10 +13,24 @@ import {first} from "rxjs/internal/operators";
   templateUrl: './bots-details.component.html',
   styleUrls: ['./bots-details.component.css']
 })
-export class BotsDetailsComponent implements OnInit, OnDestroy {
+export class BotsDetailsComponent implements OnInit, OnDestroy, AfterViewInit {
+
+  @ViewChild(GuildsComponent)
+   guildComponent: GuildsComponent;
+
+  ngAfterViewInit() {
+
+
+                           // this.loadGuilds();
+
+
+  }
+
+
   id: number;
   sub: any;
   bot: Bot;
+guild: any;
 
   constructor(private activatedRouter: ActivatedRoute,
               private botService: BotService,
@@ -29,17 +46,19 @@ export class BotsDetailsComponent implements OnInit, OnDestroy {
   }
 
   startStop() {
+
      //console.log(this.bot.status);
 
     // this.loading = true;
     if ( this.bot.status == "ONLINE"){
+      // this.guildComponent.closeGuilds();
       this.botService.stop(this.bot.id)
       .pipe(first())
       .subscribe(
         data => {
           this.loadBot();
           this.alertService.success('Bot stopped', true);
-  
+
         },
         error => {
           this.alertService.error(error);
@@ -47,27 +66,43 @@ export class BotsDetailsComponent implements OnInit, OnDestroy {
     }
       
     else{
-
+  
       this.botService.start(this.bot.id)
         .pipe(first())
         .subscribe(
           data => {
             this.loadBot();
             this.alertService.success('Bot started', true);
-
+      
+          
+                 
           },
           error => {
             this.alertService.error(error);
         });
     }
-    
-    // console.log(this.bot.status);
+
+
+this.guildComponent.loadGuilds();
+console.log(this.guildComponent.guildList); 
+
+
   }
 
   loadBot(){
           this.botService.getById(this.id).pipe(first()).subscribe(rcvdBot => {
         this.bot = rcvdBot;
       });
+  }
+
+  loadGuilds(){
+              // if ( this.bot.status == "ONLINE") {
+
+            this.guildComponent.loadGuilds();
+             console.log(this.guildComponent.guildList); 
+              // }
+       
+             
   }
 
   ngOnDestroy() {

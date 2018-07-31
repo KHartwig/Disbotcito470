@@ -51,6 +51,12 @@ gid: number;
     });
   }
 
+  closeGuilds () {
+
+      this.guildList = [];
+    });
+  }
+
   // startStop(i:number) {
   //       this.guildService.getById(i).pipe(first()).subscribe(rcvdGuild => {
   //           const guild: Guild = rcvdGuild;
