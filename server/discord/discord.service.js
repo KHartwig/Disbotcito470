@@ -10,7 +10,8 @@ module.exports = {
     getGuilds,
     getGuildById,
     getGuildMembers,
-    getGuildEmojis
+    getGuildEmojis,
+    shutdown
 };
 
 const DEFAULT_LIMIT = 100;
@@ -105,23 +106,8 @@ function emojiFilter(emoji) {
     }
 }
 
+// Shut down cleanup
 function shutdown() {
     console.log('Shutting down discord...');
     destroyAllClients();
 }
-
-// Temp solution for Graceful shutdown, also need to set all bots to offline in botService
-process.on('SIGTERM', function() {
-    console.log('Shutting down sigtermx...');
-    shutdown();
-});
-process.on('SIGINT', function() {
-    console.log('SIGINT !');
-    shutdown();
-    process.exit();
-});
-// Nodemon restart, is not handled on Windows
-process.once('SIGUSR2', function() {
-    console.log('SIGUSR2 ! - nodemon restart');
-    shutdown();
-});

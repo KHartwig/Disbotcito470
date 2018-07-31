@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const models = require('_infra/db/models');
 const jwt = require('_helpers/jwt');
 const errorHandler = require('_helpers/error-handler');
+const discordService = require('discord/discord.service');
 const env = process.env.NODE_ENV || 'development';
 const config = require('./config');
 
@@ -53,3 +54,29 @@ if (config.serveFrontEnd) {
         console.log('Serving application on port ' + portServe);
     });
 }
+
+// ______ SHUTDOWN Routine ___________
+function gracefulShutdown(end) {
+  discordService.shutdown();
+  end();
+}
+
+process.on('SIGTERM', function() {
+    console.log('Shutting down sigtermx...');
+    gracefulShutdown(function () {
+      process.exit();
+    });
+});
+process.on('SIGINT', function() {
+    console.log('SIGINT !');
+    gracefulShutdown(function () {
+      process.exit();
+    });
+});
+// Nodemon restart, this is not handled on Windows
+process.once('SIGUSR2', function () {
+  console.log('SIGUSR2 ! - nodemon restart');
+  gracefulShutdown(function () {
+    process.kill(process.pid, 'SIGUSR2');
+  });
+});
