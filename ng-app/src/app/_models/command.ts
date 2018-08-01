@@ -6,5 +6,5 @@ export class Command {
   createdAt: Date;
   updatedAt: Date;
   //Local variables
-  nameEditing: boolean;
+  nameEditing: boolean = false;
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, QueryList, ViewChildren } from '@angular/core';
 import { ActionsEditComponent } from '../actions-edit/actions-edit.component';
 import { CommandService, AlertService } from '../_services';
-import { Command } from '../_models';
+import { Command, Action } from '../_models';
 import { first } from "rxjs/operators";
 
 @Component({
@@ -54,14 +54,18 @@ export class CommandsEditComponent implements OnInit {
   // Updates server with the new command list
   sendEditedCommandListToServer() {
     // Filter out invalid Commands (ie, ones without names)
-    // console.log('BEFORE', this.editedCommandList);
-    // this.editedCommandList.filter(editCmd => false);
-    // console.log('AFTER', this.editedCommandList);
+    this.editedCommandList = this.editedCommandList.filter((cmd:Command) => {
+      return cmd.name && cmd.name != '';
+    });
 
-    // Synce the edited actions from the editedCommandList
-    this.editedCommandList.forEach((command, index)=>{
-      let aleForCommand = this.actionListEditors.find(actLE => actLE.commandEditId === index);
-      command.Actions = aleForCommand.editedActions;
+    // Sync the edited actions from the editedCommandList
+    this.editedCommandList.forEach((command, index) => {
+      console.log("Adding edited Action!", command);
+      const aleForCommand = this.actionListEditors.find(actLE => actLE.commandEditId === index);
+      //Filter out invalid Actions
+      command.Actions = aleForCommand.editedActions.filter((act:Action)=> {
+        return !!act.type;
+      });
     });
     this.commandService.updateAll(this.botId, this.editedCommandList)
       .pipe(first())
