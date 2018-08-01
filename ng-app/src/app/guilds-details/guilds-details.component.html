@@ -49,7 +49,7 @@
   <h4>Emoji:</h4>
   <div class="list-group" *ngFor="let emoji of emojiList" >
     <p> name: {{emoji.name}}</p>
-     <img src={emoji.url}}>
+     <img src={{emoji.url}}>
   </div>
 </div>
 
@@ -57,6 +57,6 @@
         // name: emoji.name,                           // string - name of the emoji
         // url: emoji.url,                             // string - url where emoji is found
         // requiresColons: emoji.requiresColons,       // bool -  true if emoji requires colons surrounding name
-        // createdAt: emoji.createdAt   -->  
+        // createdAt: emoji.createdAt   -->
 
 <a [routerLink]="['/bots', bid]" class="btn btn-link">Back</a>
