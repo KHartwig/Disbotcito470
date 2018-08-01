@@ -3,31 +3,33 @@
   <div *ngFor="let command of editedCommandList; index as i">
     <div class="card">
         <div class="card-header p-0">
-            <div class="d-flex align-items-center">
-              <div class="p-2 w-100 d-flex justify-content-center">
-                  <h5 *ngIf='!command.nameEditing' class="m-0 align-self-center">
+            <div class="d-flex align-items-center justify-content-between">
+              <div class="p-2">
+                <button type="button" class="btn btn-primary btn-sm" data-toggle="collapse" [attr.data-target]="'#ActionsFor'+ i">
+                  Actions <span class="badge badge-light">{{actionsEditor.editedActions.length}}</span>
+                </button>
+              </div>
+              <div class="p-2 d-flex justify-content-center">
+                <h5 *ngIf='!command.nameEditing' class="m-0 align-self-center">
                     {{command.name}}
                   </h5>
-                  <button *ngIf='!command.nameEditing' type="button"
-                          class="btn btn-outline-secondary btn-sm ml-1"
-                          (click)='command.nameEditing=true;'>Edit</button>
-                  <div class="input-group w-50 input-group-sm" *ngIf='command.nameEditing'>
-                    <input type="text" class="form-control"
+                <div class="input-group input-group-sm" *ngIf='command.nameEditing'>
+                  <input type="text" class="form-control"
                            [(ngModel)]="command.name" placeholder="Name"
-                           aria-label="Command Name" aria-describedby="save-command">
-                    <div class="input-group-append">
-                      <button class="btn btn-outline-secondary" type="button"
-                              id="save-command" (click)='command.nameEditing=false;'>Done</button>
-                    </div>
+                  aria-label="Command Name" aria-describedby="delete-command">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-danger" type="button"
+                              id="delete-command" (click)='deleteCommand(i)'>Delete</button>
                   </div>
-                  <button type="button"
-                          class="btn btn-outline-danger btn-sm ml-1"
-                          (click)='deleteCommand(i)'>Delete</button>
+                </div>
               </div>
-              <div class="p-2 flex-shrink-0">
-                  <button type="button" class="btn btn-primary" data-toggle="collapse" [attr.data-target]="'#ActionsFor'+ i">
-                    Actions <span class="badge badge-light">{{actionsEditor.editedActions.length}}</span>
-                  </button>
+              <div class="p-2">
+                <button *ngIf='!command.nameEditing' type="button"
+                        class="btn btn-outline-secondary btn-sm ml-1"
+                        (click)='command.nameEditing=true;'>Edit</button>
+                <button type="button" *ngIf='command.nameEditing'
+                        class="btn btn-outline-secondary btn-sm"
+                        (click)='command.nameEditing=false;'>Done</button>
               </div>
             </div>
         </div>

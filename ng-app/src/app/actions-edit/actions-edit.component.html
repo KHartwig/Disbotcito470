@@ -25,7 +25,7 @@
               </div>
               <div class="input-group" *ngIf="param.type==='selector'">
                 <div class="input-group-prepend">
-                  <label class="input-group-text" for="inputGroupSelect01">{{param.display}}</label>
+                  <label class="input-group-text">{{param.display}}</label>
                 </div>
                 <select class="custom-select" type="number" [(ngModel)]="action.parameters[j]">
                   <option *ngFor="let choice of param.choices" [ngValue]="choice.id">{{choice.display}}</option>
