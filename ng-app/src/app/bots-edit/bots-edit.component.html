@@ -24,7 +24,7 @@
       </div>
     </div>
     <hr>
-    <app-commands-edit #commandsEditor [botId]="bot.id">
+    <app-commands-edit #commandsEditor [botId]="bot ? bot.id : 0">
     </app-commands-edit>
     <!-- <div *ngIf="pageAction == PAGE_ACTIONS.Edit">
       <app-commands-edit #commandsEditor [botId]="bot.id">
@@ -34,8 +34,8 @@
     <div class="form-group">
       <div class="d-flex justify-content-around">
         <button [disabled]="loading" class="btn btn-primary">
-          <div *ngIf="pageAction == PAGE_ACTIONS.Add">Add</div>
-          <div *ngIf="pageAction == PAGE_ACTIONS.Edit">Save</div>
+          <a *ngIf="pageAction == PAGE_ACTIONS.Add">Add</a>
+          <a *ngIf="pageAction == PAGE_ACTIONS.Edit">Save</a>
         </button>
         <!-- <button *ngIf="pageAction == PAGE_ACTIONS.Edit"
                 [disabled]="loading" type="button" (click)="commandsEditor.resetCommands()"
