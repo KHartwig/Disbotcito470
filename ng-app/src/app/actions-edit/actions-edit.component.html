@@ -1,0 +1,49 @@
+<small class="d-block text-right mt-1">
+    <button type="button" class="btn btn-link" (click)='resetActions()'>Reset</button>
+</small>
+
+<table class="table table-bordered">
+  <tbody>
+    <tr *ngFor="let action of editedActions; index as i">
+      <th scope="row">
+        <select class="custom-select" type="number" [(ngModel)]="action.type" (change)="removeActionParameters(action)">
+          <option *ngFor="let type of possibleActionTypes" [ngValue]="type.id">{{type.display}}</option>
+        </select>
+      </th>
+      <td>
+        <div *ngFor="let possibleType of possibleActionTypes">
+          <div *ngIf="possibleType.id === action.type">
+            <div class="d-flex" *ngFor="let param of possibleType.params; index as j; first as isFirst" [ngClass]="{'mt-2':!isFirst}">
+              <div class="input-group" *ngIf="param.type==='input-text'">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">{{param.display}}</span>
+                </div>
+                <textarea class="form-control" [(ngModel)]="action.parameters[j]" aria-label="With textarea"></textarea>
+              </div>
+              <div class="input-group" *ngIf="param.type==='input'">
+                <input type="text" class="form-control" [(ngModel)]="action.parameters[j]" placeholder="{{param.display}}" aria-label="input">
+              </div>
+              <div class="input-group" *ngIf="param.type==='selector'">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="inputGroupSelect01">{{param.display}}</label>
+                </div>
+                <select class="custom-select" type="number" [(ngModel)]="action.parameters[j]">
+                  <option *ngFor="let choice of param.choices" [ngValue]="choice.id">{{choice.display}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+      <td>
+        <button type="button" class="close" aria-label="Close" (click)="deleteAction(i)">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<small class="d-block text-right mt-1">
+    <button type="button" class="btn btn-link" (click)='createAction()'>Add Action</button>
+</small>

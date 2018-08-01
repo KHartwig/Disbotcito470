@@ -23,18 +23,27 @@
         <div *ngIf="f.commandPrefix.errors.required">Command prefix is required</div>
       </div>
     </div>
-    <div *ngIf="pageAction == PAGE_ACTIONS.Edit">
-      <hr>
-      <app-command-list [botId]="bot.id">
-      </app-command-list>
-    </div>
+    <hr>
+    <app-commands-edit #commandsEditor [botId]="bot.id">
+    </app-commands-edit>
+    <!-- <div *ngIf="pageAction == PAGE_ACTIONS.Edit">
+      <app-commands-edit #commandsEditor [botId]="bot.id">
+      </app-commands-edit>
+    </div> -->
     <hr>
     <div class="form-group">
-      <button [disabled]="loading" class="btn btn-primary">
-        <div *ngIf="pageAction == PAGE_ACTIONS.Add">Add</div>
-        <div *ngIf="pageAction == PAGE_ACTIONS.Edit">Save</div>
-      </button>
-      <button *ngIf="pageAction == PAGE_ACTIONS.Edit" [disabled]="loading" class="btn btn-danger" type="button" (click)="onDelete()">Delete</button>
+      <div class="d-flex justify-content-around">
+        <button [disabled]="loading" class="btn btn-primary">
+          <div *ngIf="pageAction == PAGE_ACTIONS.Add">Add</div>
+          <div *ngIf="pageAction == PAGE_ACTIONS.Edit">Save</div>
+        </button>
+        <!-- <button *ngIf="pageAction == PAGE_ACTIONS.Edit"
+                [disabled]="loading" type="button" (click)="commandsEditor.resetCommands()"
+                class="btn btn-secondary">
+          Reset
+        </button> -->
+        <button *ngIf="pageAction == PAGE_ACTIONS.Edit" [disabled]="loading" class="btn btn-danger" type="button" (click)="onDelete()">Delete</button>
+      </div>
       <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
       <a *ngIf="pageAction == PAGE_ACTIONS.Add" [routerLink]="['/bots/']" class="btn btn-link">Cancel</a>
       <a *ngIf="pageAction == PAGE_ACTIONS.Edit" [routerLink]="['/bots', bot.id]" class="btn btn-link">Cancel</a>

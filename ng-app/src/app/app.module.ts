@@ -23,9 +23,9 @@ import { BotsEditComponent } from './bots-edit/bots-edit.component';
 import { BotsDetailsComponent } from './bots-details/bots-details.component';;
 import { GuildsComponent } from './guilds/guilds.component';
 import { GuildsDetailsComponent } from './guilds-details/guilds-details.component';
-import { CommandListComponent } from './command-list/command-list.component'
-import { CommandService } from "./_services/command.service";;
-import { CommandComponent } from './command/command.component'
+import { CommandService } from "./_services/command.service";
+import { ActionsEditComponent } from './actions-edit/actions-edit.component';
+import { CommandsEditComponent } from './commands-edit/commands-edit.component';
 
 @NgModule({
     imports: [
@@ -47,9 +47,8 @@ import { CommandComponent } from './command/command.component'
         BotsDetailsComponent,
         GuildsComponent,
         GuildsDetailsComponent,
-        CommandListComponent,
-        CommandComponent
-    ],
+        ActionsEditComponent,
+        CommandsEditComponent   ],
     providers: [
         AuthGuard,
         AlertService,

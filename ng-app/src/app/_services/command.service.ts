@@ -10,27 +10,32 @@ export class CommandService {
   apiUrl = 'http://localhost:4000/api';
   commandUrl = '';
 
-  setBotId(botId: number) {
-    this.commandUrl = this.apiUrl + '/bots/' + botId + '/commands';
+  getAllByBot(botId: string) {
+    return this.http.get<Command[]>(`${this.createBaseURL(botId)}/`);
   }
 
-  getAll() {
-    return this.http.get<Command[]>(`${this.commandUrl}`);
+  getById(botId: string, cmdId: number) {
+    return this.http.get<Command>(`${this.createBaseURL(botId)}/` + cmdId);
   }
 
-  getById(id: number) {
-    return this.http.get<Command>(`${this.commandUrl}/` + id);
+  add(botId: string, cmd: Command) {
+    return this.http.post<Command>(`${this.createBaseURL(botId)}/add`, cmd);
   }
 
-  add(cmd: Command) {
-    return this.http.post(`${this.commandUrl}/add`, cmd);
+  update(botId: string, cmdId: number, cmd: Command) {
+    return this.http.put<Command>(`${this.createBaseURL(botId)}/` + cmdId, cmd);
   }
 
-  update(cmd: Command, id: number) {
-    return this.http.put(`${this.commandUrl}/` + id, cmd);
+  updateAll(botId: string, cmds: Command[]) {
+    console.log('Sending commands', cmds);
+    return this.http.put<Command[]>(`${this.createBaseURL(botId)}/`, {commands: cmds});
   }
 
-  delete(id: number) {
-    return this.http.delete(`${this.commandUrl}/` + id);
+  delete(botId: string, cmdId: number) {
+    return this.http.delete(`${this.createBaseURL(botId)}/` + cmdId);
+  }
+
+  private createBaseURL(botId: string) {
+    return this.apiUrl + '/bots/' + botId + '/commands';
   }
 }

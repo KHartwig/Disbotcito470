@@ -12,6 +12,7 @@ module.exports = {
     getById,
     create,
     update,
+    updateAllByCommand,
     delete: _delete
 };
 
@@ -24,11 +25,11 @@ async function getAllByCommand(command) {
     return actions;
 }
 
-async function getById(command, comId){
+async function getById(command, actId){
     // Check for valid Id
-    if (isNaN(comId)) return null;
+    if (isNaN(actId)) return null;
 
-    const options = {where:{id:comId}, include: optActions.include};
+    const options = {where:{id:actId}, include: optActions.include};
     const actions = await command.getActions(options);
 
     // Return the only action in the array if it exists (should only be one)
@@ -50,6 +51,34 @@ async function create(command, actionParam) {
 async function update(action, actionParam) {
     action.update(actionParam);
     return action;
+}
+
+async function updateAllByCommand(command, actions) {
+  let oldActions = await command.getActions(optActions);
+
+  // console.log('> updateAll for command ' + command.name + ' id-' + command.id);
+  for (let i = 0; i < actions.length; i++){
+    let action = actions[i];
+    //Add new action
+    // console.log('>> ' + i + ' action ' + action.type + ' id-' + action.id);
+    if (!action.id){
+      // console.log('>>>> action being created for ' + action.type);
+      await create(command, action);
+    }
+    // Modify action
+    else {
+      // console.log(`>>>> action modified for ${action.type} id ${action.id}`);
+      await update(await getById(command, action.id), action);
+    }
+  }
+  for (let i = 0; i < oldActions.length; i++){
+    let oldAction = oldActions[i];
+    //delete actions that no longer exist
+    if (!actions.some((newAction) => newAction.id === oldAction.id)){
+      // console.log(`>>>> Removing action for ${oldAction.type} id ${oldAction.id}`);
+      await _delete(oldAction);
+    }
+  }
 }
 
 // Cascades to delete actions

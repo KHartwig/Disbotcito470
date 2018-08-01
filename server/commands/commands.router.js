@@ -6,6 +6,7 @@ const actionsRouter = require('../actions/actions.router');
 // Routes
 router.post('/add', commandsController.add);
 router.get('/', commandsController.getAllByBot);
+router.put('/', commandsController.updateAllByBot);
 
 // CommandId routes
 router.use('/:id', commandsController.attachCommand);

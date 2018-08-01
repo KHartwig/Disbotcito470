@@ -1,3 +1,4 @@
+const actionService = require('../actions/actions.service');
 const db = require('_infra/db/models/index');
 const User = db.User;
 const Bot = db.Bot;
@@ -17,6 +18,7 @@ module.exports = {
     getById,
     create,
     update,
+    updateAllByBot,
     delete: _delete
 };
 
@@ -55,8 +57,39 @@ async function create(bot, commandParam) {
 
 // Does not update actions
 async function update(command, commandParam) {
+    console.log('Commands UPDATE ', commandParam);
     command.update(commandParam);
+    await actionService.updateAllByCommand(command, commandParam.Actions);
     return command;
+}
+
+// Updates all commands of a bot
+async function updateAllByBot(bot, commands) {
+    let oldCommands = await bot.getCommands(optActions);
+    // console.log('WE GOT COMMANDS ~ SERVICE', commands);
+    // console.log('OLD COMMANDS:', oldCommands[0].get());
+    for (let i = 0; i < commands.length; i++){
+      let command = commands[i];
+      //Add new command
+      if (!command.id){
+        // console.log('command being created for ' + command.name);
+        await create(bot, command);
+      }
+      // Modify command
+      else {
+        // console.log(`command modified for ${command.name} id ${command.id}`);
+        await update(await getById(bot, command.id), command);
+      }
+    }
+    for (let i = 0; i < oldCommands.length; i++){
+      let oldCommand = oldCommands[i];
+      //delete commands that no longer exist
+      if (!commands.some((newCommand) => newCommand.id === oldCommand.id)){
+        // console.log(`Removing command for ${oldCommand.name} id ${oldCommand.id}`);
+        await _delete(oldCommand);
+      }
+    }
+    return await getAllByBot(bot);
 }
 
 // Cascades to delete actions

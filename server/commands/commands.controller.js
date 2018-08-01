@@ -8,6 +8,7 @@ module.exports = {
     attachCommand,
     getById,
     update,
+    updateAllByBot,
     delete: _delete
 };
 
@@ -50,6 +51,14 @@ function update(req, res, next) {
         .catch(err => next(err));
     discordService.updateClientCommands(req.bot, req.body)
         .catch(err => next(err));
+}
+
+function updateAllByBot(req, res, next) {
+    commandService.updateAllByBot(req.bot, req.body.commands)
+        .then((commands) => res.json(commands))
+        .catch(err => next(err));
+    // discordService.updateClientCommands(req.bot, req.body)
+    //     .catch(err => next(err));
 }
 
 function _delete(req, res, next) {

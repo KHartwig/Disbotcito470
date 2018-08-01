@@ -1,0 +1,53 @@
+<div>
+  <h4>Commands</h4>
+  <div *ngFor="let command of editedCommandList; index as i">
+    <div class="card">
+        <div class="card-header p-0">
+            <div class="d-flex align-items-center">
+              <div class="p-2 w-100 d-flex justify-content-center">
+                  <h5 *ngIf='!command.nameEditing' class="m-0 align-self-center">
+                    {{command.name}}
+                  </h5>
+                  <button *ngIf='!command.nameEditing' type="button"
+                          class="btn btn-outline-secondary btn-sm ml-1"
+                          (click)='command.nameEditing=true;'>Edit</button>
+                  <div class="input-group w-50 input-group-sm" *ngIf='command.nameEditing'>
+                    <input type="text" class="form-control"
+                           [(ngModel)]="command.name" placeholder="Name"
+                           aria-label="Command Name" aria-describedby="save-command">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary" type="button"
+                              id="save-command" (click)='command.nameEditing=false;'>Done</button>
+                    </div>
+                  </div>
+                  <button type="button"
+                          class="btn btn-outline-danger btn-sm ml-1"
+                          (click)='deleteCommand(i)'>Delete</button>
+              </div>
+              <div class="p-2 flex-shrink-0">
+                  <button type="button" class="btn btn-primary" data-toggle="collapse" [attr.data-target]="'#ActionsFor'+ i">
+                    Actions <span class="badge badge-light">{{actionsEditor.editedActions.length}}</span>
+                  </button>
+              </div>
+            </div>
+        </div>
+        <div class="collapse" id="ActionsFor{{i}}">
+            <div class="card-body">
+                <app-actions-edit #actionsEditor [actions]="command.Actions" [commandEditId]="i">
+                </app-actions-edit>
+            </div>
+        </div>
+    </div>
+  </div>
+  <small class="d-block text-right mt-1">
+      <button type="button" class="btn btn-link" (click)="createCommand()">Add Command</button>
+  </small>
+  <button type="button" (click)="resetEditedCommands()"
+          class="btn btn-secondary">
+    Reset
+  </button>
+  <button type="button" (click)="sendEditedCommandListToServer()"
+          class="btn btn-primary">
+    Save Commands
+  </button>
+</div>
