@@ -36,6 +36,8 @@ app.use(errorHandler);
 const port = config.port;
 models.sequelize.sync().then(function() {
     console.log('Models synchronized');
+    // Run startup routine
+    gracefulStartup();
     app.listen(port, function() {
         console.log('Server listening on port ' + port);
     });
@@ -53,6 +55,12 @@ if (config.serveFrontEnd) {
     const serverAppServe = appServe.listen(portServe, function(){
         console.log('Serving application on port ' + portServe);
     });
+}
+
+// ______ STARTUP Routine ____________
+function gracefulStartup() {
+  // Set all bots offline upon startup
+  models.Bot.update({status: 'OFFLINE'}, {where: {}});
 }
 
 // ______ SHUTDOWN Routine ___________
