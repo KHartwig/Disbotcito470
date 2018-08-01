@@ -45,12 +45,13 @@ function getById(req, res, next) {
     res.json(req.command);
 }
 
+// TODO discord Service needs to be called synchronously with  commandService
 function update(req, res, next) {
     commandService.update(req.command, req.body)
         .then((command) => res.json(command))
         .catch(err => next(err));
-    discordService.updateClientCommands(req.bot, req.body)
-        .catch(err => next(err));
+    // discordService.updateClientCommands(req.bot, req.body)
+    //     .catch(err => next(err));
 }
 
 function updateAllByBot(req, res, next) {
@@ -65,6 +66,6 @@ function _delete(req, res, next) {
     commandService.delete(req.command)
         .then(() => res.json({}))
         .catch(err => next(err));
-    discordService.updateClientCommands(req.bot, req.command)
-        .catch(err => next(err));
+    // discordService.updateClientCommands(req.bot, req.command)
+    //     .catch(err => next(err));
 }

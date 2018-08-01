@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import {AlertService, BotService} from "../_services";
+import {Component, OnInit, ViewChild, ViewChildren, QueryList} from '@angular/core';
+import { AlertService, BotService } from '../_services';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
-import { Bot } from "../_models";
+import { Bot } from '../_models';
+import { CommandsEditComponent } from '../commands-edit/commands-edit.component';
+import {ActionsEditComponent} from "../actions-edit/actions-edit.component";
 
 enum PageAction {
   Add,
@@ -16,7 +18,7 @@ enum PageAction {
   styleUrls: ['./bots-edit.component.css']
 })
 export class BotsEditComponent implements OnInit {
-
+  @ViewChild(CommandsEditComponent) commandListEditor : CommandsEditComponent;
   editBotForm: FormGroup;
   loading = false;
   submitted = false;
@@ -36,7 +38,7 @@ export class BotsEditComponent implements OnInit {
 
   ngOnInit() {
     this.sub = this.activatedRouter.params.subscribe(params => {
-      if (params['bid']) { //has id, so edit
+      if (params['bid']) { // has id, so edit
         this.pageAction = PageAction.Edit;
         this.id = params['bid']; // (+) converts string 'id' to a number
         // In a real app: dispatch action to load the details here.
@@ -69,8 +71,12 @@ export class BotsEditComponent implements OnInit {
       return;
     }
 
+    // Attach command list
+    if (this.commandListEditor)
+      this.editBotForm.value.commands = this.commandListEditor.getValidCommandListForSubmission();
+
     this.loading = true;
-    if (this.pageAction == PageAction.Add) {
+    if (this.pageAction === PageAction.Add) {
       this.botService.add(this.editBotForm.value)
         .pipe(first())
         .subscribe(
@@ -86,7 +92,8 @@ export class BotsEditComponent implements OnInit {
       this.botService.update(this.editBotForm.value, this.bot.id)
         .pipe(first())
         .subscribe(
-          data => {
+          bot => {
+            console.log("BOT RETURNED", bot);
             this.alertService.success('Bot edited successfully', true);
             this.router.navigate(['/bots/', this.bot.id]);
           },

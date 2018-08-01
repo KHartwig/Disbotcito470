@@ -2,7 +2,7 @@ import { Component, OnInit, Input, QueryList, ViewChildren } from '@angular/core
 import { ActionsEditComponent } from '../actions-edit/actions-edit.component';
 import { CommandService, AlertService } from '../_services';
 import { Command, Action } from '../_models';
-import { first } from "rxjs/operators";
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-commands-edit',
@@ -23,7 +23,7 @@ export class CommandsEditComponent implements OnInit {
   }
 
   private createCommand() {
-    let cmd = new Command();
+    const cmd = new Command();
     cmd.nameEditing = true;
     this.editedCommandList.push(cmd);
   }
@@ -51,22 +51,29 @@ export class CommandsEditComponent implements OnInit {
     this.resetEditedCommands();
   }
 
-  // Updates server with the new command list
-  sendEditedCommandListToServer() {
+  getValidCommandListForSubmission() {
     // Filter out invalid Commands (ie, ones without names)
-    this.editedCommandList = this.editedCommandList.filter((cmd:Command) => {
-      return cmd.name && cmd.name != '';
+    const submissionCommandList = this.editedCommandList.filter((cmd:Command) => {
+      return cmd.name && cmd.name !== '';
     });
 
     // Sync the edited actions from the editedCommandList
-    this.editedCommandList.forEach((command, index) => {
-      console.log("Adding edited Action!", command);
+    submissionCommandList.forEach((command, index) => {
+      // console.log('Adding edited Action!', command);
       const aleForCommand = this.actionListEditors.find(actLE => actLE.commandEditId === index);
-      //Filter out invalid Actions
-      command.Actions = aleForCommand.editedActions.filter((act:Action)=> {
+      // Filter out invalid Actions
+      command.Actions = aleForCommand.editedActions.filter((act:Action) => {
         return !!act.type;
       });
     });
+
+    return submissionCommandList;
+  }
+
+  // Updates server with the new command list
+  sendEditedCommandListToServer() {
+    // Filter out invalid Commands (ie, ones without names)
+    this.editedCommandList = this.getValidCommandListForSubmission();
     this.commandService.updateAll(this.botId, this.editedCommandList)
       .pipe(first())
       .subscribe(

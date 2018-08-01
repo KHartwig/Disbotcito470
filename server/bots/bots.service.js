@@ -1,5 +1,6 @@
 const db = require('_infra/db/models/index');
 const discordService = require('../discord/discord.service');
+const commandService = require('../commands/commands.service');
 const Bot = db.Bot;
 const Command = db.Command;
 const Action = db.Action;
@@ -72,6 +73,11 @@ async function update(bot, botParam) {
     // Defined in the models/bot.js, only sets 'writable' fields in db
     bot.writableFields = botParam;
     await bot.save();
+
+    // Update the commands if they were sent too
+    if (botParam.commands)
+        await commandService.updateAllByBot(bot, botParam.commands);
+
     return bot;
 }
 

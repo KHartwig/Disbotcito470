@@ -57,7 +57,7 @@ async function create(bot, commandParam) {
 
 // Does not update actions
 async function update(command, commandParam) {
-    console.log('Commands UPDATE ', commandParam);
+    // console.log('Commands UPDATE ', commandParam);
     command.update(commandParam);
     await actionService.updateAllByCommand(command, commandParam.Actions);
     return command;
