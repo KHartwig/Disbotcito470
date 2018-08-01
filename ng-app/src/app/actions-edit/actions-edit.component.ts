@@ -55,9 +55,9 @@ export class ActionsEditComponent implements OnInit {
         },
         { "type": "selector", "display": "Emoji Type",
           "choices": [
-            { "display": "Nature", "id":"natureEmojis" },
-            { "display": "Number", "id":"numberEmojis" },
-            { "display": "Server", "id":"serverEmojis" }
+            { "display": "Nature", "id":"nature" },
+            { "display": "Number", "id":"server" },
+            { "display": "Server", "id":"number" }
           ]
         }
       ]
