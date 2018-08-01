@@ -35,7 +35,7 @@ gid: number;
       this.botService.getById(this.bid).pipe(first()).subscribe(rcvdBot => {
           const bot = rcvdBot;
 
-          if ( bot.status == "ONLINE") 
+          if ( bot.status == "ONLINE")
             this.loadGuilds();
         });
       // console.log(this.gid);
@@ -54,7 +54,6 @@ gid: number;
   closeGuilds () {
 
       this.guildList = [];
-    });
   }
 
   // startStop(i:number) {
@@ -90,5 +89,5 @@ gid: number;
 
   //       });
 
-  
+
 }
