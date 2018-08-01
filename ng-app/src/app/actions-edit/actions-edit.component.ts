@@ -14,14 +14,14 @@ export class ActionsEditComponent implements OnInit {
   @Input() commandEditId: number;
   editedActions: Action[] = [];
   possibleActionTypes = [{
-      "id": "messageDirect",
+      "id": "msgDirect",
       "display": "Message Direct",
       "params": [
         { "type": "input-text", "display": "Messsage"}
       ]
     },
     {
-      "id": "messageChannel",
+      "id": "msgChannel",
       "display": "Message Channel",
       "params": [
         { "type": "input-text", "display": "Messsage"}
@@ -31,7 +31,7 @@ export class ActionsEditComponent implements OnInit {
       "id": "playAudio",
       "display": "Play Audio VoiceChannel",
       "params": [
-        { "type": "input", "display": "File URL"}
+        { "type": "input", "display": "URL"}
       ]
     },
     {
