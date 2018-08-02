@@ -1,18 +1,22 @@
+<h1>{{guild.name}}</h1>
+<div class="container">
+  <div class="my-3 p-3 bg-white rounded box-shadow">
+    <div class="container" *ngIf="guild" >
+      <!--<h4>{{guild.name}}</h4>
+        <!-- <div class="list-group"  *ngFor="let member of guild.member"> -->
+          <!-- <p *ngIf="guild.id == gid" class="text-center">{{ member }}</p> -->
+    <!-- <router-outlet></router-outlet> -->
 
-<div class="container" *ngIf="guild" >
-  <h4>{{guild.name}}</h4>
-    <!-- <div class="list-group"  *ngFor="let member of guild.member"> -->
-      <!-- <p *ngIf="guild.id == gid" class="text-center">{{ member }}</p> -->
-<!-- <router-outlet></router-outlet> -->
+    <h6>Guild Info</h6>
+      <img src={{guild.iconURL}} width="100" height="100">
+      <p> Number of Members: {{guild.memberCount}} </p>
+      <p> Owner of guild: {{guild.ownerUsername}} </p>
+      <p> Region: {{guild.region|titlecase}} </p>
+      <p> Availability: {{guild.available}} </p>
+        <!-- </div> -->
 
-<h6>Guild Info</h6>
-  <img src={{guild.iconURL}} width="100" height="100">
-  <p> memberCount: {{guild.memberCount}} </p>
-  <p> ownerUsername: {{guild.ownerUsername}} </p>
-  <p> region: {{guild.region}} </p>
-  <p> available: {{guild.available}} </p>
-    <!-- </div> -->
-
+    </div>
+  </div>
 </div>
 <!--         // id: guild.id,                               // string - discord id
         // name: guild.name,                           // string - name of the guild
@@ -24,6 +28,7 @@
         // available: guild.available  -->
 <hr>
 
+<!--
 <div class="container" *ngIf="memberList || memberList.length !== 0">
   <h4>Member:</h4>
   <div class="list-group" *ngFor="let member of memberList" >
@@ -31,8 +36,116 @@
     <p> {{member.username}} </p>
   </div>
 </div>
+-->
+<div class="container">
+  <div class="row">
+    <div class ="col">
+      <div class="my-3 p-3 bg-white rounded box-shadow">
+          <h4 class="border-bottom border-gray pb-2 mb-0">Members:</h4>
+          <div class="jumbotron text-center" *ngIf="!memberList|| memberList.length === 0">
+              <h5>You have no members right now</h5>
+          </div>
+          <div id="membersOnline" *ngFor="let member of memberList">
 
+            <div *ngIf="member.status == 'online'">
+                  <div class="media pt-3">
+                      <img src={{member.avatarURL}} alt="" width="45" height="45"
+                      class="mr-2 rounded-circle avatar border">
+                      <div class="media-body pb-2 mb-0 small lh-125 border-bottom border-gray">
+                          <div class="d-flex">
+                              <div class="d-flex flex-column w-100">
+                                  <div>
+                                      {{ member.username}}
+                                      <span class="badge badge-pill badge-success ml-1">Online</span>
 
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div id="membersDND" *ngFor="let member of memberList">
+              <div *ngIf="member.status == 'dnd'">
+                    <div class="media pt-3">
+                        <img src={{member.avatarURL}} alt="" width="45" height="45"
+                        class="mr-2 rounded-circle avatar border">
+                        <div class="media-body pb-2 mb-0 small lh-125 border-bottom border-gray">
+                            <div class="d-flex">
+                                <div class="d-flex flex-column w-100">
+                                    <div>
+                                        {{ member.username}}
+                                        <span class="badge badge-pill badge-danger ml-1">Do Not Disturb</span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+          </div>
+          <div id="membersIdle" *ngFor="let member of memberList">
+                <div *ngIf="member.status == 'idle'">
+                      <div class="media pt-3">
+                          <img src={{member.avatarURL}} alt="" width="45" height="45"
+                          class="mr-2 rounded-circle avatar border">
+                          <div class="media-body pb-2 mb-0 small lh-125 border-bottom border-gray">
+                              <div class="d-flex">
+                                  <div class="d-flex flex-column w-100">
+                                      <div>
+                                          {{ member.username}}
+                                          <span class="badge badge-pill badge-warning ml-1">Idle</span>
+
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+          </div>
+          <div id="membersOffline" *ngFor="let member of memberList">
+                  <div *ngIf="member.status == 'offline'">
+                        <div class="media pt-3">
+                            <img src={{member.avatarURL}} alt="" width="45" height="45"
+                            class="mr-2 rounded-circle avatar border">
+                            <div class="media-body pb-2 mb-0 small lh-125 border-bottom border-gray">
+                                <div class="d-flex">
+                                    <div class="d-flex flex-column w-100">
+                                        <div>
+                                            {{ member.username}}
+                                            <span class="badge badge-pill badge-secondary ml-1">Offline</span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="col">
+      <div class="my-3 p-3 bg-white rounded box-shadow">
+          <h4 class="border-bottom border-gray pb-2 mb-0">Emojis:</h4>
+            <div class="container" *ngIf="emojiList || emojiList.length !== 0">
+
+              <span class="col-md-" *ngFor="let emoji of emojiList" >
+                <!--<p> name: {{emoji.name}}</p>-->
+                 <img src={{emoji.url}} data-toggle="tooltip" title={{emoji.name}}
+                 width="50" height="50" class="mr-4 rounded-circle avatar border">
+              </span>
+            </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!--
+<span class="badge badge-pill badge-secondary ml-1" *ngIf="member.status == 'offline'">Offline</span>
+<span class="badge badge-pill badge-warning ml-1" *ngIf="member.status == 'idle'">Idle</span>
+<span class="badge badge-pill badge-danger ml-1" *ngIf="member.status == 'dnd'">Do Not Disturb</span>
+-->
 <!--         // id: member.id,                              // string - discord id
         // username: member.user.username,             // string - username of the user
         // nickname: member.nickname,                  // string - nickname in the guild
@@ -45,13 +158,7 @@
         // bot: member.user.bot   -->
 
 <hr>
-<div class="container" *ngIf="emojiList || emojiList.length !== 0">
-  <h4>Emoji:</h4>
-  <div class="list-group" *ngFor="let emoji of emojiList" >
-    <p> name: {{emoji.name}}</p>
-     <img src={{emoji.url}}>
-  </div>
-</div>
+
 
 <!--         // id: emoji.id,                               // string - discord id
         // name: emoji.name,                           // string - name of the emoji
