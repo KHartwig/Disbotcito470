@@ -1,5 +1,12 @@
 <div>
   <h4>Commands</h4>
+  <!-- Display for no commands -->
+  <div *ngIf="editedCommandList.length == 0">
+    <div class="jumbotron text-center bg-light" *ngIf="!editedCommandList || editedCommandList.length === 0">
+      <h5>Add commands for your Bot!</h5>
+      <button type="button" class="btn btn-link" (click)="createCommand()">Add Command</button>
+    </div>
+  </div>
   <div *ngFor="let command of editedCommandList; index as i">
     <div class="card">
         <div class="card-header p-0">
@@ -41,15 +48,16 @@
         </div>
     </div>
   </div>
-  <small class="d-block text-right mt-1">
+  <small class="d-block text-right mt-1" *ngIf="editedCommandList.length > 0">
       <button type="button" class="btn btn-link" (click)="createCommand()">Add Command</button>
   </small>
-  <button type="button" (click)="resetEditedCommands()"
-          class="btn btn-secondary">
-    Reset
-  </button>
-  <button type="button" (click)="sendEditedCommandListToServer()"
-          class="btn btn-primary">
-    Save Commands
-  </button>
+  <!--<button type="button" (click)="resetEditedCommands()"-->
+          <!--class="btn btn-secondary">-->
+    <!--Reset-->
+  <!--</button>-->
+  <!--<button type="button" (click)="sendEditedCommandListToServer()"-->
+          <!--class="btn btn-primary">-->
+    <!--Save Commands-->
+  <!--</button>-->
 </div>
+

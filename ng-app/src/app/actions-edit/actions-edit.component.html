@@ -1,16 +1,22 @@
-<small class="d-block text-right mt-1">
-    <button type="button" class="btn btn-link" (click)='resetActions()'>Reset</button>
-</small>
+<!--<small class="d-block text-right mt-1">-->
+    <!--<button type="button" class="btn btn-link" (click)='resetActions()'>Reset</button>-->
+<!--</small>-->
 
-<table class="table table-bordered">
-  <tbody>
+<div class="container bg-light text-center" *ngIf="editedActions.length === 0" >
+  <div>This command has no actions</div>
+  <button type="button" class="btn btn-link" (click)='createAction()'>Add Action</button>
+</div>
+
+<div *ngIf="editedActions.length > 0">
+  <table class="table table-sm table-hover" *ngIf="editedActions.length > 0">
+    <tbody>
     <tr *ngFor="let action of editedActions; index as i">
-      <th scope="row">
+      <td scope="row">
         <select class="custom-select" type="number" [(ngModel)]="action.type" (change)="removeActionParameters(action)">
           <option *ngFor="let type of possibleActionTypes" [ngValue]="type.id">{{type.display}}</option>
         </select>
-      </th>
-      <td>
+      </td>
+      <td scope="row">
         <div *ngFor="let possibleType of possibleActionTypes">
           <div *ngIf="possibleType.id === action.type">
             <div class="d-flex" *ngFor="let param of possibleType.params; index as j; first as isFirst" [ngClass]="{'mt-2':!isFirst}">
@@ -35,15 +41,16 @@
           </div>
         </div>
       </td>
-      <td>
+      <td scope="row">
         <button type="button" class="close" aria-label="Close" (click)="deleteAction(i)">
           <span aria-hidden="true">&times;</span>
         </button>
       </td>
     </tr>
-  </tbody>
-</table>
+    </tbody>
+  </table>
 
-<small class="d-block text-right mt-1">
+  <small class="d-block text-right mt-1">
     <button type="button" class="btn btn-link" (click)='createAction()'>Add Action</button>
-</small>
+  </small>
+</div>

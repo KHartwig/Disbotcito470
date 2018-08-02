@@ -80,7 +80,8 @@ export class BotsEditComponent implements OnInit {
       this.botService.add(this.editBotForm.value)
         .pipe(first())
         .subscribe(
-          data => {
+          bot => {
+            console.log("ADDED BOT RETURNED", bot);
             this.alertService.success('Bot added successfully', true);
             this.router.navigate(['/']);
           },
@@ -93,7 +94,7 @@ export class BotsEditComponent implements OnInit {
         .pipe(first())
         .subscribe(
           bot => {
-            console.log("BOT RETURNED", bot);
+            console.log("EDITED BOT RETURNED", bot);
             this.alertService.success('Bot edited successfully', true);
             this.router.navigate(['/bots/', this.bot.id]);
           },

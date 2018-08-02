@@ -39,9 +39,14 @@ export class CommandsEditComponent implements OnInit {
 
   private loadCommandsFromServer(){
     console.log(this.botId);
-    this.commandService.getAllByBot(this.botId).pipe(first()).subscribe(cmds => {
-      this.storeCommandList(cmds);
-    });
+    if (this.botId) {
+      this.commandService.getAllByBot(this.botId).pipe(first()).subscribe(cmds => {
+        this.storeCommandList(cmds);
+      });
+    }
+    else {
+      this.storeCommandList([]);
+    }
   }
 
   // Stores the commands into local list in sorted order, then resets

@@ -3,21 +3,21 @@
 <div *ngIf="pageAction == PAGE_ACTIONS.Add || bot">
   <form [formGroup]="editBotForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
-      <label for="name">Name</label>
+      <label >Name</label>
       <input type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
       <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
         <div *ngIf="f.name.errors.required">Name is required</div>
       </div>
     </div>
     <div class="form-group">
-      <label for="discordToken">Discord Token</label>
+      <label >Discord Token</label>
       <input type="text" formControlName="discordToken" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.discordToken.errors }" />
       <div *ngIf="submitted && f.discordToken.errors" class="invalid-feedback">
         <div *ngIf="f.discordToken.errors.required">Discord token is required</div>
       </div>
     </div>
     <div class="form-group">
-      <label for="commandPrefix">Command Prefix</label>
+      <label >Command Prefix</label>
       <input type="text" formControlName="commandPrefix" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.commandPrefix.errors }" />
       <div *ngIf="submitted && f.commandPrefix.errors" class="invalid-feedback">
         <div *ngIf="f.commandPrefix.errors.required">Command prefix is required</div>
@@ -34,7 +34,7 @@
     <div class="form-group">
       <div class="d-flex justify-content-around">
         <button [disabled]="loading" class="btn btn-primary">
-          <a *ngIf="pageAction == PAGE_ACTIONS.Add">Add</a>
+          <a *ngIf="pageAction == PAGE_ACTIONS.Add">Add Bot</a>
           <a *ngIf="pageAction == PAGE_ACTIONS.Edit">Save</a>
         </button>
         <!-- <button *ngIf="pageAction == PAGE_ACTIONS.Edit"
@@ -42,7 +42,7 @@
                 class="btn btn-secondary">
           Reset
         </button> -->
-        <button *ngIf="pageAction == PAGE_ACTIONS.Edit" [disabled]="loading" class="btn btn-danger" type="button" (click)="onDelete()">Delete</button>
+        <button *ngIf="pageAction == PAGE_ACTIONS.Edit" [disabled]="loading" class="btn btn-danger" type="button" (click)="onDelete()">Delete Bot</button>
       </div>
       <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
       <a *ngIf="pageAction == PAGE_ACTIONS.Add" [routerLink]="['/bots/']" class="btn btn-link">Cancel</a>
