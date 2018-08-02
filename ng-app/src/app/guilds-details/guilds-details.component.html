@@ -24,6 +24,7 @@
         // available: guild.available  -->
 <hr>
 
+<!--
 <div class="container" *ngIf="memberList || memberList.length !== 0">
   <h4>Member:</h4>
   <div class="list-group" *ngFor="let member of memberList" >
@@ -31,72 +32,18 @@
     <p> {{member.username}} </p>
   </div>
 </div>
-
-<div class="my-3 p-3 bg-white rounded box-shadow">
-    <h4 class="border-bottom border-gray pb-2 mb-0">Members</h4>
-    <div class="jumbotron text-center" *ngIf="!memberList|| memberList.length === 0">
-        <h5>You have no members right now</h5>
-    </div>
-    <div id="membersOnline" *ngFor="let member of memberList">
-
-      <div *ngIf="member.status == 'online'">
-            <div class="media pt-3">
-                <img src={{member.avatarURL}} alt="" width="40" height="40"
-                class="mr-2 rounded-circle avatar border">
-                <div class="media-body pb-2 mb-0 small lh-125 border-bottom border-gray">
-                    <div class="d-flex">
-                        <div class="d-flex flex-column w-100">
-                            <div>
-                                {{ member.username}}
-                                <span class="badge badge-pill badge-success ml-1">Online</span>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="membersDND" *ngFor="let member of memberList">
-        <div *ngIf="member.status == 'dnd'">
-              <div class="media pt-3">
-                  <img src={{member.avatarURL}} alt="" width="40" height="40"
-                  class="mr-2 rounded-circle avatar border">
-                  <div class="media-body pb-2 mb-0 small lh-125 border-bottom border-gray">
-                      <div class="d-flex">
-                          <div class="d-flex flex-column w-100">
-                              <div>
-                                  {{ member.username}}
-                                  <span class="badge badge-pill badge-danger ml-1">Do Not Disturb</span>
-
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
+-->
+<div class="container">
+  <div class="row">
+    <div class ="col">
+      <div class="my-3 p-3 bg-white rounded box-shadow">
+          <h4 class="border-bottom border-gray pb-2 mb-0">Members:</h4>
+          <div class="jumbotron text-center" *ngIf="!memberList|| memberList.length === 0">
+              <h5>You have no members right now</h5>
           </div>
-    </div>
-    <div id="membersIdle" *ngFor="let member of memberList">
-          <div *ngIf="member.status == 'idle'">
-                <div class="media pt-3">
-                    <img src={{member.avatarURL}} alt="" width="40" height="40"
-                    class="mr-2 rounded-circle avatar border">
-                    <div class="media-body pb-2 mb-0 small lh-125 border-bottom border-gray">
-                        <div class="d-flex">
-                            <div class="d-flex flex-column w-100">
-                                <div>
-                                    {{ member.username}}
-                                    <span class="badge badge-pill badge-warning ml-1">Idle</span>
+          <div id="membersOnline" *ngFor="let member of memberList">
 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    </div>
-    <div id="membersOffline" *ngFor="let member of memberList">
-            <div *ngIf="member.status == 'offline'">
+            <div *ngIf="member.status == 'online'">
                   <div class="media pt-3">
                       <img src={{member.avatarURL}} alt="" width="40" height="40"
                       class="mr-2 rounded-circle avatar border">
@@ -105,7 +52,7 @@
                               <div class="d-flex flex-column w-100">
                                   <div>
                                       {{ member.username}}
-                                      <span class="badge badge-pill badge-secondary ml-1">Offline</span>
+                                      <span class="badge badge-pill badge-success ml-1">Online</span>
 
                                   </div>
                               </div>
@@ -113,7 +60,81 @@
                       </div>
                   </div>
               </div>
+          </div>
+          <div id="membersDND" *ngFor="let member of memberList">
+              <div *ngIf="member.status == 'dnd'">
+                    <div class="media pt-3">
+                        <img src={{member.avatarURL}} alt="" width="40" height="40"
+                        class="mr-2 rounded-circle avatar border">
+                        <div class="media-body pb-2 mb-0 small lh-125 border-bottom border-gray">
+                            <div class="d-flex">
+                                <div class="d-flex flex-column w-100">
+                                    <div>
+                                        {{ member.username}}
+                                        <span class="badge badge-pill badge-danger ml-1">Do Not Disturb</span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+          </div>
+          <div id="membersIdle" *ngFor="let member of memberList">
+                <div *ngIf="member.status == 'idle'">
+                      <div class="media pt-3">
+                          <img src={{member.avatarURL}} alt="" width="40" height="40"
+                          class="mr-2 rounded-circle avatar border">
+                          <div class="media-body pb-2 mb-0 small lh-125 border-bottom border-gray">
+                              <div class="d-flex">
+                                  <div class="d-flex flex-column w-100">
+                                      <div>
+                                          {{ member.username}}
+                                          <span class="badge badge-pill badge-warning ml-1">Idle</span>
+
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+          </div>
+          <div id="membersOffline" *ngFor="let member of memberList">
+                  <div *ngIf="member.status == 'offline'">
+                        <div class="media pt-3">
+                            <img src={{member.avatarURL}} alt="" width="40" height="40"
+                            class="mr-2 rounded-circle avatar border">
+                            <div class="media-body pb-2 mb-0 small lh-125 border-bottom border-gray">
+                                <div class="d-flex">
+                                    <div class="d-flex flex-column w-100">
+                                        <div>
+                                            {{ member.username}}
+                                            <span class="badge badge-pill badge-secondary ml-1">Offline</span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+          </div>
+        </div>
     </div>
+
+    <div class="col">
+      <div class="my-3 p-3 bg-white rounded box-shadow">
+          <h4 class="border-bottom border-gray pb-2 mb-0">Emoji(s):</h4>
+            <div class="container" *ngIf="emojiList || emojiList.length !== 0">
+
+              <div class="list-group" *ngFor="let emoji of emojiList" >
+                <!--<p> name: {{emoji.name}}</p>-->
+                 <img src={{emoji.url}} width="40" height="40">
+              </div>
+            </div>
+      </div>
+    </div>
+
+  </div>
 </div>
 <!--
 <span class="badge badge-pill badge-secondary ml-1" *ngIf="member.status == 'offline'">Offline</span>
@@ -132,13 +153,7 @@
         // bot: member.user.bot   -->
 
 <hr>
-<div class="container" *ngIf="emojiList || emojiList.length !== 0">
-  <h4>Emoji:</h4>
-  <div class="list-group" *ngFor="let emoji of emojiList" >
-    <p> name: {{emoji.name}}</p>
-     <img src={{emoji.url}} width="40" height="40">
-  </div>
-</div>
+
 
 <!--         // id: emoji.id,                               // string - discord id
         // name: emoji.name,                           // string - name of the emoji
