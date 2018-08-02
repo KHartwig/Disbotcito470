@@ -1,41 +1,51 @@
-<div class="container" *ngIf="bot">
-  <h3>{{bot.name}}
-  <!-- <a [routerLink]="['/']" class="btn btn-link">I am a button, cool</a>  -->
-        <button *ngIf="bot.status == 'ONLINE'" class="btn btn-danger" type="button" (click)="startStop()">turn off</button>
-        <button *ngIf="bot.status == 'OFFLINE'" class="btn btn-success" type="button" (click)="startStop()">turn on</button>
-  </h3>
-  <div class="container">
-    <div class="row">
-      <div class="col-sm">
-        <strong>Discord Token:</strong>
-      </div>
-      <div class="col-sm">
-        {{bot.discordToken}}
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm">
-        <strong>Status:</strong>
-      </div>
-      <div class="col-sm">
-        {{bot.status|titlecase}}
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm">
-        <strong>Command Prefix:</strong>
-      </div>
-      <div class="col-sm">
-        {{bot.commandPrefix}}
+<h1> Bot Status Page</h1>
+<div class="container">
+  <div class="my-3 p-3 bg-white rounded box-shadow">
+    <div class="container" *ngIf="bot">
+      <h3>{{bot.name}}
+      <!-- <a [routerLink]="['/']" class="btn btn-link">I am a button, cool</a>  -->
+            <button *ngIf="bot.status == 'ONLINE'" class="btn btn-danger" type="button" (click)="startStop()">turn off</button>
+            <button *ngIf="bot.status == 'OFFLINE'" class="btn btn-success" type="button" (click)="startStop()">turn on</button>
+      </h3>
+      <div class="container">
+        <div class="row">
+          <div class="col-sm">
+            <strong>Discord Token:</strong>
+          </div>
+          <div class="col-sm">
+            {{bot.discordToken}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm">
+            <strong>Status:</strong>
+          </div>
+          <div class="col-sm">
+            {{bot.status|titlecase}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm">
+            <strong>Command Prefix:</strong>
+          </div>
+          <div class="col-sm">
+            {{bot.commandPrefix}}
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- list of guilds -->
-  <hr>
-  <app-guilds ></app-guilds>
-  <br>
-  <!-- <app-guilds-details></app-guilds-details> -->
-  <a [routerLink]="['/']" class="btn btn-link">Back</a>
-  <a [routerLink]="['/bots/edit', bot.id ]" class="btn btn-link">Edit</a>
+<hr>
+
+    <div class="my-3 p-3 bg-white rounded box-shadow">
+      <!-- list of guilds -->
+      <app-guilds ></app-guilds>
+      <br>
+      <!-- <app-guilds-details></app-guilds-details> -->
+    </div>
+
 </div>
+
+<a [routerLink]="['/']" class="btn btn-link">Back</a>
+<a [routerLink]="['/bots/edit', bot.id ]" class="btn btn-link">Edit</a>
