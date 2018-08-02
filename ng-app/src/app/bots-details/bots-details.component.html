@@ -1,4 +1,4 @@
-<h1> Bot Status Page</h1>
+<h2> Bot Status Page</h2>
 <div class="container">
   <div class="my-3 p-3 bg-white rounded box-shadow">
     <div class="container" *ngIf="bot">
@@ -16,6 +16,9 @@
             {{bot.discordToken}}
           </div>
         </div>
+
+        <hr>
+
         <div class="row">
           <div class="col-sm">
             <strong>Status:</strong>
@@ -24,6 +27,9 @@
             {{bot.status|titlecase}}
           </div>
         </div>
+
+        <hr>
+
         <div class="row">
           <div class="col-sm">
             <strong>Command Prefix:</strong>
@@ -35,9 +41,11 @@
       </div>
     </div>
   </div>
+</div>
 
 <hr>
 
+<div class="container">
     <div class="my-3 p-3 bg-white rounded box-shadow">
       <!-- list of guilds -->
       <app-guilds ></app-guilds>
