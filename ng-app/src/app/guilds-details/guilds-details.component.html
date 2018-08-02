@@ -45,7 +45,7 @@
 
             <div *ngIf="member.status == 'online'">
                   <div class="media pt-3">
-                      <img src={{member.avatarURL}} alt="" width="40" height="40"
+                      <img src={{member.avatarURL}} alt="" width="45" height="45"
                       class="mr-2 rounded-circle avatar border">
                       <div class="media-body pb-2 mb-0 small lh-125 border-bottom border-gray">
                           <div class="d-flex">
@@ -64,7 +64,7 @@
           <div id="membersDND" *ngFor="let member of memberList">
               <div *ngIf="member.status == 'dnd'">
                     <div class="media pt-3">
-                        <img src={{member.avatarURL}} alt="" width="40" height="40"
+                        <img src={{member.avatarURL}} alt="" width="45" height="45"
                         class="mr-2 rounded-circle avatar border">
                         <div class="media-body pb-2 mb-0 small lh-125 border-bottom border-gray">
                             <div class="d-flex">
@@ -83,7 +83,7 @@
           <div id="membersIdle" *ngFor="let member of memberList">
                 <div *ngIf="member.status == 'idle'">
                       <div class="media pt-3">
-                          <img src={{member.avatarURL}} alt="" width="40" height="40"
+                          <img src={{member.avatarURL}} alt="" width="45" height="45"
                           class="mr-2 rounded-circle avatar border">
                           <div class="media-body pb-2 mb-0 small lh-125 border-bottom border-gray">
                               <div class="d-flex">
@@ -102,7 +102,7 @@
           <div id="membersOffline" *ngFor="let member of memberList">
                   <div *ngIf="member.status == 'offline'">
                         <div class="media pt-3">
-                            <img src={{member.avatarURL}} alt="" width="40" height="40"
+                            <img src={{member.avatarURL}} alt="" width="45" height="45"
                             class="mr-2 rounded-circle avatar border">
                             <div class="media-body pb-2 mb-0 small lh-125 border-bottom border-gray">
                                 <div class="d-flex">
@@ -126,10 +126,11 @@
           <h4 class="border-bottom border-gray pb-2 mb-0">Emoji(s):</h4>
             <div class="container" *ngIf="emojiList || emojiList.length !== 0">
 
-              <div class="list-group" *ngFor="let emoji of emojiList" >
+              <span class="col-md-" *ngFor="let emoji of emojiList" >
                 <!--<p> name: {{emoji.name}}</p>-->
-                 <img src={{emoji.url}} width="40" height="40">
-              </div>
+                 <img src={{emoji.url}} data-toggle="tooltip" title={{emoji.name}}
+                 width="50" height="50" class="mr-4 rounded-circle avatar border">
+              </span>
             </div>
       </div>
     </div>
