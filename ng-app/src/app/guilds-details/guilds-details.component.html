@@ -37,7 +37,9 @@
     <div class="jumbotron text-center" *ngIf="!memberList|| memberList.length === 0">
         <h5>You have no members right now</h5>
     </div>
-    <div id="members" *ngFor="let member of memberList">
+    <div id="membersOnline" *ngFor="let member of memberList">
+
+      <div *ngIf="member.status == 'online'">
             <div class="media pt-3">
                 <img src={{member.avatarURL}} alt="" width="40" height="40"
                 class="mr-2 rounded-circle avatar border">
@@ -46,19 +48,78 @@
                         <div class="d-flex flex-column w-100">
                             <div>
                                 {{ member.username}}
-                                <span class="badge badge-pill badge-success ml-1" *ngIf="member.status == 'online'">Online</span>
-                                <span class="badge badge-pill badge-secondary ml-1" *ngIf="member.status == 'offline'">Offline</span>
-                                <span class="badge badge-pill badge-warning ml-1" *ngIf="member.status == 'idle'">Idle</span>
-                                <span class="badge badge-pill badge-danger ml-1" *ngIf="member.status == 'dnd'">Do Not Disturb</span>
+                                <span class="badge badge-pill badge-success ml-1">Online</span>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="membersDND" *ngFor="let member of memberList">
+        <div *ngIf="member.status == 'dnd'">
+              <div class="media pt-3">
+                  <img src={{member.avatarURL}} alt="" width="40" height="40"
+                  class="mr-2 rounded-circle avatar border">
+                  <div class="media-body pb-2 mb-0 small lh-125 border-bottom border-gray">
+                      <div class="d-flex">
+                          <div class="d-flex flex-column w-100">
+                              <div>
+                                  {{ member.username}}
+                                  <span class="badge badge-pill badge-danger ml-1">Do Not Disturb</span>
+
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+    </div>
+    <div id="membersIdle" *ngFor="let member of memberList">
+          <div *ngIf="member.status == 'idle'">
+                <div class="media pt-3">
+                    <img src={{member.avatarURL}} alt="" width="40" height="40"
+                    class="mr-2 rounded-circle avatar border">
+                    <div class="media-body pb-2 mb-0 small lh-125 border-bottom border-gray">
+                        <div class="d-flex">
+                            <div class="d-flex flex-column w-100">
+                                <div>
+                                    {{ member.username}}
+                                    <span class="badge badge-pill badge-warning ml-1">Idle</span>
+
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
     </div>
+    <div id="membersOffline" *ngFor="let member of memberList">
+            <div *ngIf="member.status == 'offline'">
+                  <div class="media pt-3">
+                      <img src={{member.avatarURL}} alt="" width="40" height="40"
+                      class="mr-2 rounded-circle avatar border">
+                      <div class="media-body pb-2 mb-0 small lh-125 border-bottom border-gray">
+                          <div class="d-flex">
+                              <div class="d-flex flex-column w-100">
+                                  <div>
+                                      {{ member.username}}
+                                      <span class="badge badge-pill badge-secondary ml-1">Offline</span>
+
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+    </div>
 </div>
-
-
+<!--
+<span class="badge badge-pill badge-secondary ml-1" *ngIf="member.status == 'offline'">Offline</span>
+<span class="badge badge-pill badge-warning ml-1" *ngIf="member.status == 'idle'">Idle</span>
+<span class="badge badge-pill badge-danger ml-1" *ngIf="member.status == 'dnd'">Do Not Disturb</span>
+-->
 <!--         // id: member.id,                              // string - discord id
         // username: member.user.username,             // string - username of the user
         // nickname: member.nickname,                  // string - nickname in the guild
