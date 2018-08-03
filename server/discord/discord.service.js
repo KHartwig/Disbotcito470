@@ -18,13 +18,23 @@ module.exports = {
 const DEFAULT_LIMIT = 100;
 
 async function createClient(bot) {
-    cwMap.set(bot.id, new clientWrapper(bot.discordToken, bot.commandPrefix, bot.commands));
-    console.log('Client created for bot ' + bot.id + ' (' + bot.name + ')')
+    let newClient = new clientWrapper(bot.discordToken, bot.commandPrefix, bot.commands);
+    try {
+        await newClient.login();
+    } catch (err) {
+        throw 'Cannot start bot, invalid token';
+    }
+
+    cwMap.set(bot.id, newClient);
+    console.log('Client created for bot ' + bot.id + ' (' + bot.name + ')');
+    const guilds = newClient.client.guilds.first(DEFAULT_LIMIT).map(guildFilter);
+    guildMap.set(bot.id, guilds);
+    console.log('Initial guild cache for bot ' + bot.id + ': ' + JSON.stringify(guilds));
 }
 
 async function destroyClient(bot) {
     cwMap.get(bot.id).destroy();
-    cwMap.delete(bot.id);
+    //cwMap.delete(bot.id);
 }
 
 function destroyAllClients(){
