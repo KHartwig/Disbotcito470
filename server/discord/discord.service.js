@@ -58,7 +58,9 @@ function destroyAllClients(){
 
 async function updateClientCommands(bot, commands) {
     console.log('Trying to update commands for bot ' + bot.id + ' (' + bot.name + ')...');
-    cwMap.get(bot.id).sync(commands);
+    const cw = cwMap.get(bot.id);
+    if (!cw) throw 'Cannot update commands, bot not started';
+    cw.sync(commands);
 }
 
 async function getBotUser(bot) {

@@ -50,7 +50,13 @@ function getAll(req, res, next) {
 
 function update(req, res, next) {
     botService.update(req.bot, req.body)
-        .then((bot) => res.json(bot))
+        .then((bot) => {
+            console.log('~ Bot updated: ' + JSON.stringify(req.body));
+            console.log('--- Commands: ' + JSON.stringify(req.body.commands));
+            discordService.updateClientCommands(bot, req.body.commands)
+                .catch(err => console.log('Error updating commands from bot controller: ' + err.message));
+            res.json(bot);
+        })
         .catch(err => next(err));
 }
 
