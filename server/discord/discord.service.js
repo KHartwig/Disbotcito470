@@ -16,6 +16,7 @@ module.exports = {
     createClient,
     destroyClient,
     updateClientCommands,
+    updateClientCommandPrefix,
     getGuildObject,
     getGuilds,
     getGuildById,
@@ -60,7 +61,14 @@ async function updateClientCommands(bot, commands) {
     console.log('Trying to update commands for bot ' + bot.id + ' (' + bot.name + ')...');
     const cw = cwMap.get(bot.id);
     if (!cw) throw 'Cannot update commands, bot not started';
-    cw.sync(commands);
+    cw.syncCommands(commands);
+}
+
+async function updateClientCommandPrefix(bot, commandPrefix) {
+    console.log('Trying to update command prefix for bot ' + bot.id + ' (' + bot.name + ')...');
+    const cw = cwMap.get(bot.id);
+    if (!cw) throw 'Cannot update command prefix, bot not started';
+    cw.syncCommandPrefix(commandPrefix);
 }
 
 async function getBotUser(bot) {

@@ -55,6 +55,8 @@ function update(req, res, next) {
             console.log('--- Commands: ' + JSON.stringify(req.body.commands));
             discordService.updateClientCommands(bot, req.body.commands)
                 .catch(err => console.log('Error updating commands from bot controller: ' + err.message));
+            discordService.updateClientCommandPrefix(bot, bot.commandPrefix)
+                .catch(err => console.log('Error updating command prefix from bot controller: ' + err.message));
             res.json(bot);
         })
         .catch(err => next(err));

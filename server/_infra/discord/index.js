@@ -35,10 +35,16 @@ class ClientWrapper {
         await this.client.login(this.botToken);
     }
 
-    sync(commands)
+    syncCommands(commands)
     {
         this.commands = commands;
         console.log('> Synced new commands: ' + JSON.stringify(commands));
+    }
+
+    syncCommandPrefix(prefix)
+    {
+        this.commandPrefix = prefix;
+        console.log('> New command prefix: ' + prefix);
     }
 
     isOnline()
