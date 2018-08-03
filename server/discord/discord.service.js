@@ -1,6 +1,7 @@
 const clientWrapper = require('../_infra/discord/index');
 
 let cwMap = new Map();
+let guildMap = new Map();
 
 module.exports = {
     createClient,
@@ -17,10 +18,18 @@ module.exports = {
 const DEFAULT_LIMIT = 100;
 
 async function createClient(bot) {
-    let cw = new clientWrapper(bot.discordToken, bot.commandPrefix, bot.getCommands());
-    await cw.login();
-    cwMap.set(bot.id, cw);
-    console.log('Client created for bot ' + bot.id + ' (' + bot.name + ')')
+    let newClient = new clientWrapper(bot.discordToken, bot.commandPrefix, bot.commands);
+    try {
+        await newClient.login();
+    } catch (err) {
+        throw 'Cannot start bot, invalid token';
+    }
+
+    cwMap.set(bot.id, newClient);
+    console.log('Client created for bot ' + bot.id + ' (' + bot.name + ')');
+    const guilds = newClient.client.guilds.first(DEFAULT_LIMIT).map(guildFilter);
+    guildMap.set(bot.id, guilds);
+    console.log('Initial guild cache for bot ' + bot.id + ': ' + JSON.stringify(guilds));
 }
 
 async function destroyClient(bot) {
@@ -34,6 +43,7 @@ function destroyAllClients(){
         cw.destroy();
     });
     cwMap.clear();
+    guildMap.clear();
     console.log('All clients destroyed');
 }
 
@@ -51,7 +61,11 @@ async function getBotUser(bot) {
 
 async function getGuildObject(bot, guildId) {
     const clientWrapper = cwMap.get(bot.id);
-    if (!clientWrapper) throw 'Bot must be started';
+    if (!clientWrapper || !clientWrapper.isOnline()) {
+        console.log('Returning cached guilds for ' + bot.name + ': ' + guildMap.get(bot.id));
+        return guildMap.get(bot.id);
+    }
+
     const guild = clientWrapper.client.guilds.find('id', guildId);
     if (guild && !guild.available) throw 'Guild Unavailable';
     return guild;
@@ -59,8 +73,15 @@ async function getGuildObject(bot, guildId) {
 
 async function getGuilds(bot) {
     const clientWrapper = cwMap.get(bot.id);
-    if (!clientWrapper) throw 'Bot must be started';
-    return clientWrapper.client.guilds.first(DEFAULT_LIMIT).map(guildFilter);
+    if (!clientWrapper || !clientWrapper.isOnline()) {
+        console.log('Returning cached guilds for ' + bot.name + ': ' + guildMap.get(bot.id));
+        return guildMap.get(bot.id);
+    }
+
+    guildMap.set(bot.id, clientWrapper.client.guilds.first(DEFAULT_LIMIT).map(guildFilter));
+    console.log('Guild cache updated for bot ' + bot.id + ' (' + bot.name + ')');
+
+    return guildMap.get(bot.id);
 }
 
 async function getGuildById(guild) {

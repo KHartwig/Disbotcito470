@@ -15,9 +15,11 @@ module.exports = {
 
 function add(req, res, next) {
     commandService.create(req.bot, req.body)
-        .then(command => res.json(command))
-        .catch(err => next(err));
-    discordService.updateClientCommands(req.bot, req.body)
+        .then(command => {
+            discordService.updateClientCommands(req.bot, req.body)
+                .catch(err => next(err));
+            res.json(command);
+        })
         .catch(err => next(err));
 }
 
@@ -48,24 +50,30 @@ function getById(req, res, next) {
 // TODO discord Service needs to be called synchronously with  commandService
 function update(req, res, next) {
     commandService.update(req.command, req.body)
-        .then((command) => res.json(command))
+        .then(command => {
+            discordService.updateClientCommands(req.bot, req.body)
+                .catch(err => next(err));
+            res.json(command);
+        })
         .catch(err => next(err));
-    // discordService.updateClientCommands(req.bot, req.body)
-    //     .catch(err => next(err));
 }
 
 function updateAllByBot(req, res, next) {
     commandService.updateAllByBot(req.bot, req.body.commands)
-        .then((commands) => res.json(commands))
+        .then((commands) => {
+            discordService.updateClientCommands(req.bot, req.body)
+                .catch(err => next(err));
+            res.json(commands);
+        })
         .catch(err => next(err));
-    // discordService.updateClientCommands(req.bot, req.body)
-    //     .catch(err => next(err));
 }
 
 function _delete(req, res, next) {
     commandService.delete(req.command)
-        .then(() => res.json({}))
+        .then(() => {
+            discordService.updateClientCommands(req.bot, req.body)
+                .catch(err => next(err));
+            res.json({});
+        })
         .catch(err => next(err));
-    // discordService.updateClientCommands(req.bot, req.command)
-    //     .catch(err => next(err));
 }

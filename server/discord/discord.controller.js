@@ -24,10 +24,18 @@ function attachGuildObject(req, res, next) {
 }
 
 function start(req, res, next){
+    console.log('Bot: ' + JSON.stringify(req.bot));
   discordService.createClient(req.bot)
     .then(() => {
         botService.updateStatus(req.bot, 'ONLINE')
-            .then((bot) => res.json(bot))
+            .then(async bot => {
+                const guilds = await discordService.getGuilds(bot);
+                console.log('-- Sending guilds back: ' + JSON.stringify(guilds));
+                res.json({
+                    'bot': bot,
+                    'guilds': guilds
+                });
+            })
             .catch(err => { next(err); });
     })
     .catch(err => next(err));
@@ -37,7 +45,14 @@ function stop(req, res, next) {
   discordService.destroyClient(req.bot)
     .then(() => {
         botService.updateStatus(req.bot, 'OFFLINE')
-            .then((bot) => res.json(bot))
+            .then(async bot => {
+                const guilds = await discordService.getGuilds(bot);
+                console.log('-- Sending guilds back: ' + JSON.stringify(guilds));
+                res.json({
+                    'bot': bot,
+                    'guilds': guilds
+                });
+            })
             .catch(err => next(err));
     })
     .catch(err => next(err));

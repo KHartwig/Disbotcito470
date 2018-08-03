@@ -1,4 +1,5 @@
 const botService = require('./bots.service');
+const discordService = require('../discord/discord.service');
 
 module.exports = {
     attachBot,
@@ -62,6 +63,13 @@ function _delete(req, res, next) {
 function toggleStatus(req, res, next) {
     console.log(req);
     botService.toggleStatus(req.sessionUser, req.params.id)
-        .then((bot) => res.json(bot))
+        .then((bot) => {
+            const guilds = discordService.getGuilds(bot);
+            console.log('-- Sending guilds back: ' + JSON.stringify(guilds));
+            res.json({
+                'bot': bot,
+                'guilds': guilds
+            });
+        })
         .catch(err => next(err));
 }

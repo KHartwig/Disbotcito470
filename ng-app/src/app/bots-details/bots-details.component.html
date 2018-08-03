@@ -8,6 +8,7 @@
             <button *ngIf="bot.status == 'OFFLINE'" class="btn btn-success" type="button" (click)="startStop()">turn on</button>
       </h3>
       <div class="container">
+        <img src="http://via.placeholder.com/64x64" width="100" height="100">
         <div class="row">
           <div class="col-sm">
             <strong>Discord Token:</strong>
@@ -56,4 +57,4 @@
 </div>
 
 <a [routerLink]="['/']" class="btn btn-link">Back</a>
-<a [routerLink]="['/bots/edit', bot.id ]" class="btn btn-link">Edit</a>
+<a *ngIf="bot" [routerLink]="['/bots/edit', bot.id ]" class="btn btn-link">Edit</a>

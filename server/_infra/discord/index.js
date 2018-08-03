@@ -8,22 +8,45 @@ class ClientWrapper {
         //disbotcito stuff
         this.botToken = botToken;
         this.commandPrefix = commandPrefix;
-        this.commands = commands;
-        //console.log("Commands: " + JSON.stringify(commands));
+        this.commands = commands ? commands : [];
+        console.log("Commands: " + JSON.stringify(commands));
 
         //discord stuff
         this.natureEmojis = ["four_leaf_clover", "full_moon", "thunder_cloud_rain", "cloud_tornado", "mushroom"];
         this.numberEmojis = ["seven", "one", "two", "three", "four", "five", "six", "eight", "nine"];
         this.isSendingAudio = false;
+        this.isReady = false;
 
         this.client = new Discord.Client();
-        this.client.login(this.botToken);
+
         this.client.on('message', async message => this.handleMessage(message));
+        this.client.on('ready', () => {
+            this.isReady = true;
+            console.log("Discord client ready");
+        });
+        this.client.on('disconnect', () => {
+            this.isReady = false;
+            console.log("Discord client disconnected");
+        });
+    }
+
+    async login()
+    {
+        await this.client.login(this.botToken);
     }
 
     sync(commands)
     {
         this.commands = commands;
+        console.log('Synced new commands: ' + JSON.stringify(commands));
+    }
+
+    isOnline()
+    {
+        if (!this.isReady)
+            return false;
+        console.log('-- Client status: ' + this.client.user.presence.status);
+        return this.client.user.presence.status === 'online';
     }
 
     handleMessage(message)
