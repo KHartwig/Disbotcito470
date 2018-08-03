@@ -1,7 +1,16 @@
 const clientWrapper = require('../_infra/discord/index');
+const db = require('_infra/db/models/index');
 
 let cwMap = new Map();
 let guildMap = new Map();
+
+const Action = db.Action;
+const optActions = {
+    include: [{
+        model: Action,
+        attributes: ['id', 'type', 'parameters']
+    }]
+};
 
 module.exports = {
     createClient,
@@ -18,7 +27,7 @@ module.exports = {
 const DEFAULT_LIMIT = 100;
 
 async function createClient(bot) {
-    let newClient = new clientWrapper(bot.discordToken, bot.commandPrefix, bot.commands);
+    let newClient = new clientWrapper(bot.discordToken, bot.commandPrefix, await bot.getCommands(optActions));
     try {
         await newClient.login();
     } catch (err) {
@@ -50,7 +59,6 @@ function destroyAllClients(){
 async function updateClientCommands(bot, commands) {
     console.log('Trying to update commands for bot ' + bot.id + ' (' + bot.name + ')...');
     cwMap.get(bot.id).sync(commands);
-    console.log('Commands updated for bot ' + bot.name);
 }
 
 async function getBotUser(bot) {

@@ -9,7 +9,7 @@ class ClientWrapper {
         this.botToken = botToken;
         this.commandPrefix = commandPrefix;
         this.commands = commands ? commands : [];
-        console.log("Commands: " + JSON.stringify(commands));
+        console.log("> Commands: " + JSON.stringify(commands));
 
         //discord stuff
         this.natureEmojis = ["four_leaf_clover", "full_moon", "thunder_cloud_rain", "cloud_tornado", "mushroom"];
@@ -38,7 +38,7 @@ class ClientWrapper {
     sync(commands)
     {
         this.commands = commands;
-        console.log('Synced new commands: ' + JSON.stringify(commands));
+        console.log('> Synced new commands: ' + JSON.stringify(commands));
     }
 
     isOnline()
@@ -78,7 +78,7 @@ class ClientWrapper {
                         this.messageDirect(message, action.parameters[0]);
                         break;
                     case 'playAudio':
-                        this.playAudio(message, action.parameters[0], action.parameters[1]);
+                        this.playAudio(message, 'youtube', action.parameters[0]); //only support youtube URL for now
                         break;
                     case 'slots':
                         this.rollSlots(message, action.parameters[0], action.parameters[1]);
@@ -210,7 +210,9 @@ class ClientWrapper {
 
     destroy()
     {
-        this.client.destroy();
+        this.client.destroy().catch(err => {
+            console.log('Error destroying client: ' + err.message);
+        });
         this.commands = [];
     }
 }
