@@ -97,7 +97,7 @@ async function _delete(bot) {
 // Toggle status of bot between ONLINE and OFFLINE
 async function toggleStatus(user, botId) {
     const bot = await getById(user, botId, "false");
-    var currStatus = bot.status;
+    let currStatus = bot.status;
     if (!currStatus) throw 'Bot has a null status';
 
     if (currStatus === 'OFFLINE') {

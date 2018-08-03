@@ -1,6 +1,7 @@
 const clientWrapper = require('../_infra/discord/index');
 
 let cwMap = new Map();
+let guildMap = new Map();
 
 module.exports = {
     createClient,
@@ -32,6 +33,7 @@ function destroyAllClients(){
         cw.destroy();
     });
     cwMap.clear();
+    guildMap.clear();
     console.log('All clients destroyed');
 }
 
@@ -43,7 +45,11 @@ async function updateClientCommands(bot, commands) {
 
 async function getGuildObject(bot, guildId) {
     const clientWrapper = cwMap.get(bot.id);
-    if (!clientWrapper) throw 'Bot must be started';
+    if (!clientWrapper || !clientWrapper.isOnline()) {
+        console.log('Returning cached guilds for ' + bot.name + ': ' + guildMap.get(bot.id));
+        return guildMap.get(bot.id);
+    }
+
     const guild = clientWrapper.client.guilds.find('id', guildId);
     if (guild && !guild.available) throw 'Guild Unavailable';
     return guild;
@@ -51,8 +57,15 @@ async function getGuildObject(bot, guildId) {
 
 async function getGuilds(bot) {
     const clientWrapper = cwMap.get(bot.id);
-    if (!clientWrapper) throw 'Bot must be started';
-    return cwMap.get(bot.id).client.guilds.first(DEFAULT_LIMIT).map(guildFilter);
+    if (!clientWrapper || !clientWrapper.isOnline()) {
+        console.log('Returning cached guilds for ' + bot.name + ': ' + guildMap.get(bot.id));
+        return guildMap.get(bot.id);
+    }
+
+    guildMap.set(bot.id, clientWrapper.client.guilds.first(DEFAULT_LIMIT).map(guildFilter));
+    console.log('Guild cache updated for bot ' + bot.id + ' (' + bot.name + ')');
+
+    return guildMap.get(bot.id);
 }
 
 async function getGuildById(guild) {

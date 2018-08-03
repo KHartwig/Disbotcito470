@@ -27,16 +27,13 @@ gid: number;
               private alertService: AlertService) { }
 
   ngOnInit() {
-    this.guildList=false;
       this.sub = this.activatedRouter.params.subscribe(params => {
       this.bid = params['bid']; // (+) converts string 'id' to a number
       this.gid = params['gid']; // (+) converts string 'id' to a number
 
       this.botService.getById(this.bid).pipe(first()).subscribe(rcvdBot => {
           const bot = rcvdBot;
-
-          if ( bot.status == "ONLINE")
-            this.loadGuilds();
+          this.loadGuilds();
         });
       // console.log(this.gid);
   //     // In a real app: dispatch action to load the details here.
