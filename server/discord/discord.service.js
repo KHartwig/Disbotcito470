@@ -17,7 +17,9 @@ module.exports = {
 const DEFAULT_LIMIT = 100;
 
 async function createClient(bot) {
-    cwMap.set(bot.id, new clientWrapper(bot.discordToken, bot.commandPrefix, bot.commands));
+    let cw = new clientWrapper(bot.discordToken, bot.commandPrefix, bot.getCommands());
+    await cw.login();
+    cwMap.set(bot.id, cw);
     console.log('Client created for bot ' + bot.id + ' (' + bot.name + ')')
 }
 
@@ -41,6 +43,12 @@ async function updateClientCommands(bot, commands) {
     console.log('Commands updated for bot ' + bot.name);
 }
 
+async function getBotUser(bot) {
+    const clientWrapper = cwMap.get(bot.id);
+    if (!clientWrapper || !clientWrapper.user) return null;
+    return userFilter(clientWrapper.user);
+}
+
 async function getGuildObject(bot, guildId) {
     const clientWrapper = cwMap.get(bot.id);
     if (!clientWrapper) throw 'Bot must be started';
@@ -52,7 +60,7 @@ async function getGuildObject(bot, guildId) {
 async function getGuilds(bot) {
     const clientWrapper = cwMap.get(bot.id);
     if (!clientWrapper) throw 'Bot must be started';
-    return cwMap.get(bot.id).client.guilds.first(DEFAULT_LIMIT).map(guildFilter);
+    return clientWrapper.client.guilds.first(DEFAULT_LIMIT).map(guildFilter);
 }
 
 async function getGuildById(guild) {
@@ -68,14 +76,28 @@ async function getGuildEmojis(guild) {
 }
 
 // Discord Object filters
+function userFilter(user) {
+    return {
+        id: user.id,
+        username: user.username,             // string - username of the user
+        tag: user.tag,                       // string - discord tag of the user
+        avatarURL: user.displayAvatarURL,    // string - url to the avatar pic/gif
+        status: user.presence.status,        // string - 'online', 'offline', 'idle', 'dnd' - DoNotDisturb
+        createdAt: user.createdAt,           // date - when the user was created
+        bot: user.bot                        // boolean - true if user is a bot
+    }
+}
+
 function guildFilter(guild) {
     return {
         id: guild.id,                               // string - discord id
         name: guild.name,                           // string - name of the guild
         iconURL: guild.iconURL,                     // string - url to guild's icon
-        ownerUsername: guild.owner.user.username,   // string - Username of the owner user
+        owner: userFilter(guild.owner),             // string - Username of the owner user
         ownerID: guild.ownerID,                     // string - ID of the owner user
         memberCount: guild.memberCount,             // number - Number of members in the guild
+        members: guild.members.first(DEFAULT_LIMIT).map(memberFilter),
+        emojis: guild.emojis.first(DEFAULT_LIMIT).map(emojiFilter),
         region: guild.region,                       // string - Region where guild is hosted
         available: guild.available                  // bool - false indicates server outage
     }
@@ -84,15 +106,10 @@ function guildFilter(guild) {
 function memberFilter(member) {
     return {
         id: member.id,                              // string - discord id
-        username: member.user.username,             // string - username of the user
+        user: userFilter(member.user),              // User - user representing this guild member
         nickname: member.nickname,                  // string - nickname in the guild
         displayName: member.displayName,            // string - nickname, if null then username
-        tag: member.user.tag,                       // string - discord tag of the user
-        avatarURL: member.user.displayAvatarURL,    // string - url to the avatar pic/gif
-        status: member.user.presence.status,        // string - 'online', 'offline', 'idle', 'dnd' - DoNotDisturb
         joinedAt: member.joinedAt,                  // date - when user became a member of the guild
-        createdAt: member.user.createdAt,           // date - when the user was created
-        bot: member.user.bot                        // boolean - true if user is a bot
     }
 }
 
