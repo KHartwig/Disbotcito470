@@ -56,4 +56,4 @@
 </div>
 
 <a [routerLink]="['/']" class="btn btn-link">Back</a>
-<a [routerLink]="['/bots/edit', bot.id ]" class="btn btn-link">Edit</a>
+<a *ngIf="bot" [routerLink]="['/bots/edit', bot.id ]" class="btn btn-link">Edit</a>

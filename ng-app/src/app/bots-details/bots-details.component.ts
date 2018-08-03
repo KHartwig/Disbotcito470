@@ -56,7 +56,8 @@ guild: any;
       .pipe(first())
       .subscribe(
         data => {
-          this.loadBot();
+          this.bot = data['bot'];
+          this.guildComponent.guildList = data['guilds'];
           this.alertService.success('Bot stopped', true);
 
         },
@@ -65,28 +66,22 @@ guild: any;
       });
     }
       
-    else{
-  
+    else {
+
       this.botService.start(this.bot.id)
         .pipe(first())
         .subscribe(
           data => {
-            this.loadBot();
+            this.bot = data['bot'];
+            this.guildComponent.guildList = data['guilds'];
             this.alertService.success('Bot started', true);
-      
-          
-                 
+
+
           },
           error => {
             this.alertService.error(error);
-        });
+          });
     }
-
-
-this.guildComponent.loadGuilds();
-console.log(this.guildComponent.guildList); 
-
-
   }
 
   loadBot(){
