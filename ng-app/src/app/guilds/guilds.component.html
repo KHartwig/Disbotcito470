@@ -1,22 +1,30 @@
-<!-- *ngIf guilds, else you have no guilds -->
-<h4 >Guilds:</h4>
 
-<div class="container" *ngIf="guildList || guildList.length !== 0">
-  <div class="list-group" *ngFor="let guild of guildList">
-  <!-- <h5> {{guild}}</h5> -->
+<div class="container">
+  <div class="my-3 p-3 bg-white rounded box-shadow">
+    <h4 class="border-bottom border-gray pb-2 mb-0">Guilds the bot belongs to:</h4>
+    <div class="jumbotron text-center" *ngIf="!guildList|| guildList.length === 0">
+        <h5>You have no guilds that belong to the bot</h5>
+    </div>
 
-  	<a [routerLink]="['/bots', bid, 'guilds', guild.id]"  class="list-group-item list-group-item-action text-center">
-     name: [{{ guild.name }}] 
-    </a>
+    <div class="d-flex justify-content-around flex-wrap">
+      <div *ngFor="let guild of guildList">
 
-<!-- ['/team', teamId, 'user', userName]  -->
+        <div class="mr-3">
+          <div class="media pt-3">
+            <a [routerLink]="['/bots', bid, 'guilds', guild.id]">
+              <img src="http://via.placeholder.com/64x64" alt="" width="150" height="150"
+              class="rounded-circle">
+            </a>
+
+          </div>
+          <div class="media-body pb-2 mb-0 lh-125 border-bottom border-gray">
+
+                <a [routerLink]="['/bots', bid, 'guilds', guild.id]">
+                  <div class="text-truncate" align="center">{{ guild.name }}</div>
+                </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-  <!-- <h5> guild2</h5> -->
-    <!-- <h5 class="text-center" *ngIf="!guildList || guildList.length === 0">You have no guilds right now</h5> -->
-   <!--  <div class="list-group" *ngFor="let guild of guildList">
-      <a [routerLink]="['/guilds', guild.id]" class="list-group-item list-group-item-action text-center">{{ guild.name }}</a>
-      <button *ngIf="guild.status == 'ONLINE'" class="btn btn-danger" type="button" (click)="startStop(guild.id)">turn off</button>
-      <button *ngIf="guild.status == 'OFFLINE'" class="btn btn-success" type="button" (click)="startStop(guild.id)">turn on</button>
-    </div> -->
-</div>
-<!-- /<a [routerLink]="['/guilds/add']" class="btn btn-link">Add Guild</a> -->
