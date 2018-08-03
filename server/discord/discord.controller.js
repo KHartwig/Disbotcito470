@@ -24,6 +24,7 @@ function attachGuildObject(req, res, next) {
 }
 
 function start(req, res, next){
+    console.log('Bot: ' + JSON.stringify(req.bot));
   discordService.createClient(req.bot)
     .then(() => {
         botService.updateStatus(req.bot, 'ONLINE')
