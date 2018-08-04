@@ -14,6 +14,9 @@ module.exports = {
       parameters: {
         type: Sequelize.ARRAY(Sequelize.TEXT)
       },
+      CommandId: {
+          type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

@@ -22,18 +22,18 @@ module.exports = {
       },
       {
           id:3,
-          name: 'Oppie',
-          discordToken: 'o3rororfn4fin44.asdfadw2.3141341dfwe',
-          commandPrefix: '#',
+          name: 'AngularBot',
+          discordToken: 'NDc1MzYyODkwMjQ1ODY1NDcy.Dkd8PQ.5uY8wTtQSGvRmeNQ-jDDq5aagkc',
+          commandPrefix: '!!!',
           OwnerId: '2',
           createdAt: new Date(),
           updatedAt: new Date()
       },
       {
           id:4,
-          name: 'Paulio',
-          discordToken: 'reapse2fvn33.rtr4rf4gv4g.eadfweqefe',
-          commandPrefix: '&',
+          name: 'ReactBot',
+          discordToken: 'NDc1MzY0MTYzMDIwMTI4MjY2.Dkd89w.xpeDs9FpEYglmo5YuQzXKkcd7yw',
+          commandPrefix: '$',
           OwnerId: '2',
           createdAt: new Date(),
           updatedAt: new Date()

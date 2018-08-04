@@ -39,29 +39,22 @@ module.exports = {
       },
       {
           id:6,
-          name: 'help',
-          BotId: 4,
-          createdAt: new Date(),
-          updatedAt: new Date()
-      },
-      {
-          id:7,
-          name: 'time',
-          BotId: 4,
-          createdAt: new Date(),
-          updatedAt: new Date()
-      },
-      {
-          id:8,
-          name: 'eat',
+          name: 'slots',
           BotId: 3,
           createdAt: new Date(),
           updatedAt: new Date()
       },
       {
-          id:9,
+          id:7,
           name: 'sleep',
           BotId: 2,
+          createdAt: new Date(),
+          updatedAt: new Date()
+      },
+      {
+          id:8,
+          name: 'music',
+          BotId: 3,
           createdAt: new Date(),
           updatedAt: new Date()
       }], {});
