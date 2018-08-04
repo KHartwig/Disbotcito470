@@ -12,6 +12,7 @@
         "start:prod": "NODE_ENV=production forever start server.js",
         "stop:prod": "forever stop server.js",
         "seed": "cd _infra/db/ && ../../node_modules/.bin/sequelize db:seed:undo:all && ../../node_modules/.bin/sequelize db:seed:all",
+        "migrate": "cd _infra/db/ && ../../node_modules/.bin/sequelize db:migrate:undo:all && ../../node_modules/.bin/sequelize db:migrate",
         "start:seed": "npm run seed && npm start"
     },
     "dependencies": {

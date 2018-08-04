@@ -51,6 +51,11 @@ execute "server_init" do
     command 'cd /home/vagrant/project/server && npm install && npm run start:prod'
 end
 
+#db migrations
+execute "db_migrate" do
+    command 'cd /home/vagrant/project/server && npm run migrate'
+end
+
 # Seed data for demo
 execute "server_seed" do
     command 'cd /home/vagrant/project/server && npm run seed'
