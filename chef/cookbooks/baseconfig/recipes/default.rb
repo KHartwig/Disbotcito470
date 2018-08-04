@@ -29,11 +29,14 @@ end
 cookbook_file "pg_hba.conf" do
   path "/etc/postgresql/10/main/pg_hba.conf"
 end
+execute 'postgres_restart' do
+  command 'service postgresql restart'
+end
 
 # Further configuration
 
 execute "setup_db" do
-    command 'sudo -u postgres createdb cmpt470 && sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD \'password\'"'
+    command 'sudo psql -U postgres -tc "SELECT 1 FROM pg_database WHERE datname = \'cmpt470\'" | grep -q 1 || psql -U postgres -c "CREATE DATABASE cmpt470" && sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD \'password\'"'
 end
 
 execute "install_node_npm" do
