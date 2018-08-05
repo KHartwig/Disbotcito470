@@ -7,17 +7,17 @@
     </div>
     <div class="row">
         <div class="col">
-            ﻿<h2>Register</h2>
+            <font color="white">﻿<h2>Register</h2></font>
             <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
                 <div class="form-group">
-                  <label for="username">Username</label>
+                  <font color="white"><label for="username">Username</label></font>
                   <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
                   <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
                       <div class="alert alert-danger" *ngIf="f.username.errors.required">Username is required</div>
                   </div>
                 </div><!--Username end here-->
                 <div class="form-group">
-                    <label for="email">Email</label>
+                    <font color="white"><label for="email">Email</label></font>
                     <input type="email" formControlName="email" ngModel [email] class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
                     <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                         <div class="alert alert-danger" *ngIf="f.email.errors.required">Email is required</div>
@@ -25,7 +25,7 @@
                     </div>
                 </div><!--Email end here-->
                 <div class="form-group">
-                    <label for="password">Password</label>
+                    <font color="white"><label for="password">Password</label></font>
                     <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
                     <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                         <div class="alert alert-danger" *ngIf="f.password.errors.required">Password is required</div>
@@ -33,7 +33,7 @@
                     </div>
                 </div><!-- Password end here-->
                 <div class="form-group">
-                    <label for="confirmpassword">Confirm Password</label>
+                    <font color="white"><label for="confirmpassword">Confirm Password</label></font>
                     <input type="password" formControlName="confirmpassword" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirmpassword.errors }" />
                     <div *ngIf="submitted && f.confirmpassword.errors" class="invalid-feedback">
                         <div class="alert alert-danger" *ngIf="f.confirmpassword.errors.required">Confirm Password is required</div>
