@@ -14,6 +14,12 @@ const optCommands = {
                     }]
             }]
     };
+const optCreateCommandsActions = {
+    include: [{
+        model: Command,
+        include: [Action]
+    }]
+};
 
 const VALID_BOT_STATUS = [
     'OFFLINE',
@@ -51,7 +57,7 @@ async function getById(user, botId, includeCommands) {
     const bots = await user.getBots(options);
 
     // Return the only bot in the array if it exists (should only be one)
-    return bots ? bots[0] : null;
+    return bots && bots.length > 0 ? bots[0] : null;
 }
 
 async function getAllByUser(user, includeCommands) {
@@ -61,7 +67,7 @@ async function getAllByUser(user, includeCommands) {
 
 async function create(user, botParam) {
     // Create bot and set its Owner to the session user
-    const bot = await Bot.create(botParam);
+    const bot = await Bot.create(botParam, optCreateCommandsActions);
     await bot.setOwner(user);
     await bot.reload();
 
