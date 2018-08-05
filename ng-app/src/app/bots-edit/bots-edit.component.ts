@@ -73,7 +73,7 @@ export class BotsEditComponent implements OnInit {
 
     // Attach command list
     if (this.commandListEditor)
-      this.editBotForm.value.commands = this.commandListEditor.getValidCommandListForSubmission();
+      this.editBotForm.value.Commands = this.commandListEditor.getValidCommandListForSubmission();
 
     this.loading = true;
     if (this.pageAction === PageAction.Add) {
