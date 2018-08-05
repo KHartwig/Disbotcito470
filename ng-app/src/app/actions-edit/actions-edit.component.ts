@@ -17,14 +17,14 @@ export class ActionsEditComponent implements OnInit {
       "id": "msgDirect",
       "display": "Message Direct",
       "params": [
-        { "type": "input-text", "display": "Messsage"}
+        { "type": "input-text", "display": "Message"}
       ]
     },
     {
       "id": "msgChannel",
       "display": "Message Channel",
       "params": [
-        { "type": "input-text", "display": "Messsage"}
+        { "type": "input-text", "display": "Message"}
       ]
     },
     {
