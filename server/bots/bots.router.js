@@ -20,7 +20,5 @@ router.use('/:id/discord', discordRouter); // Nested Route
 router.get('/:id', botsController.getById);
 router.put('/:id', botsController.update);
 router.delete('/:id', botsController.delete);
-router.put('/:id/start', botsController.toggleStatus);
-router.put('/:id/stop', botsController.toggleStatus);
 
 module.exports = router;

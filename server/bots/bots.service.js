@@ -33,8 +33,7 @@ module.exports = {
     create,
     update,
     updateStatus,
-    delete: _delete,
-    toggleStatus,
+    delete: _delete
 };
 
 async function getAll(includeCommands) {
@@ -98,27 +97,4 @@ async function updateStatus(bot, status) {
 async function _delete(bot) {
     // Delete the bot
     await Bot.destroy({where: {id: bot.get('id')}});
-}
-
-// Toggle status of bot between ONLINE and OFFLINE
-async function toggleStatus(user, botId) {
-    const bot = await getById(user, botId, "false");
-    let currStatus = bot.status;
-    if (!currStatus) throw 'Bot has a null status';
-
-    if (currStatus === 'OFFLINE') {
-        currStatus = 'ONLINE';
-        discordService.createClient(bot)
-            .catch(err => {
-                console.log('Error creating client in discord service: ' + err.message)
-            });
-    }
-    else {
-        currStatus = 'OFFLINE';
-        //todo: logout discord client?
-    }
-    bot.status = currStatus;
-    await bot.save();
-
-    return bot;
 }

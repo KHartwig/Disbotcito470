@@ -8,8 +8,7 @@ module.exports = {
     getAllByUser,
     getAll,
     update,
-    delete: _delete,
-    toggleStatus
+    delete: _delete
 };
 
 // Finds the bot and attaches it to the req object
@@ -76,19 +75,5 @@ function update(req, res, next) {
 function _delete(req, res, next) {
     botService.delete(req.bot)
         .then(() => res.json({}))
-        .catch(err => next(err));
-}
-
-function toggleStatus(req, res, next) {
-    console.log(req);
-    botService.toggleStatus(req.sessionUser, req.params.id)
-        .then((bot) => {
-            const guilds = discordService.getGuilds(bot);
-            console.log('-- Sending guilds back: ' + JSON.stringify(guilds));
-            res.json({
-                'bot': bot,
-                'guilds': guilds
-            });
-        })
         .catch(err => next(err));
 }
