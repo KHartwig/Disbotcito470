@@ -6,7 +6,6 @@ module.exports = {
       const hash1 = bcrypt.hashSync("hogwarts4lyfe", 10);
       const hash2 = bcrypt.hashSync("cmpt470", 10);
       return queryInterface.bulkInsert('Users', [{
-          id:1,
           username: 'oMartin',
           email: 'martino22@hogwarts.com',
           hash: hash1,
@@ -14,7 +13,6 @@ module.exports = {
           updatedAt: new Date()
       },
       {
-          id:2,
           username: 'ggbaker',
           email: 'gg@baker.com',
           hash: hash2,
