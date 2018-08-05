@@ -81,8 +81,8 @@ async function update(bot, botParam) {
     await bot.save();
 
     // Update the commands if they were sent too
-    if (botParam.commands)
-        await commandService.updateAllByBot(bot, botParam.commands);
+    if (botParam.Commands)
+        await commandService.updateAllByBot(bot, botParam.Commands);
 
     return bot;
 }
