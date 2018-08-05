@@ -1,9 +1,9 @@
 export class DiscordUser {
-  id: number;
-  username: string;                   // string - username of the user
-  tag: string;                       // string - discord tag of the user
-  avatarURL: string;                 // string - url to the avatar pic/gif
-  status: string;       // string - 'online', 'offline', 'idle', 'dnd' - DoNotDisturb
-  createdAt: Date;           // date - when the user was created
-  bot: boolean;
+  id: number;               // Discord id
+  username: string;         // Username of the user
+  tag: string;              // Discord tag of the user
+  avatarURL: string;        // Url to the avatar pic/gif
+  status: string;           // 'online', 'offline', 'idle', or 'dnd' - DoNotDisturb
+  createdAt: Date;          // When the user was created
+  bot: boolean;             // True if user is a bot
 }

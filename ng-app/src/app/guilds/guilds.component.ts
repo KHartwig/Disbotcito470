@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-// import { Guild } from '../_models';
-import { Bot } from '../_models';
+import { DiscordGuild } from '../_models';
 
 import { GuildService, AlertService, BotService } from "../_services";
 import {first} from "rxjs/operators";
@@ -13,12 +12,11 @@ import {first} from "rxjs/operators";
   styleUrls: ['./guilds.component.css']
 })
 export class GuildsComponent implements OnInit {
-// export class GuildsComponent  {
-guildList: any;
-sub: any;
+  guildList: DiscordGuild[] = [];
+  sub: any;
 
-bid: number;
-gid: number;
+  bid: number;
+  gid: number;
 
   constructor(
               private activatedRouter: ActivatedRoute,
