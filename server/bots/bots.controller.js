@@ -8,8 +8,7 @@ module.exports = {
     getAllByUser,
     getAll,
     update,
-    delete: _delete,
-    toggleStatus
+    delete: _delete
 };
 
 // Finds the bot and attaches it to the req object
@@ -19,7 +18,17 @@ function attachBot(req, res, next){
             if (!bot) res.sendStatus(404);
             else {
                 req.bot = bot;
-                next();
+                // console.log('Bot1', bot);
+                discordService.getBotUser(bot)
+                    .then(user => {
+                        req.botUser = user;
+                        console.log('Bot2', req.bot.get());
+                        next();
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        next();
+                    });
             }
         })
         .catch(err => next(err));
@@ -33,6 +42,7 @@ function add(req, res, next) {
 
 // Bot already got by attachBot middleware
 function getById(req, res, next) {
+    if (req.botUser) req.bot.user = req.botUser;
     res.json(req.bot);
 }
 
@@ -52,8 +62,8 @@ function update(req, res, next) {
     botService.update(req.bot, req.body)
         .then((bot) => {
             console.log('~ Bot updated: ' + JSON.stringify(req.body));
-            console.log('--- Commands: ' + JSON.stringify(req.body.commands));
-            discordService.updateClientCommands(bot, req.body.commands)
+            console.log('--- Commands: ' + JSON.stringify(req.body.Commands));
+            discordService.updateClientCommands(bot, req.body.Commands)
                 .catch(err => console.log('Error updating commands from bot controller: ' + err.message));
             discordService.updateClientCommandPrefix(bot, bot.commandPrefix)
                 .catch(err => console.log('Error updating command prefix from bot controller: ' + err.message));
@@ -65,19 +75,5 @@ function update(req, res, next) {
 function _delete(req, res, next) {
     botService.delete(req.bot)
         .then(() => res.json({}))
-        .catch(err => next(err));
-}
-
-function toggleStatus(req, res, next) {
-    console.log(req);
-    botService.toggleStatus(req.sessionUser, req.params.id)
-        .then((bot) => {
-            const guilds = discordService.getGuilds(bot);
-            console.log('-- Sending guilds back: ' + JSON.stringify(guilds));
-            res.json({
-                'bot': bot,
-                'guilds': guilds
-            });
-        })
         .catch(err => next(err));
 }

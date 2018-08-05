@@ -17,6 +17,7 @@ module.exports = {
     destroyClient,
     updateClientCommands,
     updateClientCommandPrefix,
+    getBotUser,
     getGuildObject,
     getGuilds,
     getGuildById,

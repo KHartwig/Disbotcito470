@@ -3,7 +3,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
       return queryInterface.bulkInsert('Bots', [{
-          id:1,
           name: 'BeeBot',
           discordToken: 'kafenwjfnwneiw.q2223rfc.2121dddddffa',
           commandPrefix: '#',
@@ -12,7 +11,6 @@ module.exports = {
           updatedAt: new Date()
       },
       {
-          id:2,
           name: 'GregBakerBot',
           discordToken: 'pfinoeinqfoefqwewqfeq.kcnanence.3212321fwfev',
           commandPrefix: '$',
@@ -21,7 +19,6 @@ module.exports = {
           updatedAt: new Date()
       },
       {
-          id:3,
           name: 'AngularBot',
           discordToken: 'NDc1MzYyODkwMjQ1ODY1NDcy.Dkd8PQ.5uY8wTtQSGvRmeNQ-jDDq5aagkc',
           commandPrefix: '!!!',
@@ -30,7 +27,6 @@ module.exports = {
           updatedAt: new Date()
       },
       {
-          id:4,
           name: 'ReactBot',
           discordToken: 'NDc1MzY0MTYzMDIwMTI4MjY2.Dkd89w.xpeDs9FpEYglmo5YuQzXKkcd7yw',
           commandPrefix: '$',
@@ -39,7 +35,6 @@ module.exports = {
           updatedAt: new Date()
       },
       {
-          id:5,
           name: 'KawaiiBot',
           discordToken: 'jojogjo4nfkn3b2fn2.dfoajoem23rfon24.22o4or9',
           commandPrefix: '#',

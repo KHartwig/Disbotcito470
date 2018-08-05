@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Bot } from '../_models';
 import { BotService, AlertService } from "../_services";
-import {first} from "rxjs/operators";
+import { first } from "rxjs/operators";
 
 @Component({
   selector: 'app-bots',
@@ -43,35 +43,43 @@ export class BotsComponent implements OnInit {
   }
 
   startStop(i:number) {
+        const botToStartStop = this.botList.find((bot) => bot.id === i);
         this.botService.getById(i).pipe(first()).subscribe(rcvdBot => {
             const bot: Bot = rcvdBot;
 
+            // TODO add a finally block to set isChangingStatus back to false
+            botToStartStop.isChangingStatus = true;
+            if ( bot.status == "ONLINE" ){
+                this.botService.stop(bot.id)
+                    .pipe(first())
+                    .subscribe(
+                        bot => {
+                              this.loadBots();
+                          },
+                        error => {
+                            this.alertService.error(error);
+                            botToStartStop.isChangingStatus = false;
+                          },
+                        () => {
+                            botToStartStop.isChangingStatus = false;
+                          });
+            }
+            else{
+              this.botService.start(bot.id)
+                .pipe(first())
+                .subscribe(
+                  data => {
+                      this.loadBots();
+                  },
+                  error => {
+                    this.alertService.error(error);
+                    botToStartStop.isChangingStatus = false;
+                  },
+                  () => {
+                    botToStartStop.isChangingStatus = false;
+                  });
 
-          if ( bot.status == "ONLINE" ){
-            this.botService.stop(bot.id)
-            .pipe(first())
-            .subscribe(
-              bot => {
-                    this.loadBots();
-              },
-              error => {
-                this.alertService.error(error);
-            });
-          }
-
-          else{
-            this.botService.start(bot.id)
-              .pipe(first())
-              .subscribe(
-                data => {
-
-                    this.loadBots();
-
-                },
-                error => {
-                  this.alertService.error(error);
-              });
-          }
+            }
 
         });
 
