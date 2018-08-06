@@ -63,6 +63,7 @@ if (config.serveFrontEnd) {
 function gracefulStartup() {
   // Set all bots offline upon startup
   models.Bot.update({status: 'OFFLINE'}, {where: {}});
+  discordService.startup();
 }
 
 // ______ SHUTDOWN Routine ___________
