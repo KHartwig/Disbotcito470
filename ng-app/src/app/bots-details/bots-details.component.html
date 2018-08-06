@@ -6,7 +6,7 @@
         <div class="container">
           <div class="row">
             <div class="col-sm-1.5">
-              <img src="http://via.placeholder.com/64x64" width="100" height="100">
+              <img [src]="bot.user ? bot.user.avatarURL : 'http://via.placeholder.com/64x64'" width="100" height="100">
 
             </div>
             <div class="col-sm-4">

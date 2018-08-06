@@ -3,6 +3,7 @@ const db = require('_infra/db/models/index');
 
 let cwMap = new Map();
 let guildMap = new Map();
+let botUserMap = new Map();
 
 const Action = db.Action;
 const optActions = {
@@ -40,6 +41,8 @@ async function createClient(bot) {
     console.log('Client created for bot ' + bot.id + ' (' + bot.name + ')');
     const guilds = newClient.client.guilds.first(DEFAULT_LIMIT).map(guildFilter);
     guildMap.set(bot.id, guilds);
+    const botUser = newClient.client.user;
+    botUserMap.set(bot.id, botUser);
     console.log('Initial guild cache for bot ' + bot.id + ': ' + JSON.stringify(guilds));
 }
 
@@ -55,6 +58,7 @@ function destroyAllClients(){
     });
     cwMap.clear();
     guildMap.clear();
+    botUserMap.clear();
     console.log('All clients destroyed');
 }
 
@@ -74,8 +78,15 @@ async function updateClientCommandPrefix(bot, commandPrefix) {
 
 async function getBotUser(bot) {
     const clientWrapper = cwMap.get(bot.id);
-    if (!clientWrapper || !clientWrapper.client) return null;
-    return userFilter(clientWrapper.client.user);
+    if (!clientWrapper || !clientWrapper.isOnline()) {
+        const cachedBotUser = botUserMap.get(bot.id);
+        return cachedBotUser ? userFilter(cachedBotUser) : null;
+    }
+
+    botUserMap.set(bot.id, clientWrapper.client.user);
+    console.log('BotUser cache updated for bot ' + bot.id + ' (' + bot.name + ')');
+
+    return userFilter(botUserMap.get(bot.id));
 }
 
 async function getGuildObject(bot, guildId) {

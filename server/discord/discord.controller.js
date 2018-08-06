@@ -30,9 +30,10 @@ function start(req, res, next){
         botService.updateStatus(req.bot, 'ONLINE')
             .then(async bot => {
                 const guilds = await discordService.getGuilds(bot);
-                console.log('-- Sending guilds back: ' + JSON.stringify(guilds));
+                const retBot = bot.get();
+                retBot.user = await discordService.getBotUser(bot);
                 res.json({
-                    'bot': bot,
+                    'bot': retBot,
                     'guilds': guilds
                 });
             })
@@ -47,9 +48,10 @@ function stop(req, res, next) {
         botService.updateStatus(req.bot, 'OFFLINE')
             .then(async bot => {
                 const guilds = await discordService.getGuilds(bot);
-                console.log('-- Sending guilds back: ' + JSON.stringify(guilds));
+                const retBot = bot.get();
+                retBot.user = await discordService.getBotUser(bot);
                 res.json({
-                    'bot': bot,
+                    'bot': retBot,
                     'guilds': guilds
                 });
             })
