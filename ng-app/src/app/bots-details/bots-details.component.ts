@@ -46,7 +46,7 @@ guild: any;
   }
 
   startStop() {
-    const botToStartStop = this.bot);
+    const botToStartStop = this.bot;
      //console.log(this.bot.status);
     botToStartStop.isChangingStatus = true;
     // this.loading = true;
@@ -66,7 +66,7 @@ guild: any;
           this.alertService.error(error);
       });
     }
-      
+
     else {
 
       this.botService.start(this.bot.id)
@@ -96,10 +96,10 @@ guild: any;
               // if ( this.bot.status == "ONLINE") {
 
             this.guildComponent.loadGuilds();
-             console.log(this.guildComponent.guildList); 
+             console.log(this.guildComponent.guildList);
               // }
-       
-             
+
+
   }
 
   ngOnDestroy() {
