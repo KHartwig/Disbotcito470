@@ -8,7 +8,7 @@
     </div>
     <div id="onlineBots" *ngFor="let bot of onlineBots">
             <div class="media pt-3">
-                <img src="http://via.placeholder.com/64x64" alt=""
+                <img src={{bot.user.avatarURL}} alt=""
                 class="mr-2 rounded-circle avatar border border-success">
                 <div class="media-body pb-2 mb-0 small lh-125 border-bottom border-gray">
                     <div class="d-flex">
