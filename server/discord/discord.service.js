@@ -74,8 +74,8 @@ async function updateClientCommandPrefix(bot, commandPrefix) {
 
 async function getBotUser(bot) {
     const clientWrapper = cwMap.get(bot.id);
-    if (!clientWrapper || !clientWrapper.user) return null;
-    return userFilter(clientWrapper.user);
+    if (!clientWrapper || !clientWrapper.client) return null;
+    return userFilter(clientWrapper.client.user);
 }
 
 async function getGuildObject(bot, guildId) {

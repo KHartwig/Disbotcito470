@@ -87,8 +87,12 @@ guild: any;
   }
 
   loadBot(){
-          this.botService.getById(this.id).pipe(first()).subscribe(rcvdBot => {
+    this.botService.getById(this.id).pipe(first()).subscribe(rcvdBot => {
+        console.log(rcvdBot);
         this.bot = rcvdBot;
+      },
+      error => {
+        this.alertService.error(error);
       });
   }
 
