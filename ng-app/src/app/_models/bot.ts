@@ -1,4 +1,4 @@
-import { Command } from ".";
+import { Command, DiscordUser } from ".";
 export class Bot {
   id: number;
   name: string;
@@ -6,6 +6,7 @@ export class Bot {
   status: string;
   OwnerId: number;
   commandPrefix: string;
+  user: DiscordUser;
   Commands: Command[] = [];
   createdAt: Date;
   updatedAt: Date;
