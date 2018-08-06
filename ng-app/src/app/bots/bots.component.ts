@@ -37,6 +37,7 @@ export class BotsComponent implements OnInit {
     this.botService.getAll().pipe(first()).subscribe(bots => {
         bots.sort(this.botSort);
         this.botList = bots;
+        console.log('All Bots', bots);
         this.onlineBots = bots.filter(bot => {return bot.status === 'ONLINE';})
         this.offlineBots = bots.filter(bot => {return bot.status === 'OFFLINE';})
     });

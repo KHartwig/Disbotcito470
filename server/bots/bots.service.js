@@ -4,6 +4,7 @@ const commandService = require('../commands/commands.service');
 const Bot = db.Bot;
 const Command = db.Command;
 const Action = db.Action;
+const DiscordUser = db.DiscordUser;
 
 const optCommands = {
         include: [{
@@ -61,7 +62,15 @@ async function getById(user, botId, includeCommands) {
 
 async function getAllByUser(user, includeCommands) {
     const options = includeCommands === 'true' ? optCommands : {};
-    return await user.getBots(options);
+    const bots = await user.getBots(options);
+    const retBots = await Promise.all( await bots.map(async bot => {
+        const retBot = bot.get();
+        retBot.user = await discordService.getBotUser(bot);
+        console.log(`${retBot.name} has user ${retBot.user}`);
+        return retBot;
+    }));
+    console.log('ALLBOTS', retBots);
+    return retBots;
 }
 
 async function create(user, botParam) {

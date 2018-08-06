@@ -22,7 +22,6 @@ function attachBot(req, res, next){
                 discordService.getBotUser(bot)
                     .then(user => {
                         req.botUser = user;
-                        console.log('Bot2', req.bot.get());
                         next();
                     })
                     .catch(err => {
@@ -42,8 +41,9 @@ function add(req, res, next) {
 
 // Bot already got by attachBot middleware
 function getById(req, res, next) {
-    if (req.botUser) req.bot.user = req.botUser;
-    res.json(req.bot);
+    const retBot = req.bot.get();
+    retBot.user = req.botUser ? req.botUser : null;
+    res.json(retBot);
 }
 
 function getAllByUser(req, res, next){
