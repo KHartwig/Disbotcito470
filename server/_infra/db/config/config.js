@@ -8,7 +8,7 @@ const config =
     "host": "127.0.0.1",
     "dialect": "postgres",
     "operatorsAliases": false,
-    "logging": console.log
+    "logging": false
   },
   "test": {
     "username": "postgres",
