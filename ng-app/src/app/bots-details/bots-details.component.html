@@ -1,73 +1,75 @@
-<h2> Bot Status Page</h2>
-<div class="container">
-  <div class="my-3 p-3 bg-white rounded box-shadow">
-    <div class="container" *ngIf="bot">
-      <div class="container">
-        <div class="row">
-          <div class="col">
-            <img src={{bot.user.avatarURL}} width="100" height="100">
+<div class="jumbotron">
+  <font color="white"><h2> Bot Status Page</h2></font>
+  <div class="container">
+    <div class="my-3 p-3 bg-white rounded box-shadow">
+      <div class="container" *ngIf="bot">
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <img src={{bot.user.avatarURL}} width="100" height="100">
 
-          </div>
-          <div class="col-9">
-            <h3>{{bot.name}}
-            </h3>
-          </div>
-          <div class="col">
-            <img *ngIf="bot.isChangingStatus" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-              <button *ngIf="bot.status == 'ONLINE'" class="btn btn-light btn-outline-danger" type="button" [disabled]="bot.isChangingStatus" (click)="startStop()">STOP</button>
-              <button *ngIf="bot.status == 'OFFLINE'" class="btn btn-secondary btn-outline-success" type="button" [disabled]="bot.isChangingStatus" (click)="startStop()">START</button>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm">
-            <strong>Discord Token:  </strong>
-            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-              Show Token
-            </button>
-          </div>
-          <div class="col-sm">
-            <div class="collapse" id="collapseExample">
-                {{bot.discordToken}}
+            </div>
+            <div class="col-9">
+              <h3>{{bot.name}}
+              </h3>
+            </div>
+            <div class="col">
+              <img *ngIf="bot.isChangingStatus" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                <button *ngIf="bot.status == 'ONLINE'" class="btn btn-light btn-outline-danger" type="button" [disabled]="bot.isChangingStatus" (click)="startStop()">STOP</button>
+                <button *ngIf="bot.status == 'OFFLINE'" class="btn btn-secondary btn-outline-success" type="button" [disabled]="bot.isChangingStatus" (click)="startStop()">START</button>
             </div>
           </div>
-        </div>
-
-        <hr>
-
-        <div class="row">
-          <div class="col-sm">
-            <strong>Status:</strong>
+          <div class="row">
+            <div class="col-sm">
+              <strong>Discord Token:  </strong>
+              <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                Show Token
+              </button>
+            </div>
+            <div class="col-sm">
+              <div class="collapse" id="collapseExample">
+                  {{bot.discordToken}}
+              </div>
+            </div>
           </div>
-          <div class="col-sm">
-            {{bot.status|titlecase}}
-          </div>
-        </div>
 
-        <hr>
+          <hr>
 
-        <div class="row">
-          <div class="col-sm">
-            <strong>Command Prefix:</strong>
+          <div class="row">
+            <div class="col-sm">
+              <strong>Status:</strong>
+            </div>
+            <div class="col-sm">
+              {{bot.status|titlecase}}
+            </div>
           </div>
-          <div class="col-sm">
-            {{bot.commandPrefix}}
+
+          <hr>
+
+          <div class="row">
+            <div class="col-sm">
+              <strong>Command Prefix:</strong>
+            </div>
+            <div class="col-sm">
+              {{bot.commandPrefix}}
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<hr>
+  <hr>
 
-<div class="container">
-    <div class="my-3 p-3 bg-white rounded box-shadow">
-      <!-- list of guilds -->
-      <app-guilds ></app-guilds>
-      <br>
-      <!-- <app-guilds-details></app-guilds-details> -->
-    </div>
+  <div class="container">
+      <div class="my-3 p-3 bg-white rounded box-shadow">
+        <!-- list of guilds -->
+        <app-guilds ></app-guilds>
+        <br>
+        <!-- <app-guilds-details></app-guilds-details> -->
+      </div>
 
+  </div>
 </div>
 
 <a [routerLink]="['/']" class="btn btn-link">Back</a>
