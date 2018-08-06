@@ -1,56 +1,56 @@
 <div class="jumbotron">
-<div id = "reigpg" class="container">
-  <div class="row align-items-center">
-    <div class="col-sm-6" >
-        <div class="text-center">
-            <font size =50 color="white"><p> Please register with us </p></font>
-            <!--<img  src="/assets/images/bot gif.gif" alt="" class = "rounded mx-auto d-block">-->
-            <img  src="/assets/images/white bot gif.gif" alt="" class = "rounded mx-auto d-block">
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <font color="white">﻿<h2>Register</h2></font>
-            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-                <div class="form-group">
-                  <font color="white"><label for="username">Username</label></font>
-                  <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
-                  <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                      <div class="alert alert-danger" *ngIf="f.username.errors.required">Username is required</div>
+  <div  class="container">
+    <div class="row align-items-center">
+      <div class="col-sm-6" >
+          <div class="text-center">
+              <font size =50 color="white"><p> Please register with us </p></font>
+              <!--<img  src="/assets/images/bot gif.gif" alt="" class = "rounded mx-auto d-block">-->
+              <img  src="/assets/images/white bot gif.gif" alt="" class = "rounded mx-auto d-block">
+          </div>
+      </div>
+      <div class="row">
+          <div class="col">
+              <font color="white">﻿<h2>Register</h2></font>
+              <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                  <div class="form-group">
+                    <font color="white"><label for="username">Username</label></font>
+                    <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+                    <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                        <div class="alert alert-danger" *ngIf="f.username.errors.required">Username is required</div>
+                    </div>
+                  </div><!--Username end here-->
+                  <div class="form-group">
+                      <font color="white"><label for="email">Email</label></font>
+                      <input type="email" formControlName="email" ngModel [email] class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                      <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                          <div class="alert alert-danger" *ngIf="f.email.errors.required">Email is required</div>
+                          <div class="alert alert-danger" *ngIf="f.email.errors.email">This is an invalid email address</div>
+                      </div>
+                  </div><!--Email end here-->
+                  <div class="form-group">
+                      <font color="white"><label for="password">Password</label></font>
+                      <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                      <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                          <div class="alert alert-danger" *ngIf="f.password.errors.required">Password is required</div>
+                          <div class="alert alert-danger" *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+                      </div>
+                  </div><!-- Password end here-->
+                  <div class="form-group">
+                      <font color="white"><label for="confirmpassword">Confirm Password</label></font>
+                      <input type="password" formControlName="confirmpassword" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirmpassword.errors }" />
+                      <div *ngIf="submitted && f.confirmpassword.errors" class="invalid-feedback">
+                          <div class="alert alert-danger" *ngIf="f.confirmpassword.errors.required">Confirm Password is required</div>
+                          <div class="alert alert-danger" *ngIf="f.confirmpassword.errors?.MatchPassword">Password does not match</div>
+                          <!-- <div *ngIf="f.confirmpassword.errors.minlength">Please enter confirm password with at least 6 characters</div> -->
+                      </div>
+                  </div><!-- Confirm Password end here-->
+                  <div class="form-group">
+                      <button [disabled]="loading" class="btn btn-primary">Register</button>
+                      <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                      <a [routerLink]="['/login']" class="btn btn-link">Cancel</a>
                   </div>
-                </div><!--Username end here-->
-                <div class="form-group">
-                    <font color="white"><label for="email">Email</label></font>
-                    <input type="email" formControlName="email" ngModel [email] class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
-                    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                        <div class="alert alert-danger" *ngIf="f.email.errors.required">Email is required</div>
-                        <div class="alert alert-danger" *ngIf="f.email.errors.email">This is an invalid email address</div>
-                    </div>
-                </div><!--Email end here-->
-                <div class="form-group">
-                    <font color="white"><label for="password">Password</label></font>
-                    <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-                    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                        <div class="alert alert-danger" *ngIf="f.password.errors.required">Password is required</div>
-                        <div class="alert alert-danger" *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
-                    </div>
-                </div><!-- Password end here-->
-                <div class="form-group">
-                    <font color="white"><label for="confirmpassword">Confirm Password</label></font>
-                    <input type="password" formControlName="confirmpassword" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirmpassword.errors }" />
-                    <div *ngIf="submitted && f.confirmpassword.errors" class="invalid-feedback">
-                        <div class="alert alert-danger" *ngIf="f.confirmpassword.errors.required">Confirm Password is required</div>
-                        <div class="alert alert-danger" *ngIf="f.confirmpassword.errors?.MatchPassword">Password does not match</div>
-                        <!-- <div *ngIf="f.confirmpassword.errors.minlength">Please enter confirm password with at least 6 characters</div> -->
-                    </div>
-                </div><!-- Confirm Password end here-->
-                <div class="form-group">
-                    <button [disabled]="loading" class="btn btn-primary">Register</button>
-                    <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-                    <a [routerLink]="['/login']" class="btn btn-link">Cancel</a>
-                </div>
-            </form><!-- Form end here-->
-        </div>
-    </div>
-</div>
+              </form><!-- Form end here-->
+          </div>
+      </div>
+  </div>
 </div>
