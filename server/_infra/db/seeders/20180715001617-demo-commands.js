@@ -21,7 +21,7 @@ module.exports = {
           updatedAt: new Date()
       },
       {
-          name: 'help',
+          name: 'pizza',
           BotId: 3,
           createdAt: new Date(),
           updatedAt: new Date()
