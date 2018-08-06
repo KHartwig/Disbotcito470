@@ -1,5 +1,7 @@
 const clientWrapper = require('../_infra/discord/index');
 const db = require('_infra/db/models/index');
+const models = require('_infra/db/models');
+const promise = require('promise');
 
 let cwMap = new Map();
 let guildMap = new Map();
@@ -14,6 +16,7 @@ const optActions = {
 };
 
 module.exports = {
+    startup,
     createClient,
     destroyClient,
     updateClientCommands,
@@ -29,6 +32,35 @@ module.exports = {
 };
 
 const DEFAULT_LIMIT = 100;
+
+function startup() {
+    models.Bot.findAll()
+        .then(async bots => {
+            console.log('** Startup bots: ' + JSON.stringify(bots));
+            await initializeDiscordCache(bots);
+        })
+        .catch(err => console.log('Error initializing bots from database: ' + err));
+}
+
+async function initializeDiscordCache(bots) {
+    for (let i = 0; i < bots.length; ++i) {
+        let bot = bots[i];
+        //console.log('Current bot: ' + JSON.stringify(bot));
+        let newClient = new clientWrapper(bot.discordToken, bot.commandPrefix, []);
+        try {
+            await newClient.login();
+        } catch (err) {
+            throw 'Invalid token';
+        }
+
+        const botUser = newClient.client.user;
+        botUserMap.set(bot.id, botUser);
+        const guilds = newClient.client.guilds.first(DEFAULT_LIMIT).map(guildFilter);
+        guildMap.set(bot.id, guilds);
+        console.log('Initialized botUser and guild cache for ' + botUser.username + '(' + bot.id + ')');
+        newClient.destroy();
+    }
+}
 
 async function createClient(bot) {
     let newClient = new clientWrapper(bot.discordToken, bot.commandPrefix, await bot.getCommands(optActions));
