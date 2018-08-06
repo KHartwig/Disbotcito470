@@ -18,10 +18,15 @@
         </div>
         <div class="row">
           <div class="col-sm">
-            <strong>Discord Token:</strong>
+            <strong>Discord Token:  </strong>
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+              Show Token
+            </button>
           </div>
           <div class="col-sm">
-            {{bot.discordToken}}
+            <div class="collapse" id="collapseExample">
+                {{bot.discordToken}}
+            </div>
           </div>
         </div>
 
