@@ -5,6 +5,7 @@ module.exports = {
     attachGuildObject,
     start,
     stop,
+    validateToken,
     getAllGuildsByBot,
     getById,
     getMembersByGuild,
@@ -24,7 +25,6 @@ function attachGuildObject(req, res, next) {
 }
 
 function start(req, res, next){
-    console.log('Bot: ' + JSON.stringify(req.bot));
   discordService.createClient(req.bot)
     .then(() => {
         botService.updateStatus(req.bot, 'ONLINE')
@@ -58,6 +58,14 @@ function stop(req, res, next) {
             .catch(err => next(err));
     })
     .catch(err => next(err));
+}
+
+function validateToken(req, res, next) {
+    discordService.validateDiscordToken(req.query.discordToken)
+        .then((botUser) => {
+            res.json(botUser);
+        })
+        .catch(err => next(err));
 }
 
 function getAllGuildsByBot(req, res, next) {

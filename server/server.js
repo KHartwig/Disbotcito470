@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const models = require('_infra/db/models');
 const jwt = require('_helpers/jwt');
 const errorHandler = require('_helpers/error-handler');
+const discordRouter = require('discord/discord.router');
 const discordService = require('discord/discord.service');
 const env = process.env.NODE_ENV || 'development';
 const config = require('./config');
@@ -24,6 +25,7 @@ app.use('/api', jwt());
 // Route needs token
 app.use('/api/users', require('./users/users.router'));
 app.use('/api/bots', require('./bots/bots.router'));
+app.use('/api/discord', discordRouter.baseRouter);
 
 // Routes without token
 // app.use('/api-pub/contacts', require('./contacts/contacts.controller'));

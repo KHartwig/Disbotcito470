@@ -18,6 +18,7 @@ module.exports = {
     destroyClient,
     updateClientCommands,
     updateClientCommandPrefix,
+    validateDiscordToken,
     getBotUser,
     getGuildObject,
     getGuilds,
@@ -74,6 +75,20 @@ async function updateClientCommandPrefix(bot, commandPrefix) {
     const cw = cwMap.get(bot.id);
     if (!cw) throw 'Cannot update command prefix, bot not started';
     cw.syncCommandPrefix(commandPrefix);
+}
+
+async function validateDiscordToken(token) {
+    console.log('Validating token: ' + token);
+    let newClient = new clientWrapper(token, '$', []);
+    try {
+        await newClient.login();
+    } catch (err) {
+        throw 'Invalid Discord token';
+    }
+
+    const botUser = userFilter(newClient.client.user);
+    newClient.destroy();
+    return botUser;
 }
 
 async function getBotUser(bot) {

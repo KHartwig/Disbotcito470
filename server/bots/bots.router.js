@@ -16,7 +16,7 @@ router.get('/', botsController.getAllByUser);
 // BotId Routes - Attach the bot to req before performing action
 router.use('/:id', botsController.attachBot); // Middleware -> req.bot
 router.use('/:id/commands', commandsRouter); // Nested Route
-router.use('/:id/discord', discordRouter); // Nested Route
+router.use('/:id/discord', discordRouter.nestedRouter); // Nested Route
 router.get('/:id', botsController.getById);
 router.put('/:id', botsController.update);
 router.delete('/:id', botsController.delete);
