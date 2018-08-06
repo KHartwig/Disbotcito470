@@ -2,3 +2,11 @@
 img.avatar {
     height: 40px;
 }
+
+div.jumbotron {
+  background: snow ;
+  background-image: url("/assets/images/bgrd.gif");
+  font-weight: 500;
+  font-family: "Gill Sans", sans-serif;
+  background-size: 100% 100%;
+}
