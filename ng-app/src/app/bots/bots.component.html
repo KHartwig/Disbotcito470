@@ -3,7 +3,7 @@
 <div class="my-3 p-3 bg-white rounded box-shadow">
     <h6 class="border-bottom border-gray pb-2 mb-0">Bots</h6>
     <div class="jumbotron text-center" *ngIf="!botList || botList.length === 0">
-        <h5>You have no bots right now</h5>
+        <font color="white"><h5>You have no bots right now</h5></font>
         <a [routerLink]="['/bots/add']">Create New Bot</a>
     </div>
     <div id="onlineBots" *ngFor="let bot of onlineBots">
