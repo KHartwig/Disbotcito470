@@ -1,0 +1,8 @@
+div.jumbotron {
+  background: snow ;
+  background-image: url("/assets/images/bgrd.gif");
+  font-weight: 500;
+  font-family: "Gill Sans", sans-serif;
+  background-size: auto;
+  background-repeat: 300px 100px;
+}
