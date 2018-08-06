@@ -21,7 +21,7 @@ module.exports = {
       {
           name: 'AngularBot',
           discordToken: 'NDc1MzYyODkwMjQ1ODY1NDcy.Dkd8PQ.5uY8wTtQSGvRmeNQ-jDDq5aagkc',
-          commandPrefix: '!!!',
+          commandPrefix: '$',
           OwnerId: '2',
           createdAt: new Date(),
           updatedAt: new Date()

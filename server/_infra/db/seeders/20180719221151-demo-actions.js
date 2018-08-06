@@ -4,7 +4,14 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
       return queryInterface.bulkInsert('Actions', [{
           type: 'msgChannel',
-          parameters: ['Help is for the weak. Come back when you\'ve learned a thing or two.'],
+          parameters: ['Hawaiian pizza is an abomination! Pineapples do not belong on pizza, and anyone who says otherwise is a filthy heretic.'],
+          CommandId: 4,
+          createdAt: new Date(),
+          updatedAt: new Date()
+      },
+      {
+          type: 'msgDirect',
+          parameters: ['I actually don\'t mind pineapples on pizza, but don\'t tell anyone I said that...'],
           CommandId: 4,
           createdAt: new Date(),
           updatedAt: new Date()
