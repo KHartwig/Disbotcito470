@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild, ViewChildren, QueryList} from '@angular/core';
-import { AlertService, BotService } from '../_services';
+import {AlertService, BotService, DataService} from '../_services';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
@@ -34,7 +34,8 @@ export class BotsEditComponent implements OnInit {
     private router: Router,
     private activatedRouter: ActivatedRoute,
     private botService: BotService,
-    private alertService: AlertService) { }
+    private alertService: AlertService,
+    private dataService: DataService) { }
 
   ngOnInit() {
     this.sub = this.activatedRouter.params.subscribe(params => {
@@ -51,10 +52,16 @@ export class BotsEditComponent implements OnInit {
           });
         });
       } else {
+        this.dataService.currentCreateBotInfo.subscribe(createBotInfo => {
+          this.bot = new Bot();
+          this.bot.user = createBotInfo.botUser;
+          this.bot.name = createBotInfo.botUser.username;
+          this.bot.discordToken = createBotInfo.token;
+        });
         this.editBotForm = this.formBuilder.group({
-          name: ['', Validators.required],
-          discordToken: ['', Validators.required],
-          commandPrefix: ['', Validators.required]
+          name: [`${this.bot.name}`, Validators.required],
+          discordToken: [`${this.bot.discordToken}`, Validators.required],
+          commandPrefix: [``, Validators.required]
         });
       }
     });

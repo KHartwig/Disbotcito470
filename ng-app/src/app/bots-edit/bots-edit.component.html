@@ -5,14 +5,14 @@
     <form [formGroup]="editBotForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <font color="white">﻿<label >Name</label></font>
-        <input type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+        <input type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" readonly/>
         <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
           <div *ngIf="f.name.errors.required">Name is required</div>
         </div>
       </div>
       <div class="form-group">
         <font color="white">﻿<label >Discord Token</label></font>
-        <input type="text" formControlName="discordToken" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.discordToken.errors }" />
+        <input type="text" formControlName="discordToken" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.discordToken.errors }" readonly/>
         <div *ngIf="submitted && f.discordToken.errors" class="invalid-feedback">
           <div *ngIf="f.discordToken.errors.required">Discord token is required</div>
         </div>

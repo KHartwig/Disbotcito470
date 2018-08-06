@@ -6,3 +6,4 @@ export * from './bot.service';
 export * from './guild.service';
 export * from './action.service';
 export * from './command.service';
+export * from './discord.service';

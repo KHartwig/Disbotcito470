@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-import { User } from '../_models';
+import { User, DiscordUser } from '../_models';
 
 @Injectable()
 export class DataService {
 
   defaultUser : User;
+  defaultBotUser : any;
 
-  private userSource = new BehaviorSubject(this.defaultUser);
+  private userSource = new BehaviorSubject<User>(null);
   currentUser = this.userSource.asObservable();
+
+  private tempCreateBotInfo = new BehaviorSubject(null);
+  currentCreateBotInfo = this.tempCreateBotInfo.asObservable();
 
   constructor() {
       this.defaultUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -23,5 +27,10 @@ export class DataService {
       else
         localStorage.removeItem('currentUser');
   }
+
+  changeCreateBotInfo(token: string, botUser: DiscordUser) {
+    this.tempCreateBotInfo.next({token: token, botUser: botUser});
+  }
+
 
 }

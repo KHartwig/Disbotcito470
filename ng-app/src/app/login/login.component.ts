@@ -1,14 +1,17 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+import { ModalLoginComponent } from "../modal-login/modal-login.component";
 import { AlertService, AuthenticationService } from '../_services';
 
 @Component({templateUrl: 'login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
     loginForm: FormGroup;
     loading = false;
     submitted = false;
@@ -19,7 +22,8 @@ export class LoginComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private authenticationService: AuthenticationService,
-        private alertService: AlertService) {}
+        private alertService: AlertService,
+        public modalService: NgbModal) {}
 
     ngOnInit() {
         this.loginForm = this.formBuilder.group({
@@ -32,6 +36,15 @@ export class LoginComponent implements OnInit {
 
         // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    }
+
+    ngOnDestroy() {
+      // this.activeModal.dismiss();
+    }
+
+    openLoginModal() {
+      const modalRef = this.modalService.open(ModalLoginComponent);
+      modalRef.componentInstance.name = 'Greg Baker';
     }
 
     // convenience getter for easy access to form fields

@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Bot } from '../_models';
 import { BotService, AlertService } from "../_services";
 import { first } from "rxjs/operators";
+
+import { ModalBotAddComponent } from "../modal-bot-add/modal-bot-add.component";
 
 @Component({
   selector: 'app-bots',
@@ -19,10 +22,15 @@ export class BotsComponent implements OnInit {
   // id: number;
   constructor(private activatedRouter: ActivatedRoute,
               private botService: BotService,
-              private alertService: AlertService) { }
+              private alertService: AlertService,
+              private modalService: NgbModal) { }
 
   ngOnInit() {
     this.loadBots();
+  }
+
+  openAddBotModal() {
+    const modalRef = this.modalService.open(ModalBotAddComponent, { centered: true });
   }
 
   // Function to sort bots, goes by createdAt, if same then sorts by id
