@@ -46,9 +46,9 @@ guild: any;
   }
 
   startStop() {
-
+    const botToStartStop = this.bot);
      //console.log(this.bot.status);
-
+    botToStartStop.isChangingStatus = true;
     // this.loading = true;
     if ( this.bot.status == "ONLINE"){
       // this.guildComponent.closeGuilds();
@@ -62,6 +62,7 @@ guild: any;
 
         },
         error => {
+          botToStartStop.isChangingStatus = false;
           this.alertService.error(error);
       });
     }
@@ -79,6 +80,7 @@ guild: any;
 
           },
           error => {
+            botToStartStop.isChangingStatus = false;
             this.alertService.error(error);
           });
     }
