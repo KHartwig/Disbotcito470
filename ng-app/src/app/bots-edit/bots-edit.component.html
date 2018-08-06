@@ -1,52 +1,54 @@
-<div *ngIf="pageAction == PAGE_ACTIONS.Add"><h2>Add Bot</h2></div>
-<div *ngIf="pageAction == PAGE_ACTIONS.Edit"><h2>Edit Bot</h2></div>
-<div *ngIf="pageAction == PAGE_ACTIONS.Add || bot">
-  <form [formGroup]="editBotForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <label >Name</label>
-      <input type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
-      <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
-        <div *ngIf="f.name.errors.required">Name is required</div>
+<div class="jumbotron">
+  <div *ngIf="pageAction == PAGE_ACTIONS.Add"><font color="white">﻿<h2>Add Bot</h2></font></div>
+  <div *ngIf="pageAction == PAGE_ACTIONS.Edit"><font color="white">﻿<h2>Edit Bot</h2></font></div>
+  <div *ngIf="pageAction == PAGE_ACTIONS.Add || bot">
+    <form [formGroup]="editBotForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <font color="white">﻿<label >Name</label></font>
+        <input type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+        <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+          <div *ngIf="f.name.errors.required">Name is required</div>
+        </div>
       </div>
-    </div>
-    <div class="form-group">
-      <label >Discord Token</label>
-      <input type="text" formControlName="discordToken" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.discordToken.errors }" />
-      <div *ngIf="submitted && f.discordToken.errors" class="invalid-feedback">
-        <div *ngIf="f.discordToken.errors.required">Discord token is required</div>
+      <div class="form-group">
+        <font color="white">﻿<label >Discord Token</label></font>
+        <input type="text" formControlName="discordToken" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.discordToken.errors }" />
+        <div *ngIf="submitted && f.discordToken.errors" class="invalid-feedback">
+          <div *ngIf="f.discordToken.errors.required">Discord token is required</div>
+        </div>
       </div>
-    </div>
-    <div class="form-group">
-      <label >Command Prefix</label>
-      <input type="text" formControlName="commandPrefix" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.commandPrefix.errors }" />
-      <div *ngIf="submitted && f.commandPrefix.errors" class="invalid-feedback">
-        <div *ngIf="f.commandPrefix.errors.required">Command prefix is required</div>
+      <div class="form-group">
+        <font color="white">﻿<label >Command Prefix</label></font>
+        <input type="text" formControlName="commandPrefix" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.commandPrefix.errors }" />
+        <div *ngIf="submitted && f.commandPrefix.errors" class="invalid-feedback">
+          <div *ngIf="f.commandPrefix.errors.required">Command prefix is required</div>
+        </div>
       </div>
-    </div>
-    <hr>
-    <app-commands-edit #commandsEditor [botId]="bot ? bot.id : 0">
-    </app-commands-edit>
-    <!-- <div *ngIf="pageAction == PAGE_ACTIONS.Edit">
-      <app-commands-edit #commandsEditor [botId]="bot.id">
+      <hr>
+      <app-commands-edit #commandsEditor [botId]="bot ? bot.id : 0">
       </app-commands-edit>
-    </div> -->
-    <hr>
-    <div class="form-group">
-      <div class="d-flex justify-content-around">
-        <button [disabled]="loading" class="btn btn-primary">
-          <a *ngIf="pageAction == PAGE_ACTIONS.Add">Add Bot</a>
-          <a *ngIf="pageAction == PAGE_ACTIONS.Edit">Save</a>
-        </button>
-        <!-- <button *ngIf="pageAction == PAGE_ACTIONS.Edit"
-                [disabled]="loading" type="button" (click)="commandsEditor.resetCommands()"
-                class="btn btn-secondary">
-          Reset
-        </button> -->
-        <button *ngIf="pageAction == PAGE_ACTIONS.Edit" [disabled]="loading" class="btn btn-danger" type="button" (click)="onDelete()">Delete Bot</button>
+      <!-- <div *ngIf="pageAction == PAGE_ACTIONS.Edit">
+        <app-commands-edit #commandsEditor [botId]="bot.id">
+        </app-commands-edit>
+      </div> -->
+      <hr>
+      <div class="form-group">
+        <div class="d-flex justify-content-around">
+          <button [disabled]="loading" class="btn btn-primary">
+            <a *ngIf="pageAction == PAGE_ACTIONS.Add">Add Bot</a>
+            <a *ngIf="pageAction == PAGE_ACTIONS.Edit">Save</a>
+          </button>
+          <!-- <button *ngIf="pageAction == PAGE_ACTIONS.Edit"
+                  [disabled]="loading" type="button" (click)="commandsEditor.resetCommands()"
+                  class="btn btn-secondary">
+            Reset
+          </button> -->
+          <button *ngIf="pageAction == PAGE_ACTIONS.Edit" [disabled]="loading" class="btn btn-danger" type="button" (click)="onDelete()">Delete Bot</button>
+        </div>
+        <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+        <a *ngIf="pageAction == PAGE_ACTIONS.Add" [routerLink]="['/bots/']" class="btn btn-link">Cancel</a>
+        <a *ngIf="pageAction == PAGE_ACTIONS.Edit" [routerLink]="['/bots', bot.id]" class="btn btn-link">Cancel</a>
       </div>
-      <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-      <a *ngIf="pageAction == PAGE_ACTIONS.Add" [routerLink]="['/bots/']" class="btn btn-link">Cancel</a>
-      <a *ngIf="pageAction == PAGE_ACTIONS.Edit" [routerLink]="['/bots', bot.id]" class="btn btn-link">Cancel</a>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>
