@@ -1,7 +1,6 @@
 const clientWrapper = require('../_infra/discord/index');
 const db = require('_infra/db/models/index');
 const models = require('_infra/db/models');
-const promise = require('promise');
 
 let cwMap = new Map();
 let guildMap = new Map();
