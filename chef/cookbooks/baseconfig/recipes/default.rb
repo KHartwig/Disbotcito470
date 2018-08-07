@@ -49,7 +49,7 @@ end
 
 #db migrations
 execute "db_migrate" do
-    command 'cd /home/vagrant/project/server && npm run migrate'
+    command 'cd /home/vagrant/project/server && npm install && npm run migrate'
 end
 
 # Seed data for demo
@@ -58,5 +58,5 @@ execute "server_seed" do
 end
 
 execute "server_init" do
-    command 'cd /home/vagrant/project/server && npm install && npm run start:prod'
+    command 'cd /home/vagrant/project/server && npm run start:prod'
 end
