@@ -30,7 +30,7 @@ export class GuildsDetailsComponent implements OnInit, OnDestroy {
       this.bid = params['bid']; // (+) converts string 'id' to a number
       this.gid = params['gid']; // (+) converts string 'id' to a number
       this.botService.getById(this.bid).pipe(first()).subscribe(rcvdBot => {
-          if ( rcvdBot.status == "ONLINE")
+          // if ( rcvdBot.status == "ONLINE")
             this.loadMembersAndEmojis();
         });
       
@@ -39,17 +39,24 @@ export class GuildsDetailsComponent implements OnInit, OnDestroy {
 
 
   loadMembersAndEmojis(){
-      this.guildService.getById(this.bid, this.gid).pipe(first()).subscribe(guild => {
-        this.guild = guild;        
-      });
+      this.guildService.getById(this.bid, this.gid).pipe(first()).subscribe(
+        guild => {
+          console.log(guild);
+        this.guild = guild;
+        this.emojiList = guild.emojis;
+        this.memberList = guild.members;
+      },
+        err => {
+          console.error(err);
+        });
 
-      this.guildService.getMembers(this.bid, this.gid).pipe(first()).subscribe(member => {
-        this.memberList = member;        
-      });
-        this.guildService.getEmojis(this.bid, this.gid).pipe(first()).subscribe(emoji => {
-        this.emojiList = emoji;
-
-      });
+      // this.guildService.getMembers(this.bid, this.gid).pipe(first()).subscribe(member => {
+      //   this.memberList = member;
+      // });
+      //   this.guildService.getEmojis(this.bid, this.gid).pipe(first()).subscribe(emoji => {
+      //   this.emojiList = emoji;
+      //
+      // });
   }
 
   ngOnDestroy() {
