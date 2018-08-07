@@ -6,3 +6,4 @@ export * from './discordUser';
 export * from './discordGuild';
 export * from './discordMember';
 export * from './discordEmoji';
+export * from './discordPresence';

@@ -10,7 +10,7 @@
     <h6>Guild Info</h6>
       <img src={{guild.iconURL}} alt="" width="100" height="100">
       <p> Number of Members: {{guild.memberCount}} </p>
-      <p> Owner of guild: {{guild.owner.username}} </p>
+      <p> Owner of guild: {{guild.owner.user.username}} </p>
       <p> Region: {{guild.region|titlecase}} </p>
       <p> Availability: {{guild.available}} </p>
         <!-- </div> -->
@@ -47,7 +47,7 @@
           </div>
           <div id="membersOnline" *ngFor="let member of memberList">
 
-            <div *ngIf="member.user.status == 'online'">
+            <div *ngIf="member.user.presence.status == 'online'">
                   <div class="media pt-3">
                       <img src={{member.user.avatarURL}} alt="" width="45" height="45"
                       class="mr-2 rounded-circle avatar border">
@@ -66,7 +66,7 @@
               </div>
           </div>
           <div id="membersDND" *ngFor="let member of memberList">
-              <div *ngIf="member.user.status == 'dnd'">
+              <div *ngIf="member.user.presence.status == 'dnd'">
                     <div class="media pt-3">
                         <img src={{member.user.avatarURL}} alt="" width="45" height="45"
                         class="mr-2 rounded-circle avatar border">
@@ -85,7 +85,7 @@
                 </div>
           </div>
           <div id="membersIdle" *ngFor="let member of memberList">
-                <div *ngIf="member.user.status == 'idle'">
+                <div *ngIf="member.user.presence.status == 'idle'">
                       <div class="media pt-3">
                           <img src={{member.user.avatarURL}} alt="" width="45" height="45"
                           class="mr-2 rounded-circle avatar border">
@@ -104,7 +104,7 @@
                   </div>
           </div>
           <div id="membersOffline" *ngFor="let member of memberList">
-                  <div *ngIf="member.user.status == 'offline'">
+                  <div *ngIf="member.user.presence.status == 'offline'">
                         <div class="media pt-3">
                             <img src={{member.user.avatarURL}} alt="" width="45" height="45"
                             class="mr-2 rounded-circle avatar border">
