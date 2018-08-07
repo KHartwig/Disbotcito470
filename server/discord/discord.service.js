@@ -54,7 +54,7 @@ async function initializeDiscordCache(bots) {
 
         const botUser = newClient.client.user;
         botUserMap.set(bot.id, botUser);
-        const guilds = newClient.client.guilds.first(DEFAULT_LIMIT).map(guildFilter);
+        const guilds = newClient.client.guilds.first(DEFAULT_LIMIT);
         guildMap.set(bot.id, guilds);
         console.log('Initialized botUser and guild cache for ' + botUser.username + '(' + bot.id + ')');
         newClient.destroy();
@@ -71,7 +71,7 @@ async function createClient(bot) {
 
     cwMap.set(bot.id, newClient);
     console.log('Client created for bot ' + bot.id + ' (' + bot.name + ')');
-    const guilds = newClient.client.guilds.first(DEFAULT_LIMIT).map(guildFilter);
+    const guilds = newClient.client.guilds.first(DEFAULT_LIMIT);
     guildMap.set(bot.id, guilds);
     const botUser = newClient.client.user;
     botUserMap.set(bot.id, botUser);
@@ -138,8 +138,10 @@ async function getBotUser(bot) {
 async function getGuildObject(bot, guildId) {
     const clientWrapper = cwMap.get(bot.id);
     if (!clientWrapper || !clientWrapper.isOnline()) {
-        console.log('Returning cached guilds for ' + bot.name + ': ' + guildMap.get(bot.id));
-        return guildMap.get(bot.id);
+        // console.log('Returning cached guilds for ' + bot.name + ': ' + JSON.stringify(guildMap.get(bot.id)));
+        const retGuild = guildMap.get(bot.id).find(guild => guild.id === guildId);
+        console.log('Ret guild', retGuild);
+        return retGuild;
     }
 
     const guild = clientWrapper.client.guilds.find('id', guildId);
@@ -154,7 +156,7 @@ async function getGuilds(bot) {
         return guildMap.get(bot.id);
     }
 
-    guildMap.set(bot.id, clientWrapper.client.guilds.first(DEFAULT_LIMIT).map(guildFilter));
+    guildMap.set(bot.id, clientWrapper.client.guilds.first(DEFAULT_LIMIT));
     console.log('Guild cache updated for bot ' + bot.id + ' (' + bot.name + ')');
 
     return guildMap.get(bot.id);
@@ -173,15 +175,21 @@ async function getGuildEmojis(guild) {
 }
 
 // Discord Object filters
+function presenceFilter(presence) {
+    return {
+        status: presence.status                     // string - 'online', 'offline', 'idle', 'dnd' - DoNotDisturb
+    }
+}
+
 function userFilter(user) {
     return {
         id: user.id,
-        username: user.username,             // string - username of the user
-        tag: user.tag,                       // string - discord tag of the user
-        avatarURL: user.displayAvatarURL,    // string - url to the avatar pic/gif
-        status: user.presence.status,        // string - 'online', 'offline', 'idle', 'dnd' - DoNotDisturb
-        createdAt: user.createdAt,           // date - when the user was created
-        bot: user.bot                        // boolean - true if user is a bot
+        username: user.username,                    // string - username of the user
+        tag: user.tag,                              // string - discord tag of the user
+        avatarURL: user.displayAvatarURL,           // string - url to the avatar pic/gif
+        presence: presenceFilter(user.presence),    // presence - object to see status of user
+        createdAt: user.createdAt,                  // date - when the user was created
+        bot: user.bot                               // boolean - true if user is a bot
     }
 }
 
@@ -190,7 +198,7 @@ function guildFilter(guild) {
         id: guild.id,                               // string - discord id
         name: guild.name,                           // string - name of the guild
         iconURL: guild.iconURL,                     // string - url to guild's icon
-        owner: userFilter(guild.owner),             // string - Username of the owner user
+        owner: memberFilter(guild.owner),             // string - Username of the owner user
         ownerID: guild.ownerID,                     // string - ID of the owner user
         memberCount: guild.memberCount,             // number - Number of members in the guild
         members: guild.members.first(DEFAULT_LIMIT).map(memberFilter),

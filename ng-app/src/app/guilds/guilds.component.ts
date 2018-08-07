@@ -43,6 +43,7 @@ export class GuildsComponent implements OnInit {
 
     this.guildService.getAll(this.bid).pipe(first()).subscribe(guilds => {
       this.guildList = guilds;
+      console.log('guilds', guilds);
     });
   }
 
