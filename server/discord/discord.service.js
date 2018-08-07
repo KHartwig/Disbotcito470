@@ -144,7 +144,7 @@ async function getGuildObject(bot, guildId) {
         return retGuild;
     }
 
-    const guild = clientWrapper.client.guilds.find('id', guildId);
+    const guild = clientWrapper.client.guilds.find(guild => guild.id === guildId);
     if (guild && !guild.available) throw 'Guild Unavailable';
     return guild;
 }
@@ -152,14 +152,14 @@ async function getGuildObject(bot, guildId) {
 async function getGuilds(bot) {
     const clientWrapper = cwMap.get(bot.id);
     if (!clientWrapper || !clientWrapper.isOnline()) {
-        console.log('Returning cached guilds for ' + bot.name + ': ' + guildMap.get(bot.id));
-        return guildMap.get(bot.id);
+        console.log('Returning cached guilds for ' + bot.name + ': ' + JSON.stringify(guildMap.get(bot.id)));
+        return guildMap.get(bot.id).map(guildFilter);
     }
 
     guildMap.set(bot.id, clientWrapper.client.guilds.first(DEFAULT_LIMIT));
     console.log('Guild cache updated for bot ' + bot.id + ' (' + bot.name + ')');
 
-    return guildMap.get(bot.id);
+    return guildMap.get(bot.id).map(guildFilter);
 }
 
 async function getGuildById(guild) {

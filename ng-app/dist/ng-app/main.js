@@ -568,6 +568,26 @@ var DiscordMember = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/_models/discordPresence.ts":
+/*!********************************************!*\
+  !*** ./src/app/_models/discordPresence.ts ***!
+  \********************************************/
+/*! exports provided: DiscordPresence */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DiscordPresence", function() { return DiscordPresence; });
+var DiscordPresence = /** @class */ (function () {
+    function DiscordPresence() {
+    }
+    return DiscordPresence;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/_models/discordUser.ts":
 /*!****************************************!*\
   !*** ./src/app/_models/discordUser.ts ***!
@@ -592,7 +612,7 @@ var DiscordUser = /** @class */ (function () {
 /*!**********************************!*\
   !*** ./src/app/_models/index.ts ***!
   \**********************************/
-/*! exports provided: User, Bot, Command, Action, DiscordUser, DiscordGuild, DiscordMember, DiscordEmoji */
+/*! exports provided: User, Bot, Command, Action, DiscordUser, DiscordGuild, DiscordMember, DiscordEmoji, DiscordPresence */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -620,6 +640,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony import */ var _discordEmoji__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./discordEmoji */ "./src/app/_models/discordEmoji.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DiscordEmoji", function() { return _discordEmoji__WEBPACK_IMPORTED_MODULE_7__["DiscordEmoji"]; });
+
+/* harmony import */ var _discordPresence__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./discordPresence */ "./src/app/_models/discordPresence.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DiscordPresence", function() { return _discordPresence__WEBPACK_IMPORTED_MODULE_8__["DiscordPresence"]; });
+
 
 
 
@@ -990,8 +1014,10 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 var DataService = /** @class */ (function () {
     function DataService() {
-        this.userSource = new rxjs__WEBPACK_IMPORTED_MODULE_1__["BehaviorSubject"](this.defaultUser);
+        this.userSource = new rxjs__WEBPACK_IMPORTED_MODULE_1__["BehaviorSubject"](null);
         this.currentUser = this.userSource.asObservable();
+        this.tempCreateBotInfo = new rxjs__WEBPACK_IMPORTED_MODULE_1__["BehaviorSubject"](null);
+        this.currentCreateBotInfo = this.tempCreateBotInfo.asObservable();
         this.defaultUser = JSON.parse(localStorage.getItem('currentUser'));
         this.userSource.next(this.defaultUser);
     }
@@ -1002,11 +1028,57 @@ var DataService = /** @class */ (function () {
         else
             localStorage.removeItem('currentUser');
     };
+    DataService.prototype.changeCreateBotInfo = function (token, botUser) {
+        this.tempCreateBotInfo.next({ token: token, botUser: botUser });
+    };
     DataService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
         __metadata("design:paramtypes", [])
     ], DataService);
     return DataService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/_services/discord.service.ts":
+/*!**********************************************!*\
+  !*** ./src/app/_services/discord.service.ts ***!
+  \**********************************************/
+/*! exports provided: DiscordService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DiscordService", function() { return DiscordService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var DiscordService = /** @class */ (function () {
+    function DiscordService(http) {
+        this.http = http;
+        this.apiUrl = 'http://localhost:4000/api';
+        this.discordUrl = this.apiUrl + '/discord';
+    }
+    DiscordService.prototype.validate = function (token) {
+        return this.http.get(this.discordUrl + "/validate?discordToken=" + token);
+    };
+    DiscordService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+    ], DiscordService);
+    return DiscordService;
 }());
 
 
@@ -1068,7 +1140,7 @@ var GuildService = /** @class */ (function () {
 /*!************************************!*\
   !*** ./src/app/_services/index.ts ***!
   \************************************/
-/*! exports provided: CommandService, AlertService, DataService, AuthenticationService, UserService, BotService, GuildService, ActionService */
+/*! exports provided: CommandService, AlertService, DataService, AuthenticationService, UserService, BotService, GuildService, ActionService, DiscordService */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1096,6 +1168,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony import */ var _command_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./command.service */ "./src/app/_services/command.service.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CommandService", function() { return _command_service__WEBPACK_IMPORTED_MODULE_7__["CommandService"]; });
+
+/* harmony import */ var _discord_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./discord.service */ "./src/app/_services/discord.service.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DiscordService", function() { return _discord_service__WEBPACK_IMPORTED_MODULE_8__["DiscordService"]; });
+
 
 
 
@@ -1375,24 +1451,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var _app_routing__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./app.routing */ "./src/app/app.routing.ts");
-/* harmony import */ var _directives__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./_directives */ "./src/app/_directives/index.ts");
-/* harmony import */ var _guards__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./_guards */ "./src/app/_guards/index.ts");
-/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./_helpers */ "./src/app/_helpers/index.ts");
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./_services */ "./src/app/_services/index.ts");
-/* harmony import */ var _home__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./home */ "./src/app/home/index.ts");
-/* harmony import */ var _nav__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./nav */ "./src/app/nav/index.ts");
-/* harmony import */ var _login__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./login */ "./src/app/login/index.ts");
-/* harmony import */ var _register__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./register */ "./src/app/register/index.ts");
-/* harmony import */ var _bots_bots_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./bots/bots.component */ "./src/app/bots/bots.component.ts");
-/* harmony import */ var _bots_edit_bots_edit_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./bots-edit/bots-edit.component */ "./src/app/bots-edit/bots-edit.component.ts");
-/* harmony import */ var _bots_details_bots_details_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./bots-details/bots-details.component */ "./src/app/bots-details/bots-details.component.ts");
-/* harmony import */ var _guilds_guilds_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./guilds/guilds.component */ "./src/app/guilds/guilds.component.ts");
-/* harmony import */ var _guilds_details_guilds_details_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./guilds-details/guilds-details.component */ "./src/app/guilds-details/guilds-details.component.ts");
-/* harmony import */ var _services_command_service__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./_services/command.service */ "./src/app/_services/command.service.ts");
-/* harmony import */ var _actions_edit_actions_edit_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./actions-edit/actions-edit.component */ "./src/app/actions-edit/actions-edit.component.ts");
-/* harmony import */ var _commands_edit_commands_edit_component__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./commands-edit/commands-edit.component */ "./src/app/commands-edit/commands-edit.component.ts");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
+/* harmony import */ var _app_routing__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./app.routing */ "./src/app/app.routing.ts");
+/* harmony import */ var _directives__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./_directives */ "./src/app/_directives/index.ts");
+/* harmony import */ var _guards__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./_guards */ "./src/app/_guards/index.ts");
+/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./_helpers */ "./src/app/_helpers/index.ts");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./_services */ "./src/app/_services/index.ts");
+/* harmony import */ var _home__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./home */ "./src/app/home/index.ts");
+/* harmony import */ var _nav__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./nav */ "./src/app/nav/index.ts");
+/* harmony import */ var _login__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./login */ "./src/app/login/index.ts");
+/* harmony import */ var _register__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./register */ "./src/app/register/index.ts");
+/* harmony import */ var _bots_bots_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./bots/bots.component */ "./src/app/bots/bots.component.ts");
+/* harmony import */ var _bots_edit_bots_edit_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./bots-edit/bots-edit.component */ "./src/app/bots-edit/bots-edit.component.ts");
+/* harmony import */ var _bots_details_bots_details_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./bots-details/bots-details.component */ "./src/app/bots-details/bots-details.component.ts");
+/* harmony import */ var _guilds_guilds_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./guilds/guilds.component */ "./src/app/guilds/guilds.component.ts");
+/* harmony import */ var _guilds_details_guilds_details_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./guilds-details/guilds-details.component */ "./src/app/guilds-details/guilds-details.component.ts");
+/* harmony import */ var _services_command_service__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./_services/command.service */ "./src/app/_services/command.service.ts");
+/* harmony import */ var _actions_edit_actions_edit_component__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./actions-edit/actions-edit.component */ "./src/app/actions-edit/actions-edit.component.ts");
+/* harmony import */ var _commands_edit_commands_edit_component__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./commands-edit/commands-edit.component */ "./src/app/commands-edit/commands-edit.component.ts");
+/* harmony import */ var _modal_login_modal_login_component__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./modal-login/modal-login.component */ "./src/app/modal-login/modal-login.component.ts");
+/* harmony import */ var _modal_bot_add_modal_bot_add_component__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./modal-bot-add/modal-bot-add.component */ "./src/app/modal-bot-add/modal-bot-add.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1406,6 +1485,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 // used to create fake backend
 // import { fakeBackendProvider } from './_helpers';
+// Bootstrap module
 
 
 
@@ -1419,7 +1499,9 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
-;
+
+
+
 
 
 
@@ -1435,37 +1517,45 @@ var AppModule = /** @class */ (function () {
                 _angular_forms__WEBPACK_IMPORTED_MODULE_2__["ReactiveFormsModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormsModule"],
                 _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClientModule"],
-                _app_routing__WEBPACK_IMPORTED_MODULE_5__["routing"]
+                _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_4__["NgbModule"].forRoot(),
+                _app_routing__WEBPACK_IMPORTED_MODULE_6__["routing"]
             ],
             declarations: [
-                _app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"],
-                _directives__WEBPACK_IMPORTED_MODULE_6__["AlertComponent"],
-                _home__WEBPACK_IMPORTED_MODULE_10__["HomeComponent"],
-                _nav__WEBPACK_IMPORTED_MODULE_11__["NavComponent"],
-                _login__WEBPACK_IMPORTED_MODULE_12__["LoginComponent"],
-                _register__WEBPACK_IMPORTED_MODULE_13__["RegisterComponent"],
-                _bots_bots_component__WEBPACK_IMPORTED_MODULE_14__["BotsComponent"],
-                _bots_edit_bots_edit_component__WEBPACK_IMPORTED_MODULE_15__["BotsEditComponent"],
-                _bots_details_bots_details_component__WEBPACK_IMPORTED_MODULE_16__["BotsDetailsComponent"],
-                _guilds_guilds_component__WEBPACK_IMPORTED_MODULE_17__["GuildsComponent"],
-                _guilds_details_guilds_details_component__WEBPACK_IMPORTED_MODULE_18__["GuildsDetailsComponent"],
-                _actions_edit_actions_edit_component__WEBPACK_IMPORTED_MODULE_20__["ActionsEditComponent"],
-                _commands_edit_commands_edit_component__WEBPACK_IMPORTED_MODULE_21__["CommandsEditComponent"]
+                _app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"],
+                _directives__WEBPACK_IMPORTED_MODULE_7__["AlertComponent"],
+                _home__WEBPACK_IMPORTED_MODULE_11__["HomeComponent"],
+                _nav__WEBPACK_IMPORTED_MODULE_12__["NavComponent"],
+                _login__WEBPACK_IMPORTED_MODULE_13__["LoginComponent"],
+                _register__WEBPACK_IMPORTED_MODULE_14__["RegisterComponent"],
+                _bots_bots_component__WEBPACK_IMPORTED_MODULE_15__["BotsComponent"],
+                _bots_edit_bots_edit_component__WEBPACK_IMPORTED_MODULE_16__["BotsEditComponent"],
+                _bots_details_bots_details_component__WEBPACK_IMPORTED_MODULE_17__["BotsDetailsComponent"],
+                _guilds_guilds_component__WEBPACK_IMPORTED_MODULE_18__["GuildsComponent"],
+                _guilds_details_guilds_details_component__WEBPACK_IMPORTED_MODULE_19__["GuildsDetailsComponent"],
+                _actions_edit_actions_edit_component__WEBPACK_IMPORTED_MODULE_21__["ActionsEditComponent"],
+                _commands_edit_commands_edit_component__WEBPACK_IMPORTED_MODULE_22__["CommandsEditComponent"],
+                _modal_login_modal_login_component__WEBPACK_IMPORTED_MODULE_23__["ModalLoginComponent"],
+                _modal_bot_add_modal_bot_add_component__WEBPACK_IMPORTED_MODULE_24__["ModalBotAddComponent"]
             ],
             providers: [
-                _guards__WEBPACK_IMPORTED_MODULE_7__["AuthGuard"],
-                _services__WEBPACK_IMPORTED_MODULE_9__["AlertService"],
-                _services__WEBPACK_IMPORTED_MODULE_9__["AuthenticationService"],
-                _services__WEBPACK_IMPORTED_MODULE_9__["DataService"],
-                _services__WEBPACK_IMPORTED_MODULE_9__["UserService"],
-                _services__WEBPACK_IMPORTED_MODULE_9__["BotService"],
-                _services__WEBPACK_IMPORTED_MODULE_9__["GuildService"],
-                _services_command_service__WEBPACK_IMPORTED_MODULE_19__["CommandService"],
-                _services__WEBPACK_IMPORTED_MODULE_9__["ActionService"],
-                { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HTTP_INTERCEPTORS"], useClass: _helpers__WEBPACK_IMPORTED_MODULE_8__["JwtInterceptor"], multi: true },
-                { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HTTP_INTERCEPTORS"], useClass: _helpers__WEBPACK_IMPORTED_MODULE_8__["ErrorInterceptor"], multi: true },
+                _guards__WEBPACK_IMPORTED_MODULE_8__["AuthGuard"],
+                _services__WEBPACK_IMPORTED_MODULE_10__["AlertService"],
+                _services__WEBPACK_IMPORTED_MODULE_10__["AuthenticationService"],
+                _services__WEBPACK_IMPORTED_MODULE_10__["DataService"],
+                _services__WEBPACK_IMPORTED_MODULE_10__["UserService"],
+                _services__WEBPACK_IMPORTED_MODULE_10__["BotService"],
+                _services__WEBPACK_IMPORTED_MODULE_10__["GuildService"],
+                _services_command_service__WEBPACK_IMPORTED_MODULE_20__["CommandService"],
+                _services__WEBPACK_IMPORTED_MODULE_10__["ActionService"],
+                _services__WEBPACK_IMPORTED_MODULE_10__["DiscordService"],
+                { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HTTP_INTERCEPTORS"], useClass: _helpers__WEBPACK_IMPORTED_MODULE_9__["JwtInterceptor"], multi: true },
+                { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HTTP_INTERCEPTORS"], useClass: _helpers__WEBPACK_IMPORTED_MODULE_9__["ErrorInterceptor"], multi: true },
             ],
-            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"]]
+            entryComponents: [
+                _modal_login_modal_login_component__WEBPACK_IMPORTED_MODULE_23__["ModalLoginComponent"],
+                _modal_bot_add_modal_bot_add_component__WEBPACK_IMPORTED_MODULE_24__["ModalBotAddComponent"]
+            ],
+            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"]]
         })
     ], AppModule);
     return AppModule;
@@ -1537,7 +1627,7 @@ module.exports = "div.jumbotron {\n  background: snow ;\n  background-image: url
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"jumbotron\">\n  <font color=\"white\"><h2> Bot Status Page</h2></font>\n  <div class=\"container\">\n    <div class=\"my-3 p-3 bg-white rounded box-shadow\">\n      <div class=\"container\" *ngIf=\"bot\">\n        <div class=\"container\">\n          <div class=\"row\">\n            <div class=\"col\">\n              <img src={{bot.user.avatarURL}} width=\"100\" height=\"100\">\n\n            </div>\n            <div class=\"col-9\">\n              <h3>{{bot.name}}\n              </h3>\n            </div>\n            <div class=\"col\">\n              <img *ngIf=\"bot.isChangingStatus\" src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />\n                <button *ngIf=\"bot.status == 'ONLINE'\" class=\"btn btn-light btn-outline-danger\" type=\"button\" [disabled]=\"bot.isChangingStatus\" (click)=\"startStop()\">STOP</button>\n                <button *ngIf=\"bot.status == 'OFFLINE'\" class=\"btn btn-secondary btn-outline-success\" type=\"button\" [disabled]=\"bot.isChangingStatus\" (click)=\"startStop()\">START</button>\n            </div>\n          </div>\n          <div class=\"row\">\n            <div class=\"col-sm\">\n              <strong>Discord Token:  </strong>\n              <button class=\"btn btn-primary\" type=\"button\" data-toggle=\"collapse\" data-target=\"#collapseExample\" aria-expanded=\"false\" aria-controls=\"collapseExample\">\n                Show Token\n              </button>\n            </div>\n            <div class=\"col-sm\">\n              <div class=\"collapse\" id=\"collapseExample\">\n                  {{bot.discordToken}}\n              </div>\n            </div>\n          </div>\n\n          <hr>\n\n          <div class=\"row\">\n            <div class=\"col-sm\">\n              <strong>Status:</strong>\n            </div>\n            <div class=\"col-sm\">\n              {{bot.status|titlecase}}\n            </div>\n          </div>\n\n          <hr>\n\n          <div class=\"row\">\n            <div class=\"col-sm\">\n              <strong>Command Prefix:</strong>\n            </div>\n            <div class=\"col-sm\">\n              {{bot.commandPrefix}}\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <hr>\n\n  <div class=\"container\">\n      <div class=\"my-3 p-3 bg-white rounded box-shadow\">\n        <!-- list of guilds -->\n        <app-guilds ></app-guilds>\n        <br>\n        <!-- <app-guilds-details></app-guilds-details> -->\n      </div>\n\n  </div>\n</div>\n\n<a [routerLink]=\"['/']\" class=\"btn btn-link\">Back</a>\n<a *ngIf=\"bot\" [routerLink]=\"['/bots/edit', bot.id ]\" class=\"btn btn-link\">Edit</a>\n"
+module.exports = "<div class=\"jumbotron\">\n  <font color=\"white\"><h2> Bot Status Page</h2></font>\n  <div class=\"container\">\n    <div class=\"my-3 p-3 bg-white rounded box-shadow\">\n      <div class=\"container\" *ngIf=\"bot\">\n        <div class=\"container\">\n          <div class=\"row\">\n            <div class=\"col\">\n              <img [src]=\"bot.user ? bot.user.avatarURL: ''\" alt=\"\" width=\"100\" height=\"100\">\n\n            </div>\n            <div class=\"col-9\">\n              <h3>{{bot.name}}\n              </h3>\n            </div>\n            <div class=\"col\">\n              <img *ngIf=\"bot.isChangingStatus\" src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />\n                <button *ngIf=\"bot.status == 'ONLINE'\" class=\"btn btn-light btn-outline-danger\" type=\"button\" [disabled]=\"bot.isChangingStatus\" (click)=\"startStop()\">STOP</button>\n                <button *ngIf=\"bot.status == 'OFFLINE'\" class=\"btn btn-secondary btn-outline-success\" type=\"button\" [disabled]=\"bot.isChangingStatus\" (click)=\"startStop()\">START</button>\n            </div>\n          </div>\n          <div class=\"row\">\n            <div class=\"col-sm\">\n              <strong>Discord Token:  </strong>\n              <button class=\"btn btn-primary\" type=\"button\" data-toggle=\"collapse\" data-target=\"#collapseExample\" aria-expanded=\"false\" aria-controls=\"collapseExample\">\n                Show Token\n              </button>\n            </div>\n            <div class=\"col-sm\">\n              <div class=\"collapse\" id=\"collapseExample\">\n                  {{bot.discordToken}}\n              </div>\n            </div>\n          </div>\n\n          <hr>\n\n          <div class=\"row\">\n            <div class=\"col-sm\">\n              <strong>Status:</strong>\n            </div>\n            <div class=\"col-sm\">\n              {{bot.status|titlecase}}\n            </div>\n          </div>\n\n          <hr>\n\n          <div class=\"row\">\n            <div class=\"col-sm\">\n              <strong>Command Prefix:</strong>\n            </div>\n            <div class=\"col-sm\">\n              {{bot.commandPrefix}}\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <hr>\n\n  <div class=\"container\">\n      <div class=\"my-3 p-3 bg-white rounded box-shadow\">\n        <!-- list of guilds -->\n        <app-guilds ></app-guilds>\n        <br>\n        <!-- <app-guilds-details></app-guilds-details> -->\n      </div>\n\n  </div>\n</div>\n\n<a [routerLink]=\"['/']\" class=\"btn btn-link\">Back</a>\n<a *ngIf=\"bot\" [routerLink]=\"['/bots/edit', bot.id ]\" class=\"btn btn-link\">Edit</a>\n"
 
 /***/ }),
 
@@ -1677,7 +1767,7 @@ module.exports = "div.jumbotron {\n  background: snow ;\n  background-image: url
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"jumbotron\">\n  <div *ngIf=\"pageAction == PAGE_ACTIONS.Add\"><font color=\"white\">﻿<h2>Add Bot</h2></font></div>\n  <div *ngIf=\"pageAction == PAGE_ACTIONS.Edit\"><font color=\"white\">﻿<h2>Edit Bot</h2></font></div>\n  <div *ngIf=\"pageAction == PAGE_ACTIONS.Add || bot\">\n    <form [formGroup]=\"editBotForm\" (ngSubmit)=\"onSubmit()\">\n      <div class=\"form-group\">\n        <font color=\"white\">﻿<label >Name</label></font>\n        <input type=\"text\" formControlName=\"name\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.name.errors }\" />\n        <div *ngIf=\"submitted && f.name.errors\" class=\"invalid-feedback\">\n          <div *ngIf=\"f.name.errors.required\">Name is required</div>\n        </div>\n      </div>\n      <div class=\"form-group\">\n        <font color=\"white\">﻿<label >Discord Token</label></font>\n        <input type=\"text\" formControlName=\"discordToken\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.discordToken.errors }\" />\n        <div *ngIf=\"submitted && f.discordToken.errors\" class=\"invalid-feedback\">\n          <div *ngIf=\"f.discordToken.errors.required\">Discord token is required</div>\n        </div>\n      </div>\n      <div class=\"form-group\">\n        <font color=\"white\">﻿<label >Command Prefix</label></font>\n        <input type=\"text\" formControlName=\"commandPrefix\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.commandPrefix.errors }\" />\n        <div *ngIf=\"submitted && f.commandPrefix.errors\" class=\"invalid-feedback\">\n          <div *ngIf=\"f.commandPrefix.errors.required\">Command prefix is required</div>\n        </div>\n      </div>\n      <hr>\n      <app-commands-edit #commandsEditor [botId]=\"bot ? bot.id : 0\">\n      </app-commands-edit>\n      <!-- <div *ngIf=\"pageAction == PAGE_ACTIONS.Edit\">\n        <app-commands-edit #commandsEditor [botId]=\"bot.id\">\n        </app-commands-edit>\n      </div> -->\n      <hr>\n      <div class=\"form-group\">\n        <div class=\"d-flex justify-content-around\">\n          <button [disabled]=\"loading\" class=\"btn btn-primary\">\n            <a *ngIf=\"pageAction == PAGE_ACTIONS.Add\">Add Bot</a>\n            <a *ngIf=\"pageAction == PAGE_ACTIONS.Edit\">Save</a>\n          </button>\n          <!-- <button *ngIf=\"pageAction == PAGE_ACTIONS.Edit\"\n                  [disabled]=\"loading\" type=\"button\" (click)=\"commandsEditor.resetCommands()\"\n                  class=\"btn btn-secondary\">\n            Reset\n          </button> -->\n          <button *ngIf=\"pageAction == PAGE_ACTIONS.Edit\" [disabled]=\"loading\" class=\"btn btn-danger\" type=\"button\" (click)=\"onDelete()\">Delete Bot</button>\n        </div>\n        <img *ngIf=\"loading\" src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />\n        <a *ngIf=\"pageAction == PAGE_ACTIONS.Add\" [routerLink]=\"['/bots/']\" class=\"btn btn-link\">Cancel</a>\n        <a *ngIf=\"pageAction == PAGE_ACTIONS.Edit\" [routerLink]=\"['/bots', bot.id]\" class=\"btn btn-link\">Cancel</a>\n      </div>\n    </form>\n  </div>\n</div>\n"
+module.exports = "<div class=\"jumbotron\">\n  <div *ngIf=\"pageAction == PAGE_ACTIONS.Add\"><font color=\"white\">﻿<h2>Add Bot</h2></font></div>\n  <div *ngIf=\"pageAction == PAGE_ACTIONS.Edit\"><font color=\"white\">﻿<h2>Edit Bot</h2></font></div>\n  <div *ngIf=\"pageAction == PAGE_ACTIONS.Add || bot\">\n    <form [formGroup]=\"editBotForm\" (ngSubmit)=\"onSubmit()\">\n      <div class=\"form-group\">\n        <font color=\"white\">﻿<label >Name</label></font>\n        <input type=\"text\" formControlName=\"name\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.name.errors }\" readonly/>\n        <div *ngIf=\"submitted && f.name.errors\" class=\"invalid-feedback\">\n          <div *ngIf=\"f.name.errors.required\">Name is required</div>\n        </div>\n      </div>\n      <div class=\"form-group\">\n        <font color=\"white\">﻿<label >Discord Token</label></font>\n        <input type=\"text\" formControlName=\"discordToken\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.discordToken.errors }\" readonly/>\n        <div *ngIf=\"submitted && f.discordToken.errors\" class=\"invalid-feedback\">\n          <div *ngIf=\"f.discordToken.errors.required\">Discord token is required</div>\n        </div>\n      </div>\n      <div class=\"form-group\">\n        <font color=\"white\">﻿<label >Command Prefix</label></font>\n        <input type=\"text\" formControlName=\"commandPrefix\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.commandPrefix.errors }\" />\n        <div *ngIf=\"submitted && f.commandPrefix.errors\" class=\"invalid-feedback\">\n          <div *ngIf=\"f.commandPrefix.errors.required\">Command prefix is required</div>\n        </div>\n      </div>\n      <hr>\n      <app-commands-edit #commandsEditor [botId]=\"bot ? bot.id : 0\">\n      </app-commands-edit>\n      <!-- <div *ngIf=\"pageAction == PAGE_ACTIONS.Edit\">\n        <app-commands-edit #commandsEditor [botId]=\"bot.id\">\n        </app-commands-edit>\n      </div> -->\n      <hr>\n      <div class=\"form-group\">\n        <div class=\"d-flex justify-content-around\">\n          <button [disabled]=\"loading\" class=\"btn btn-primary\">\n            <a *ngIf=\"pageAction == PAGE_ACTIONS.Add\">Add Bot</a>\n            <a *ngIf=\"pageAction == PAGE_ACTIONS.Edit\">Save</a>\n          </button>\n          <!-- <button *ngIf=\"pageAction == PAGE_ACTIONS.Edit\"\n                  [disabled]=\"loading\" type=\"button\" (click)=\"commandsEditor.resetCommands()\"\n                  class=\"btn btn-secondary\">\n            Reset\n          </button> -->\n          <button *ngIf=\"pageAction == PAGE_ACTIONS.Edit\" [disabled]=\"loading\" class=\"btn btn-danger\" type=\"button\" (click)=\"onDelete()\">Delete Bot</button>\n        </div>\n        <img *ngIf=\"loading\" src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />\n        <a *ngIf=\"pageAction == PAGE_ACTIONS.Add\" [routerLink]=\"['/bots/']\" class=\"btn btn-link\">Cancel</a>\n        <a *ngIf=\"pageAction == PAGE_ACTIONS.Edit\" [routerLink]=\"['/bots', bot.id]\" class=\"btn btn-link\">Cancel</a>\n      </div>\n    </form>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -1696,7 +1786,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
-/* harmony import */ var _commands_edit_commands_edit_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../commands-edit/commands-edit.component */ "./src/app/commands-edit/commands-edit.component.ts");
+/* harmony import */ var _models__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../_models */ "./src/app/_models/index.ts");
+/* harmony import */ var _commands_edit_commands_edit_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../commands-edit/commands-edit.component */ "./src/app/commands-edit/commands-edit.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1712,18 +1803,20 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var PageAction;
 (function (PageAction) {
     PageAction[PageAction["Add"] = 0] = "Add";
     PageAction[PageAction["Edit"] = 1] = "Edit";
 })(PageAction || (PageAction = {}));
 var BotsEditComponent = /** @class */ (function () {
-    function BotsEditComponent(formBuilder, router, activatedRouter, botService, alertService) {
+    function BotsEditComponent(formBuilder, router, activatedRouter, botService, alertService, dataService) {
         this.formBuilder = formBuilder;
         this.router = router;
         this.activatedRouter = activatedRouter;
         this.botService = botService;
         this.alertService = alertService;
+        this.dataService = dataService;
         this.loading = false;
         this.submitted = false;
         this.PAGE_ACTIONS = PageAction;
@@ -1746,10 +1839,16 @@ var BotsEditComponent = /** @class */ (function () {
                 });
             }
             else {
+                _this.dataService.currentCreateBotInfo.subscribe(function (createBotInfo) {
+                    _this.bot = new _models__WEBPACK_IMPORTED_MODULE_5__["Bot"]();
+                    _this.bot.user = createBotInfo.botUser;
+                    _this.bot.name = createBotInfo.botUser.username;
+                    _this.bot.discordToken = createBotInfo.token;
+                });
                 _this.editBotForm = _this.formBuilder.group({
-                    name: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required],
-                    discordToken: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required],
-                    commandPrefix: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required]
+                    name: ["" + _this.bot.name, _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required],
+                    discordToken: ["" + _this.bot.discordToken, _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required],
+                    commandPrefix: ["", _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required]
                 });
             }
         });
@@ -1810,8 +1909,8 @@ var BotsEditComponent = /** @class */ (function () {
         });
     };
     __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])(_commands_edit_commands_edit_component__WEBPACK_IMPORTED_MODULE_5__["CommandsEditComponent"]),
-        __metadata("design:type", _commands_edit_commands_edit_component__WEBPACK_IMPORTED_MODULE_5__["CommandsEditComponent"])
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])(_commands_edit_commands_edit_component__WEBPACK_IMPORTED_MODULE_6__["CommandsEditComponent"]),
+        __metadata("design:type", _commands_edit_commands_edit_component__WEBPACK_IMPORTED_MODULE_6__["CommandsEditComponent"])
     ], BotsEditComponent.prototype, "commandListEditor", void 0);
     BotsEditComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -1823,7 +1922,8 @@ var BotsEditComponent = /** @class */ (function () {
             _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
             _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"],
             _services__WEBPACK_IMPORTED_MODULE_1__["BotService"],
-            _services__WEBPACK_IMPORTED_MODULE_1__["AlertService"]])
+            _services__WEBPACK_IMPORTED_MODULE_1__["AlertService"],
+            _services__WEBPACK_IMPORTED_MODULE_1__["DataService"]])
     ], BotsEditComponent);
     return BotsEditComponent;
 }());
@@ -1850,7 +1950,7 @@ module.exports = "\nimg.avatar {\n    height: 40px;\n}\n\ndiv.jumbotron {\n  bac
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"jumbotron\">\n  <font color=\"white\"><h2>Home</h2></font>\n  <div class=\"my-3 p-3 bg-white rounded box-shadow\">\n      <h6 class=\"border-bottom border-gray pb-2 mb-0\">Bots</h6>\n      <div class=\"forms text-center\" *ngIf=\"!botList || botList.length === 0\">\n          <font color=\"white\"><h5>You have no bots right now</h5></font>\n          <a [routerLink]=\"['/bots/add']\">Create New Bot</a>\n      </div>\n      <div id=\"onlineBots\" *ngFor=\"let bot of onlineBots\">\n              <div class=\"media pt-3\">\n                  <img src={{bot.user.avatarURL}} alt=\"\"\n                  class=\"mr-2 rounded-circle avatar border border-success\">\n                  <div class=\"media-body pb-2 mb-0 small lh-125 border-bottom border-gray\">\n                      <div class=\"d-flex\">\n                          <div class=\"d-flex flex-column w-100\">\n                              <div>\n                                  {{ bot.name }}<span class=\"badge badge-pill badge-success ml-1\" *ngIf=\"bot.status == 'ONLINE'\">Online</span>\n                              </div>\n                              <div><a [routerLink]=\"['/bots', bot.id]\">Details</a></div>\n                          </div>\n                        <div class=\"flex-shrink-1 d-flex\">\n                            <div class=\"align-self-center mr-1\">\n                              <img *ngIf=\"bot.isChangingStatus\" src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />\n                            </div>\n                            <button class=\"btn btn-light\" [disabled]=\"bot.isChangingStatus\" (click)=\"startStop(bot.id)\">STOP</button>\n                        </div>\n                      </div>\n                  </div>\n              </div>\n      </div>\n      <div id=\"offlineBots\" *ngFor=\"let bot of offlineBots\">\n          <div class=\"media pt-3\">\n              <img src={{bot.user.avatarURL}} alt=\"\" *ngIf=\"bot.user\"\n              class=\"mr-2 rounded-circle avatar border border-secondary\">\n              <img src=\"http://via.placeholder.com/64x64\" alt=\"\" *ngIf=\"!bot.user\"\n               class=\"mr-2 rounded-circle avatar border border-secondary\">\n              <div class=\"media-body pb-2 mb-0 small lh-125 border-bottom border-gray\">\n                  <div class=\"d-flex\">\n                      <div class=\"d-flex flex-column w-100\">\n                          <div>\n                              {{ bot.name }}<span class=\"badge badge-pill badge-secondary ml-1\" *ngIf=\"bot.status == 'OFFLINE'\">Offline</span>\n                          </div>\n                          <div><a [routerLink]=\"['/bots', bot.id]\">Details</a></div>\n                      </div>\n                    <div class=\"flex-shrink-1 d-flex\">\n                        <div class=\"align-self-center mr-1\">\n                          <img *ngIf=\"bot.isChangingStatus\" src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />\n                        </div>\n                        <button class=\"btn btn-secondary\" [disabled]=\"bot.isChangingStatus\" (click)=\"startStop(bot.id)\">START</button>\n                    </div>\n                  </div>\n              </div>\n          </div>\n      </div>\n      <small class=\"d-block text-right mt-3\">\n          <a [routerLink]=\"['/bots/add']\">Create New Bot</a>\n      </small>\n  </div>\n</div>\n"
+module.exports = "<div class=\"jumbotron\">\n  <font color=\"white\"><h2>Home</h2></font>\n  <div class=\"my-3 p-3 bg-white rounded box-shadow\">\n      <h6 class=\"border-bottom border-gray pb-2 mb-0\">Bots</h6>\n      <div class=\"forms text-center\" *ngIf=\"!botList || botList.length === 0\">\n          <font color=\"white\"><h5>You have no bots right now</h5></font>\n          <a [routerLink]=\"['/bots/add']\">Create New Bot</a>\n      </div>\n      <div id=\"onlineBots\" *ngFor=\"let bot of onlineBots\">\n              <div class=\"media pt-3\">\n                  <img src={{bot.user.avatarURL}} alt=\"\"\n                  class=\"mr-2 rounded-circle avatar border border-success\">\n                  <div class=\"media-body pb-2 mb-0 small lh-125 border-bottom border-gray\">\n                      <div class=\"d-flex\">\n                          <div class=\"d-flex flex-column w-100\">\n                              <div>\n                                  {{ bot.name }}<span class=\"badge badge-pill badge-success ml-1\" *ngIf=\"bot.status == 'ONLINE'\">Online</span>\n                              </div>\n                              <div><a [routerLink]=\"['/bots', bot.id]\">Details</a></div>\n                          </div>\n                        <div class=\"flex-shrink-1 d-flex\">\n                            <div class=\"align-self-center mr-1\">\n                              <img *ngIf=\"bot.isChangingStatus\" src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />\n                            </div>\n                            <button class=\"btn btn-light\" [disabled]=\"bot.isChangingStatus\" (click)=\"startStop(bot.id)\">STOP</button>\n                        </div>\n                      </div>\n                  </div>\n              </div>\n      </div>\n      <div id=\"offlineBots\" *ngFor=\"let bot of offlineBots\">\n          <div class=\"media pt-3\">\n              <img src={{bot.user.avatarURL}} alt=\"\" *ngIf=\"bot.user\"\n              class=\"mr-2 rounded-circle avatar border border-secondary\">\n              <img src=\"http://via.placeholder.com/64x64\" alt=\"\" *ngIf=\"!bot.user\"\n               class=\"mr-2 rounded-circle avatar border border-secondary\">\n              <div class=\"media-body pb-2 mb-0 small lh-125 border-bottom border-gray\">\n                  <div class=\"d-flex\">\n                      <div class=\"d-flex flex-column w-100\">\n                          <div>\n                              {{ bot.name }}<span class=\"badge badge-pill badge-secondary ml-1\" *ngIf=\"bot.status == 'OFFLINE'\">Offline</span>\n                          </div>\n                          <div><a [routerLink]=\"['/bots', bot.id]\">Details</a></div>\n                      </div>\n                    <div class=\"flex-shrink-1 d-flex\">\n                        <div class=\"align-self-center mr-1\">\n                          <img *ngIf=\"bot.isChangingStatus\" src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />\n                        </div>\n                        <button class=\"btn btn-secondary\" [disabled]=\"bot.isChangingStatus\" (click)=\"startStop(bot.id)\">START</button>\n                    </div>\n                  </div>\n              </div>\n          </div>\n      </div>\n      <small class=\"d-block text-right mt-3\">\n          <button class=\"btn btn-link btn-sm\" (click)=\"openAddBotModal()\">Add Bot</button>\n      </small>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -1866,8 +1966,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BotsComponent", function() { return BotsComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_services */ "./src/app/_services/index.ts");
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_services */ "./src/app/_services/index.ts");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+/* harmony import */ var _modal_bot_add_modal_bot_add_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../modal-bot-add/modal-bot-add.component */ "./src/app/modal-bot-add/modal-bot-add.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1881,20 +1983,26 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
+
 var BotsComponent = /** @class */ (function () {
     // bot: Bot;
     // selectedBot: Bot;
     // id: number;
-    function BotsComponent(activatedRouter, botService, alertService) {
+    function BotsComponent(activatedRouter, botService, alertService, modalService) {
         this.activatedRouter = activatedRouter;
         this.botService = botService;
         this.alertService = alertService;
+        this.modalService = modalService;
         this.botList = [];
         this.onlineBots = [];
         this.offlineBots = [];
     }
     BotsComponent.prototype.ngOnInit = function () {
         this.loadBots();
+    };
+    BotsComponent.prototype.openAddBotModal = function () {
+        var modalRef = this.modalService.open(_modal_bot_add_modal_bot_add_component__WEBPACK_IMPORTED_MODULE_5__["ModalBotAddComponent"], { centered: true });
     };
     // Function to sort bots, goes by createdAt, if same then sorts by id
     BotsComponent.prototype.botSort = function (botA, botB) {
@@ -1907,7 +2015,7 @@ var BotsComponent = /** @class */ (function () {
     };
     BotsComponent.prototype.loadBots = function () {
         var _this = this;
-        this.botService.getAll().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["first"])()).subscribe(function (bots) {
+        this.botService.getAll().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["first"])()).subscribe(function (bots) {
             bots.sort(_this.botSort);
             _this.botList = bots;
             console.log('All Bots', bots);
@@ -1918,13 +2026,13 @@ var BotsComponent = /** @class */ (function () {
     BotsComponent.prototype.startStop = function (i) {
         var _this = this;
         var botToStartStop = this.botList.find(function (bot) { return bot.id === i; });
-        this.botService.getById(i).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["first"])()).subscribe(function (rcvdBot) {
+        this.botService.getById(i).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["first"])()).subscribe(function (rcvdBot) {
             var bot = rcvdBot;
             // TODO add a finally block to set isChangingStatus back to false
             botToStartStop.isChangingStatus = true;
             if (bot.status == "ONLINE") {
                 _this.botService.stop(bot.id)
-                    .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["first"])())
+                    .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["first"])())
                     .subscribe(function (bot) {
                     _this.loadBots();
                 }, function (error) {
@@ -1936,7 +2044,7 @@ var BotsComponent = /** @class */ (function () {
             }
             else {
                 _this.botService.start(bot.id)
-                    .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["first"])())
+                    .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["first"])())
                     .subscribe(function (data) {
                     _this.loadBots();
                 }, function (error) {
@@ -1955,8 +2063,9 @@ var BotsComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./bots.component.css */ "./src/app/bots/bots.component.css")]
         }),
         __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"],
-            _services__WEBPACK_IMPORTED_MODULE_2__["BotService"],
-            _services__WEBPACK_IMPORTED_MODULE_2__["AlertService"]])
+            _services__WEBPACK_IMPORTED_MODULE_3__["BotService"],
+            _services__WEBPACK_IMPORTED_MODULE_3__["AlertService"],
+            _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_2__["NgbModal"]])
     ], BotsComponent);
     return BotsComponent;
 }());
@@ -2138,7 +2247,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h1 *ngIf=\"guild\">{{guild.name}}</h1>\n<div class=\"container\">\n  <div class=\"my-3 p-3 bg-white rounded box-shadow\">\n    <div class=\"container\" *ngIf=\"guild\" >\n      <!--<h4>{{guild.name}}</h4>\n        <!-- <div class=\"list-group\"  *ngFor=\"let member of guild.member\"> -->\n          <!-- <p *ngIf=\"guild.id == gid\" class=\"text-center\">{{ member }}</p> -->\n    <!-- <router-outlet></router-outlet> -->\n\n    <h6>Guild Info</h6>\n      <img src={{guild.iconURL}} alt=\"\" width=\"100\" height=\"100\">\n      <p> Number of Members: {{guild.memberCount}} </p>\n      <p> Owner of guild: {{guild.owner.username}} </p>\n      <p> Region: {{guild.region|titlecase}} </p>\n      <p> Availability: {{guild.available}} </p>\n        <!-- </div> -->\n\n    </div>\n  </div>\n</div>\n<!--         // id: guild.id,                               // string - discord id\n        // name: guild.name,                           // string - name of the guild\n        // iconURL: guild.iconURL,                     // string - url to guild's icon\n        // ownerUsername: guild.owner.user.username,   // string - Username of the owner user\n        // ownerID: guild.ownerID,                     // string - ID of the owner user\n        // memberCount: guild.memberCount,             // number - Number of members in the guild\n        // region: guild.region,                       // string - Region where guild is hosted\n        // available: guild.available  -->\n<hr>\n\n<!--\n<div class=\"container\" *ngIf=\"memberList || memberList.length !== 0\">\n  <h4>Member:</h4>\n  <div class=\"list-group\" *ngFor=\"let member of memberList\" >\n    <img src={{member.avatarURL}} width=\"40\" height=\"40\" >\n    <p> {{member.username}} </p>\n  </div>\n</div>\n-->\n<div class=\"container\">\n  <div class=\"row\">\n    <div class =\"col\">\n      <div class=\"my-3 p-3 bg-white rounded box-shadow\">\n          <h4 class=\"border-bottom border-gray pb-2 mb-0\">Members:</h4>\n          <div class=\"jumbotron text-center\" *ngIf=\"!memberList|| memberList.length === 0\">\n              <h5>You have no members right now</h5>\n          </div>\n          <div id=\"membersOnline\" *ngFor=\"let member of memberList\">\n\n            <div *ngIf=\"member.user.status == 'online'\">\n                  <div class=\"media pt-3\">\n                      <img src={{member.user.avatarURL}} alt=\"\" width=\"45\" height=\"45\"\n                      class=\"mr-2 rounded-circle avatar border\">\n                      <div class=\"media-body pb-2 mb-0 small lh-125 border-bottom border-gray\">\n                          <div class=\"d-flex\">\n                              <div class=\"d-flex flex-column w-100\">\n                                  <div>\n                                      {{ member.user.username}}\n                                      <span class=\"badge badge-pill badge-success ml-1\">Online</span>\n\n                                  </div>\n                              </div>\n                          </div>\n                      </div>\n                  </div>\n              </div>\n          </div>\n          <div id=\"membersDND\" *ngFor=\"let member of memberList\">\n              <div *ngIf=\"member.user.status == 'dnd'\">\n                    <div class=\"media pt-3\">\n                        <img src={{member.user.avatarURL}} alt=\"\" width=\"45\" height=\"45\"\n                        class=\"mr-2 rounded-circle avatar border\">\n                        <div class=\"media-body pb-2 mb-0 small lh-125 border-bottom border-gray\">\n                            <div class=\"d-flex\">\n                                <div class=\"d-flex flex-column w-100\">\n                                    <div>\n                                        {{ member.user.username}}\n                                        <span class=\"badge badge-pill badge-danger ml-1\">Do Not Disturb</span>\n\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n          </div>\n          <div id=\"membersIdle\" *ngFor=\"let member of memberList\">\n                <div *ngIf=\"member.user.status == 'idle'\">\n                      <div class=\"media pt-3\">\n                          <img src={{member.user.avatarURL}} alt=\"\" width=\"45\" height=\"45\"\n                          class=\"mr-2 rounded-circle avatar border\">\n                          <div class=\"media-body pb-2 mb-0 small lh-125 border-bottom border-gray\">\n                              <div class=\"d-flex\">\n                                  <div class=\"d-flex flex-column w-100\">\n                                      <div>\n                                          {{ member.user.username}}\n                                          <span class=\"badge badge-pill badge-warning ml-1\">Idle</span>\n\n                                      </div>\n                                  </div>\n                              </div>\n                          </div>\n                      </div>\n                  </div>\n          </div>\n          <div id=\"membersOffline\" *ngFor=\"let member of memberList\">\n                  <div *ngIf=\"member.user.status == 'offline'\">\n                        <div class=\"media pt-3\">\n                            <img src={{member.user.avatarURL}} alt=\"\" width=\"45\" height=\"45\"\n                            class=\"mr-2 rounded-circle avatar border\">\n                            <div class=\"media-body pb-2 mb-0 small lh-125 border-bottom border-gray\">\n                                <div class=\"d-flex\">\n                                    <div class=\"d-flex flex-column w-100\">\n                                        <div>\n                                            {{ member.user.username}}\n                                            <span class=\"badge badge-pill badge-secondary ml-1\">Offline</span>\n\n                                        </div>\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n          </div>\n        </div>\n    </div>\n\n    <div class=\"col\">\n      <div class=\"my-3 p-3 bg-white rounded box-shadow\">\n          <h4 class=\"border-bottom border-gray pb-2 mb-0\">Emojis:</h4>\n            <div class=\"container\" *ngIf=\"emojiList || emojiList.length !== 0\">\n\n              <span class=\"col-md-\" *ngFor=\"let emoji of emojiList\" >\n                <!--<p> name: {{emoji.name}}</p>-->\n                 <img src={{emoji.url}} data-toggle=\"tooltip\" title={{emoji.name}}\n                 width=\"50\" height=\"50\" class=\"mr-4 rounded-circle avatar border\">\n              </span>\n            </div>\n      </div>\n    </div>\n\n  </div>\n</div>\n<!--\n<span class=\"badge badge-pill badge-secondary ml-1\" *ngIf=\"member.status == 'offline'\">Offline</span>\n<span class=\"badge badge-pill badge-warning ml-1\" *ngIf=\"member.status == 'idle'\">Idle</span>\n<span class=\"badge badge-pill badge-danger ml-1\" *ngIf=\"member.status == 'dnd'\">Do Not Disturb</span>\n-->\n<!--         // id: member.id,                              // string - discord id\n        // username: member.user.username,             // string - username of the user\n        // nickname: member.nickname,                  // string - nickname in the guild\n        // displayName: member.displayName,            // string - nickname, if null then username\n        // tag: member.user.tag,                       // string - discord tag of the user\n        // avatarURL: member.user.displayAvatarURL,    // string - url to the avatar pic/gif\n        // status: member.user.presence.status,        // string - 'online', 'offline', 'idle', 'dnd' - DoNotDisturb\n        // joinedAt: member.joinedAt,                  // date - when user became a member of the guild\n        // createdAt: member.user.createdAt,           // date - when the user was created\n        // bot: member.user.bot   -->\n\n<hr>\n\n\n<!--         // id: emoji.id,                               // string - discord id\n        // name: emoji.name,                           // string - name of the emoji\n        // url: emoji.url,                             // string - url where emoji is found\n        // requiresColons: emoji.requiresColons,       // bool -  true if emoji requires colons surrounding name\n        // createdAt: emoji.createdAt   -->\n\n<a [routerLink]=\"['/bots', bid]\" class=\"btn btn-link\">Back</a>\n"
+module.exports = "<h1 *ngIf=\"guild\">{{guild.name}}</h1>\n<div class=\"container\">\n  <div class=\"my-3 p-3 bg-white rounded box-shadow\">\n    <div class=\"container\" *ngIf=\"guild\" >\n      <!--<h4>{{guild.name}}</h4>\n        <!-- <div class=\"list-group\"  *ngFor=\"let member of guild.member\"> -->\n          <!-- <p *ngIf=\"guild.id == gid\" class=\"text-center\">{{ member }}</p> -->\n    <!-- <router-outlet></router-outlet> -->\n\n    <h6>Guild Info</h6>\n      <img src={{guild.iconURL}} alt=\"\" width=\"100\" height=\"100\">\n      <p> Number of Members: {{guild.memberCount}} </p>\n      <p> Owner of guild: {{guild.owner.user.username}} </p>\n      <p> Region: {{guild.region|titlecase}} </p>\n      <p> Availability: {{guild.available}} </p>\n        <!-- </div> -->\n\n    </div>\n  </div>\n</div>\n<!--         // id: guild.id,                               // string - discord id\n        // name: guild.name,                           // string - name of the guild\n        // iconURL: guild.iconURL,                     // string - url to guild's icon\n        // ownerUsername: guild.owner.user.username,   // string - Username of the owner user\n        // ownerID: guild.ownerID,                     // string - ID of the owner user\n        // memberCount: guild.memberCount,             // number - Number of members in the guild\n        // region: guild.region,                       // string - Region where guild is hosted\n        // available: guild.available  -->\n<hr>\n\n<!--\n<div class=\"container\" *ngIf=\"memberList || memberList.length !== 0\">\n  <h4>Member:</h4>\n  <div class=\"list-group\" *ngFor=\"let member of memberList\" >\n    <img src={{member.avatarURL}} width=\"40\" height=\"40\" >\n    <p> {{member.username}} </p>\n  </div>\n</div>\n-->\n<div class=\"container\">\n  <div class=\"row\">\n    <div class =\"col\">\n      <div class=\"my-3 p-3 bg-white rounded box-shadow\">\n          <h4 class=\"border-bottom border-gray pb-2 mb-0\">Members:</h4>\n          <div class=\"jumbotron text-center\" *ngIf=\"!memberList|| memberList.length === 0\">\n              <h5>You have no members right now</h5>\n          </div>\n          <div id=\"membersOnline\" *ngFor=\"let member of memberList\">\n\n            <div *ngIf=\"member.user.presence.status == 'online'\">\n                  <div class=\"media pt-3\">\n                      <img src={{member.user.avatarURL}} alt=\"\" width=\"45\" height=\"45\"\n                      class=\"mr-2 rounded-circle avatar border\">\n                      <div class=\"media-body pb-2 mb-0 small lh-125 border-bottom border-gray\">\n                          <div class=\"d-flex\">\n                              <div class=\"d-flex flex-column w-100\">\n                                  <div>\n                                      {{ member.user.username}}\n                                      <span class=\"badge badge-pill badge-success ml-1\">Online</span>\n\n                                  </div>\n                              </div>\n                          </div>\n                      </div>\n                  </div>\n              </div>\n          </div>\n          <div id=\"membersDND\" *ngFor=\"let member of memberList\">\n              <div *ngIf=\"member.user.presence.status == 'dnd'\">\n                    <div class=\"media pt-3\">\n                        <img src={{member.user.avatarURL}} alt=\"\" width=\"45\" height=\"45\"\n                        class=\"mr-2 rounded-circle avatar border\">\n                        <div class=\"media-body pb-2 mb-0 small lh-125 border-bottom border-gray\">\n                            <div class=\"d-flex\">\n                                <div class=\"d-flex flex-column w-100\">\n                                    <div>\n                                        {{ member.user.username}}\n                                        <span class=\"badge badge-pill badge-danger ml-1\">Do Not Disturb</span>\n\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n          </div>\n          <div id=\"membersIdle\" *ngFor=\"let member of memberList\">\n                <div *ngIf=\"member.user.presence.status == 'idle'\">\n                      <div class=\"media pt-3\">\n                          <img src={{member.user.avatarURL}} alt=\"\" width=\"45\" height=\"45\"\n                          class=\"mr-2 rounded-circle avatar border\">\n                          <div class=\"media-body pb-2 mb-0 small lh-125 border-bottom border-gray\">\n                              <div class=\"d-flex\">\n                                  <div class=\"d-flex flex-column w-100\">\n                                      <div>\n                                          {{ member.user.username}}\n                                          <span class=\"badge badge-pill badge-warning ml-1\">Idle</span>\n\n                                      </div>\n                                  </div>\n                              </div>\n                          </div>\n                      </div>\n                  </div>\n          </div>\n          <div id=\"membersOffline\" *ngFor=\"let member of memberList\">\n                  <div *ngIf=\"member.user.presence.status == 'offline'\">\n                        <div class=\"media pt-3\">\n                            <img src={{member.user.avatarURL}} alt=\"\" width=\"45\" height=\"45\"\n                            class=\"mr-2 rounded-circle avatar border\">\n                            <div class=\"media-body pb-2 mb-0 small lh-125 border-bottom border-gray\">\n                                <div class=\"d-flex\">\n                                    <div class=\"d-flex flex-column w-100\">\n                                        <div>\n                                            {{ member.user.username}}\n                                            <span class=\"badge badge-pill badge-secondary ml-1\">Offline</span>\n\n                                        </div>\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n          </div>\n        </div>\n    </div>\n\n    <div class=\"col\">\n      <div class=\"my-3 p-3 bg-white rounded box-shadow\">\n          <h4 class=\"border-bottom border-gray pb-2 mb-0\">Emojis:</h4>\n            <div class=\"container\" *ngIf=\"emojiList || emojiList.length !== 0\">\n\n              <span class=\"col-md-\" *ngFor=\"let emoji of emojiList\" >\n                <!--<p> name: {{emoji.name}}</p>-->\n                 <img src={{emoji.url}} data-toggle=\"tooltip\" title={{emoji.name}}\n                 width=\"50\" height=\"50\" class=\"mr-4 rounded-circle avatar border\">\n              </span>\n            </div>\n      </div>\n    </div>\n\n  </div>\n</div>\n<!--\n<span class=\"badge badge-pill badge-secondary ml-1\" *ngIf=\"member.status == 'offline'\">Offline</span>\n<span class=\"badge badge-pill badge-warning ml-1\" *ngIf=\"member.status == 'idle'\">Idle</span>\n<span class=\"badge badge-pill badge-danger ml-1\" *ngIf=\"member.status == 'dnd'\">Do Not Disturb</span>\n-->\n<!--         // id: member.id,                              // string - discord id\n        // username: member.user.username,             // string - username of the user\n        // nickname: member.nickname,                  // string - nickname in the guild\n        // displayName: member.displayName,            // string - nickname, if null then username\n        // tag: member.user.tag,                       // string - discord tag of the user\n        // avatarURL: member.user.displayAvatarURL,    // string - url to the avatar pic/gif\n        // status: member.user.presence.status,        // string - 'online', 'offline', 'idle', 'dnd' - DoNotDisturb\n        // joinedAt: member.joinedAt,                  // date - when user became a member of the guild\n        // createdAt: member.user.createdAt,           // date - when the user was created\n        // bot: member.user.bot   -->\n\n<hr>\n\n\n<!--         // id: emoji.id,                               // string - discord id\n        // name: emoji.name,                           // string - name of the emoji\n        // url: emoji.url,                             // string - url where emoji is found\n        // requiresColons: emoji.requiresColons,       // bool -  true if emoji requires colons surrounding name\n        // createdAt: emoji.createdAt   -->\n\n<a [routerLink]=\"['/bots', bid]\" class=\"btn btn-link\">Back</a>\n"
 
 /***/ }),
 
@@ -2185,22 +2294,28 @@ var GuildsDetailsComponent = /** @class */ (function () {
             _this.bid = params['bid']; // (+) converts string 'id' to a number
             _this.gid = params['gid']; // (+) converts string 'id' to a number
             _this.botService.getById(_this.bid).pipe(Object(rxjs_internal_operators__WEBPACK_IMPORTED_MODULE_3__["first"])()).subscribe(function (rcvdBot) {
-                if (rcvdBot.status == "ONLINE")
-                    _this.loadMembersAndEmojis();
+                // if ( rcvdBot.status == "ONLINE")
+                _this.loadMembersAndEmojis();
             });
         });
     };
     GuildsDetailsComponent.prototype.loadMembersAndEmojis = function () {
         var _this = this;
         this.guildService.getById(this.bid, this.gid).pipe(Object(rxjs_internal_operators__WEBPACK_IMPORTED_MODULE_3__["first"])()).subscribe(function (guild) {
+            console.log(guild);
             _this.guild = guild;
+            _this.emojiList = guild.emojis;
+            _this.memberList = guild.members;
+        }, function (err) {
+            console.error(err);
         });
-        this.guildService.getMembers(this.bid, this.gid).pipe(Object(rxjs_internal_operators__WEBPACK_IMPORTED_MODULE_3__["first"])()).subscribe(function (member) {
-            _this.memberList = member;
-        });
-        this.guildService.getEmojis(this.bid, this.gid).pipe(Object(rxjs_internal_operators__WEBPACK_IMPORTED_MODULE_3__["first"])()).subscribe(function (emoji) {
-            _this.emojiList = emoji;
-        });
+        // this.guildService.getMembers(this.bid, this.gid).pipe(first()).subscribe(member => {
+        //   this.memberList = member;
+        // });
+        //   this.guildService.getEmojis(this.bid, this.gid).pipe(first()).subscribe(emoji => {
+        //   this.emojiList = emoji;
+        //
+        // });
     };
     GuildsDetailsComponent.prototype.ngOnDestroy = function () {
         // this.sub.unsubscribe();
@@ -2298,6 +2413,7 @@ var GuildsComponent = /** @class */ (function () {
         var _this = this;
         this.guildService.getAll(this.bid).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["first"])()).subscribe(function (guilds) {
             _this.guildList = guilds;
+            console.log('guilds', guilds);
         });
     };
     GuildsComponent.prototype.closeGuilds = function () {
@@ -2436,7 +2552,7 @@ module.exports = "div.jumbotron {\n  background: snow ;\n  background-image: url
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"jumbotron\">\n  <div class=\"container\">\n      <div class=\"row align-items-center\">\n        <div class=\"col-sm-6\" >\n            <div class=\"text-center\">\n              <font size =50 color=\"white\"><p> Welcome to DisBotCito </p></font>\n              <img  src=\"/assets/images/white bot gif.gif\" alt=\"\" class = \"rounded mx-auto d-block\">\n                <!--<img  src=\"/assets/images/bot gif.gif\" alt=\"\" class = \"rounded mx-auto d-block\">-->\n            </div>\n        </div>\n          <div class=\"col-sm-6\" >\n              ﻿<font color=\"white\"><h2 class=\"text-center\">Login</h2></font>\n              <form [formGroup]=\"loginForm\" (ngSubmit)=\"onSubmit()\">\n                  <div class=\"form-group\">\n                      <font color=\"white\"><label for=\"username\">Username</label></font>\n                      <input type=\"text\" formControlName=\"username\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.username.errors }\" />\n                      <div *ngIf=\"submitted && f.username.errors\" class=\"invalid-feedback\">\n                          <div *ngIf=\"f.username.errors.required\">Username is required</div>\n                      </div>\n                  </div>\n                  <div class=\"form-group\">\n                      <font color=\"white\"><label for=\"password\">Password</label></font>\n                      <input type=\"password\" formControlName=\"password\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.password.errors }\" />\n                      <div *ngIf=\"submitted && f.password.errors\" class=\"invalid-feedback\">\n                          <div *ngIf=\"f.password.errors.required\">Password is required</div>\n                      </div>\n                  </div>\n                  <div class=\"form-group\">\n                      <button [disabled]=\"loading\" class=\"btn btn-primary\">Login</button>\n                      <img *ngIf=\"loading\" src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />\n                      <!--<a [routerLink]=\"['/forgetpw']\" class=\"btn btn-link\">Forget password</a>-->\n                      <a [routerLink]=\"['/register']\" class=\"btn btn-link\">Register</a>\n                  </div>\n              </form>\n          </div>\n      </div>\n  </div>\n</div>\n\n\n<!-- Experimental Modal implementation\n<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#loginModal\">\n  Login/Register\n</button>\n\n<div class=\"modal fade\" id=\"loginModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\n  <div class=\"modal-dialog\" role=\"document\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <h5 class=\"modal-title\" id=\"exampleModalLabel\">Modal title</h5>\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n      <div class=\"modal-body\">\n        <form [formGroup]=\"loginForm\" (ngSubmit)=\"onSubmit()\">\n            <div class=\"form-group\">\n                <label for=\"username\">Username</label>\n                <input type=\"text\" formControlName=\"username\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.username.errors }\" />\n                <div *ngIf=\"submitted && f.username.errors\" class=\"invalid-feedback\">\n                    <div *ngIf=\"f.username.errors.required\">Username is required</div>\n                </div>\n            </div>\n            <div class=\"form-group\">\n                <label for=\"password\">Password</label>\n                <input type=\"password\" formControlName=\"password\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.password.errors }\" />\n                <div *ngIf=\"submitted && f.password.errors\" class=\"invalid-feedback\">\n                    <div *ngIf=\"f.password.errors.required\">Password is required</div>\n                </div>\n            </div>\n            <div class=\"form-group\">\n                <button [disabled]=\"loading\" class=\"btn btn-primary\">Login</button>\n                <img *ngIf=\"loading\" src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />\n                <a [routerLink]=\"['/forgetpw']\" class=\"btn btn-link\">Forget password</a>\n                <a [routerLink]=\"['/register']\" class=\"btn btn-link\">Register</a>\n            </div>\n          </form>\n      </div>\n    </div>\n  </div>\n</div>\n-->\n"
+module.exports = "<div class=\"jumbotron\">\n  <div class=\"container\">\n      <div class=\"row align-items-center\">\n        <div class=\"col-sm-6\" >\n            <div class=\"text-center\">\n              <font size =50 color=\"white\"><p> Welcome to DisBotCito </p></font>\n              <img  src=\"/assets/images/white bot gif.gif\" alt=\"\" class = \"rounded mx-auto d-block\">\n                <!--<img  src=\"/assets/images/bot gif.gif\" alt=\"\" class = \"rounded mx-auto d-block\">-->\n            </div>\n        </div>\n          <div class=\"col-sm-6\" >\n              ﻿<font color=\"white\"><h2 class=\"text-center\">Login</h2></font>\n              <form [formGroup]=\"loginForm\" (ngSubmit)=\"onSubmit()\">\n                  <div class=\"form-group\">\n                      <font color=\"white\"><label for=\"username\">Username</label></font>\n                      <input type=\"text\" formControlName=\"username\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.username.errors }\" />\n                      <div *ngIf=\"submitted && f.username.errors\" class=\"invalid-feedback\">\n                          <div *ngIf=\"f.username.errors.required\">Username is required</div>\n                      </div>\n                  </div>\n                  <div class=\"form-group\">\n                      <font color=\"white\"><label for=\"password\">Password</label></font>\n                      <input type=\"password\" formControlName=\"password\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.password.errors }\" />\n                      <div *ngIf=\"submitted && f.password.errors\" class=\"invalid-feedback\">\n                          <div *ngIf=\"f.password.errors.required\">Password is required</div>\n                      </div>\n                  </div>\n                  <div class=\"form-group\">\n                      <button [disabled]=\"loading\" class=\"btn btn-primary\">Login</button>\n                      <img *ngIf=\"loading\" src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />\n                      <!--<a [routerLink]=\"['/forgetpw']\" class=\"btn btn-link\">Forget password</a>-->\n                      <a [routerLink]=\"['/register']\" class=\"btn btn-link\">Register</a>\n                  </div>\n              </form>\n          </div>\n      </div>\n  </div>\n</div>\n\n<!--<button class=\"btn btn-lg btn-outline-primary\" (click)=\"openLoginModal()\">Launch demo modal</button>-->\n\n<!--&lt;!&ndash; Experimental Modal implementation  &ndash;&gt;-->\n<!--<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#loginModal\">-->\n  <!--Login/Register-->\n<!--</button>-->\n\n\n\n<!--<div class=\"modal fade\" id=\"loginModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">-->\n  <!--<div class=\"modal-dialog\" role=\"document\">-->\n    <!--<div class=\"modal-content\">-->\n      <!--<div class=\"modal-header\">-->\n        <!--<h5 class=\"modal-title\" id=\"exampleModalLabel\">Modal title</h5>-->\n        <!--<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">-->\n          <!--<span aria-hidden=\"true\">&times;</span>-->\n        <!--</button>-->\n      <!--</div>-->\n      <!--<div class=\"modal-body\">-->\n        <!--<form [formGroup]=\"loginForm\" (ngSubmit)=\"onSubmit()\">-->\n            <!--<div class=\"form-group\">-->\n                <!--<label for=\"username\">Username</label>-->\n                <!--<input type=\"text\" formControlName=\"username\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.username.errors }\" />-->\n                <!--<div *ngIf=\"submitted && f.username.errors\" class=\"invalid-feedback\">-->\n                    <!--<div *ngIf=\"f.username.errors.required\">Username is required</div>-->\n                <!--</div>-->\n            <!--</div>-->\n            <!--<div class=\"form-group\">-->\n                <!--<label for=\"password\">Password</label>-->\n                <!--<input type=\"password\" formControlName=\"password\" class=\"form-control\" [ngClass]=\"{ 'is-invalid': submitted && f.password.errors }\" />-->\n                <!--<div *ngIf=\"submitted && f.password.errors\" class=\"invalid-feedback\">-->\n                    <!--<div *ngIf=\"f.password.errors.required\">Password is required</div>-->\n                <!--</div>-->\n            <!--</div>-->\n            <!--<div class=\"form-group\">-->\n                <!--<button [disabled]=\"loading\" class=\"btn btn-primary\">Login</button>-->\n                <!--<img *ngIf=\"loading\" src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />-->\n                <!--<a [routerLink]=\"['/forgetpw']\" class=\"btn btn-link\">Forget password</a>-->\n                <!--<a [routerLink]=\"['/register']\" class=\"btn btn-link\">Register</a>-->\n            <!--</div>-->\n          <!--</form>-->\n      <!--</div>-->\n    <!--</div>-->\n  <!--</div>-->\n<!--</div>-->\n"
 
 /***/ }),
 
@@ -2454,7 +2570,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_services */ "./src/app/_services/index.ts");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var _modal_login_modal_login_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../modal-login/modal-login.component */ "./src/app/modal-login/modal-login.component.ts");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../_services */ "./src/app/_services/index.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2469,13 +2587,16 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
+
 var LoginComponent = /** @class */ (function () {
-    function LoginComponent(formBuilder, route, router, authenticationService, alertService) {
+    function LoginComponent(formBuilder, route, router, authenticationService, alertService, modalService) {
         this.formBuilder = formBuilder;
         this.route = route;
         this.router = router;
         this.authenticationService = authenticationService;
         this.alertService = alertService;
+        this.modalService = modalService;
         this.loading = false;
         this.submitted = false;
     }
@@ -2488,6 +2609,13 @@ var LoginComponent = /** @class */ (function () {
         this.authenticationService.logout();
         // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    };
+    LoginComponent.prototype.ngOnDestroy = function () {
+        // this.activeModal.dismiss();
+    };
+    LoginComponent.prototype.openLoginModal = function () {
+        var modalRef = this.modalService.open(_modal_login_modal_login_component__WEBPACK_IMPORTED_MODULE_5__["ModalLoginComponent"]);
+        modalRef.componentInstance.name = 'Greg Baker';
     };
     Object.defineProperty(LoginComponent.prototype, "f", {
         // convenience getter for easy access to form fields
@@ -2517,10 +2645,181 @@ var LoginComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"],
             _angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"],
             _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
-            _services__WEBPACK_IMPORTED_MODULE_4__["AuthenticationService"],
-            _services__WEBPACK_IMPORTED_MODULE_4__["AlertService"]])
+            _services__WEBPACK_IMPORTED_MODULE_6__["AuthenticationService"],
+            _services__WEBPACK_IMPORTED_MODULE_6__["AlertService"],
+            _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_4__["NgbModal"]])
     ], LoginComponent);
     return LoginComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/modal-bot-add/modal-bot-add.component.css":
+/*!***********************************************************!*\
+  !*** ./src/app/modal-bot-add/modal-bot-add.component.css ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/modal-bot-add/modal-bot-add.component.html":
+/*!************************************************************!*\
+  !*** ./src/app/modal-bot-add/modal-bot-add.component.html ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"modal-header\">\n  <h4 class=\"modal-title text-center\">Add a Bot</h4>\n</div>\n<div class=\"modal-body\">\n\n  <div *ngIf=\"botUser\" class=\"text-center\">\n    <img src={{botUser.avatarURL}} alt=\"\" width=\"150\" height=\"150\"\n         class=\"rounded-circle\">\n    <div class=\"text-info\">{{botUser.username}}</div>\n    <div>Create bot for <em>{{ botUser.username }}?</em></div>\n  </div>\n  <div *ngIf=\"!botUser\">\n    <div class=\"alert alert-danger\" *ngIf=\"validationFailed\" role=\"alert\">\n      Invalid Token\n    </div>\n    <img *ngIf=\"loading\" src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />\n    <div class=\"mb-2\">Enter your Discord-API Bot token:</div>\n    <div class=\"input-group mb-3\">\n      <input [(ngModel)]=\"inputToken\" type=\"text\" class=\"form-control\" placeholder=\"Token\" aria-label=\"Discord Token\" aria-describedby=\"token-validate\">\n      <div class=\"input-group-append\">\n        <button class=\"btn btn-outline-primary\" type=\"button\" id=\"token-validate\" [disabled]=\"loading || !inputToken || inputToken === ''\" (click)=\"validateToken(inputToken)\">Validate</button>\n      </div>\n    </div>\n  </div>\n</div>\n<div class=\"modal-footer\">\n  <div *ngIf=\"botUser\">\n    <button type=\"button\" class=\"btn btn-outline-dark mr-2\" (click)=\"activeModal.close('Close click')\">Cancel</button>\n    <button type=\"button\" class=\"btn btn-primary\" (click)=\"goToCreate()\">Create</button>\n  </div>\n  <div *ngIf=\"!botUser\">\n    <button type=\"button\" class=\"btn btn-outline-dark\" (click)=\"activeModal.close('Close click')\">Close</button>\n  </div>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/modal-bot-add/modal-bot-add.component.ts":
+/*!**********************************************************!*\
+  !*** ./src/app/modal-bot-add/modal-bot-add.component.ts ***!
+  \**********************************************************/
+/*! exports provided: ModalBotAddComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ModalBotAddComponent", function() { return ModalBotAddComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_services */ "./src/app/_services/index.ts");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var ModalBotAddComponent = /** @class */ (function () {
+    function ModalBotAddComponent(activeModal, discordService, dataService, router) {
+        this.activeModal = activeModal;
+        this.discordService = discordService;
+        this.dataService = dataService;
+        this.router = router;
+        this.loading = false;
+        this.validationFailed = false;
+    }
+    ModalBotAddComponent.prototype.ngOnInit = function () {
+    };
+    ModalBotAddComponent.prototype.validateToken = function (token) {
+        var _this = this;
+        console.log(token);
+        this.loading = true;
+        this.discordService.validate(token).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["first"])()).subscribe(function (botUser) {
+            console.log(botUser);
+            _this.botUser = botUser;
+            _this.loading = false;
+        }, function (error) {
+            console.log('ERROR', error);
+            _this.validationFailed = true;
+            _this.loading = false;
+            console.log('Validation failed?', _this.validationFailed);
+        });
+    };
+    ModalBotAddComponent.prototype.goToCreate = function () {
+        this.activeModal.dismiss('Changing Page');
+        this.dataService.changeCreateBotInfo(this.inputToken, this.botUser);
+        this.router.navigate(['/bots/add']);
+    };
+    ModalBotAddComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-modal-bot-add',
+            template: __webpack_require__(/*! ./modal-bot-add.component.html */ "./src/app/modal-bot-add/modal-bot-add.component.html"),
+            styles: [__webpack_require__(/*! ./modal-bot-add.component.css */ "./src/app/modal-bot-add/modal-bot-add.component.css")]
+        }),
+        __metadata("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_2__["NgbActiveModal"],
+            _services__WEBPACK_IMPORTED_MODULE_3__["DiscordService"],
+            _services__WEBPACK_IMPORTED_MODULE_3__["DataService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]])
+    ], ModalBotAddComponent);
+    return ModalBotAddComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/modal-login/modal-login.component.css":
+/*!*******************************************************!*\
+  !*** ./src/app/modal-login/modal-login.component.css ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/modal-login/modal-login.component.html":
+/*!********************************************************!*\
+  !*** ./src/app/modal-login/modal-login.component.html ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"modal-header\">\n  <h4 class=\"modal-title\">Hi there!</h4>\n  <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"activeModal.dismiss('Cross click')\">\n    <span aria-hidden=\"true\">&times;</span>\n  </button>\n</div>\n<div class=\"modal-body\">\n  <p>Hello {{name}}</p>\n</div>\n<div class=\"modal-footer\">\n  <button type=\"button\" class=\"btn btn-outline-dark\" (click)=\"activeModal.close('Close click')\">Close</button>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/modal-login/modal-login.component.ts":
+/*!******************************************************!*\
+  !*** ./src/app/modal-login/modal-login.component.ts ***!
+  \******************************************************/
+/*! exports provided: ModalLoginComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ModalLoginComponent", function() { return ModalLoginComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var ModalLoginComponent = /** @class */ (function () {
+    function ModalLoginComponent(activeModal) {
+        this.activeModal = activeModal;
+    }
+    ModalLoginComponent.prototype.ngOnInit = function () {
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Object)
+    ], ModalLoginComponent.prototype, "name", void 0);
+    ModalLoginComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-modal-login',
+            template: __webpack_require__(/*! ./modal-login.component.html */ "./src/app/modal-login/modal-login.component.html"),
+            styles: [__webpack_require__(/*! ./modal-login.component.css */ "./src/app/modal-login/modal-login.component.css")]
+        }),
+        __metadata("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NgbActiveModal"]])
+    ], ModalLoginComponent);
+    return ModalLoginComponent;
 }());
 
 

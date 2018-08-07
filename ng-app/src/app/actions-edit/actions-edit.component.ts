@@ -31,7 +31,7 @@ export class ActionsEditComponent implements OnInit {
       "id": "playAudio",
       "display": "Play Audio VoiceChannel",
       "params": [
-        { "type": "input", "display": "URL"}
+        { "type": "input", "display": "YouTube URL"}
       ]
     },
     {
